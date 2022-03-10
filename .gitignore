@@ -8,6 +8,8 @@
 api/out/
 component-test/out/
 service/out
+.log
+.log.gz
 
 # Ignore Gradle GUI config
 gradle-app.setting
