@@ -20,7 +20,7 @@ public class ClfFinTxnDetGrpEntity {
     private BigInteger cboId;
 
     @Column(name = "txn_date", nullable = false)
-    private Timestamp txnDate1;
+    private Date txnDate1;
 
     @Column(name = "mtg_no", nullable = false)
     private Integer mtgNo;
@@ -28,14 +28,6 @@ public class ClfFinTxnDetGrpEntity {
     @Column(name = "auid", nullable = false)
     private Integer auid;
 
-    @Column(name = "fund_type", nullable = false)
-    private Integer fundType;
-
-    @Column(name = "fund_source", nullable = false)
-    private Integer fundSource;
-
-    @Column(name = "amount_to_from", nullable = false)
-    private Integer amountToFrom;
 
     @Column(name = "type")
     private String type;
@@ -44,10 +36,10 @@ public class ClfFinTxnDetGrpEntity {
     private Integer amount;
 
     @Column(name = "date_realisation")
-    private Timestamp dateRealisation1;
+    private Date dateRealisation1;
 
     @Column(name = "mode_payment")
-    private Integer modePayment;
+    private Short modePayment;
 
     @Column(name = "bank_code")
     private String bankCode;
@@ -56,7 +48,7 @@ public class ClfFinTxnDetGrpEntity {
     private String voucherNumber;
 
     @Column(name = "voucher_date", nullable = false)
-    private Timestamp voucherDate1;
+    private Date voucherDate1;
 
     @Column(name = "transaction_no")
     private String transactionNo;
@@ -65,7 +57,7 @@ public class ClfFinTxnDetGrpEntity {
     private String narration;
 
     @Column(name = "add_lref_date",nullable = false)
-    private Timestamp addlRefDate1;
+    private Date addlRefDate1;
 
 
     @Column(name = "created_by")
@@ -79,12 +71,6 @@ public class ClfFinTxnDetGrpEntity {
 
     @Column(name = "updated_on")
     private Timestamp updatedOn1;
-
-    @Column(name = "uploaded_by")
-    private String uploadedBy;
-
-    @Column(name = "uploaded_on")
-    private Timestamp uploadedOn;
 
     @Column(name = "clf_mtg_uid",nullable = false)
     private BigInteger clfMtgUid;
@@ -120,13 +106,6 @@ public class ClfFinTxnDetGrpEntity {
         this.cboId = cboId;
     }
 
-    public Timestamp getTxnDate1() {
-        return txnDate1;
-    }
-
-    public void setTxnDate1(Timestamp txnDate1) {
-        this.txnDate1 = txnDate1;
-    }
 
     public Integer getMtgNo() {
         return mtgNo;
@@ -142,30 +121,6 @@ public class ClfFinTxnDetGrpEntity {
 
     public void setAuid(Integer auid) {
         this.auid = auid;
-    }
-
-    public Integer getFundType() {
-        return fundType;
-    }
-
-    public void setFundType(Integer fundType) {
-        this.fundType = fundType;
-    }
-
-    public Integer getFundSource() {
-        return fundSource;
-    }
-
-    public void setFundSource(Integer fundSource) {
-        this.fundSource = fundSource;
-    }
-
-    public Integer getAmountToFrom() {
-        return amountToFrom;
-    }
-
-    public void setAmountToFrom(Integer amountToFrom) {
-        this.amountToFrom = amountToFrom;
     }
 
     public String getType() {
@@ -184,21 +139,6 @@ public class ClfFinTxnDetGrpEntity {
         this.amount = amount;
     }
 
-    public Timestamp getDateRealisation1() {
-        return dateRealisation1;
-    }
-
-    public void setDateRealisation1(Timestamp dateRealisation1) {
-        this.dateRealisation1 = dateRealisation1;
-    }
-
-    public Integer getModePayment() {
-        return modePayment;
-    }
-
-    public void setModePayment(Integer modePayment) {
-        this.modePayment = modePayment;
-    }
 
     public String getBankCode() {
         return bankCode;
@@ -216,13 +156,6 @@ public class ClfFinTxnDetGrpEntity {
         this.voucherNumber = voucherNumber;
     }
 
-    public Timestamp getVoucherDate1() {
-        return voucherDate1;
-    }
-
-    public void setVoucherDate1(Timestamp voucherDate1) {
-        this.voucherDate1 = voucherDate1;
-    }
 
     public String getTransactionNo() {
         return transactionNo;
@@ -240,13 +173,6 @@ public class ClfFinTxnDetGrpEntity {
         this.narration = narration;
     }
 
-    public Timestamp getAddlRefDate1() {
-        return addlRefDate1;
-    }
-
-    public void setAddlRefDate1(Timestamp addlRefDate1) {
-        this.addlRefDate1 = addlRefDate1;
-    }
 
     public String getCreatedBy() {
         return createdBy;
@@ -278,22 +204,6 @@ public class ClfFinTxnDetGrpEntity {
 
     public void setUpdatedOn1(Timestamp updatedOn1) {
         this.updatedOn1 = updatedOn1;
-    }
-
-    public String getUploadedBy() {
-        return uploadedBy;
-    }
-
-    public void setUploadedBy(String uploadedBy) {
-        this.uploadedBy = uploadedBy;
-    }
-
-    public Timestamp getUploadedOn() {
-        return uploadedOn;
-    }
-
-    public void setUploadedOn(Timestamp uploadedOn) {
-        this.uploadedOn = uploadedOn;
     }
 
     public BigInteger getClfMtgUid() {
@@ -337,5 +247,45 @@ public class ClfFinTxnDetGrpEntity {
 
     public void setIsProcessed(Integer isProcessed) {
         this.isProcessed = isProcessed;
+    }
+
+    public Date getTxnDate1() {
+        return txnDate1;
+    }
+
+    public void setTxnDate1(Date txnDate1) {
+        this.txnDate1 = txnDate1;
+    }
+
+    public Date getDateRealisation1() {
+        return dateRealisation1;
+    }
+
+    public void setDateRealisation1(Date dateRealisation1) {
+        this.dateRealisation1 = dateRealisation1;
+    }
+
+    public Short getModePayment() {
+        return modePayment;
+    }
+
+    public void setModePayment(Short modePayment) {
+        this.modePayment = modePayment;
+    }
+
+    public Date getVoucherDate1() {
+        return voucherDate1;
+    }
+
+    public void setVoucherDate1(Date voucherDate1) {
+        this.voucherDate1 = voucherDate1;
+    }
+
+    public Date getAddlRefDate1() {
+        return addlRefDate1;
+    }
+
+    public void setAddlRefDate1(Date addlRefDate1) {
+        this.addlRefDate1 = addlRefDate1;
     }
 }

@@ -3,6 +3,7 @@ package com.devglan.model;
 import javax.persistence.*;
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 @Cacheable(value = false)
@@ -29,7 +30,7 @@ public class ClfFinTxnDetMemEntity {
     @Column(name = "mtg_no")
     private Integer mtgNo;
     @Column(name = "txn_date", nullable = false)
-    private Timestamp txnDate1;
+    private Date txnDate1;
     @Column(name = "auid", nullable = false)
     private Integer auid;
     @Column(name = "type")
@@ -37,9 +38,9 @@ public class ClfFinTxnDetMemEntity {
     @Column(name = "amount")
     private Integer amount;
     @Column(name = "date_realisation")
-    private Timestamp dateRealisation1;
+    private Date dateRealisation1;
     @Column(name = "mode_payment")
-    private Integer modePayment;
+    private Short modePayment;
     @Column(name = "bank_code")
     private String bankCode;
     @Column(name = "transaction_no")
@@ -47,7 +48,7 @@ public class ClfFinTxnDetMemEntity {
     @Column(name = "voucher_number", nullable = false)
     private String voucherNumber;
     @Column(name = "voucher_date", nullable = false)
-    private Timestamp voucherDate1;
+    private Date voucherDate1;
     @Column(name = "narration", nullable = false)
     private String narration;
     @Column(name = "add_lref_date", nullable = false)
@@ -143,14 +144,6 @@ public class ClfFinTxnDetMemEntity {
         this.mtgNo = mtgNo;
     }
 
-    public Timestamp getTxnDate1() {
-        return txnDate1;
-    }
-
-    public void setTxnDate1(Timestamp txnDate1) {
-        this.txnDate1 = txnDate1;
-    }
-
     public Integer getAuid() {
         return auid;
     }
@@ -175,21 +168,6 @@ public class ClfFinTxnDetMemEntity {
         this.amount = amount;
     }
 
-    public Timestamp getDateRealisation1() {
-        return dateRealisation1;
-    }
-
-    public void setDateRealisation1(Timestamp dateRealisation1) {
-        this.dateRealisation1 = dateRealisation1;
-    }
-
-    public Integer getModePayment() {
-        return modePayment;
-    }
-
-    public void setModePayment(Integer modePayment) {
-        this.modePayment = modePayment;
-    }
 
     public String getBankCode() {
         return bankCode;
@@ -215,13 +193,6 @@ public class ClfFinTxnDetMemEntity {
         this.voucherNumber = voucherNumber;
     }
 
-    public Timestamp getVoucherDate1() {
-        return voucherDate1;
-    }
-
-    public void setVoucherDate1(Timestamp voucherDate1) {
-        this.voucherDate1 = voucherDate1;
-    }
 
     public String getNarration() {
         return narration;
@@ -309,5 +280,37 @@ public class ClfFinTxnDetMemEntity {
 
     public void setIsProcessed(Integer isProcessed) {
         this.isProcessed = isProcessed;
+    }
+
+    public Date getDateRealisation1() {
+        return dateRealisation1;
+    }
+
+    public void setDateRealisation1(Date dateRealisation1) {
+        this.dateRealisation1 = dateRealisation1;
+    }
+
+    public Short getModePayment() {
+        return modePayment;
+    }
+
+    public void setModePayment(Short modePayment) {
+        this.modePayment = modePayment;
+    }
+
+    public Date getVoucherDate1() {
+        return voucherDate1;
+    }
+
+    public void setVoucherDate1(Date voucherDate1) {
+        this.voucherDate1 = voucherDate1;
+    }
+
+    public Date getTxnDate1() {
+        return txnDate1;
+    }
+
+    public void setTxnDate1(Date txnDate1) {
+        this.txnDate1 = txnDate1;
     }
 }

@@ -41,7 +41,7 @@ public class ClfMemLoanScheduleEntity implements Serializable {
     private Short repaid;
 
     @Column(name = "last_paid_date")
-    private Timestamp lastPaidDate1;
+    private Date lastPaidDate1;
 
     @Column(name = "txn_mtg_no")
     private Integer txnMtgNo;
@@ -68,13 +68,13 @@ public class ClfMemLoanScheduleEntity implements Serializable {
     private String bankCode;
 
     @Column(name = "transaction_no")
-    private Integer transactionNo;
+    private String transactionNo;
 
     @Column(name = "is_original")
-    private Boolean isOriginal;
+    private Short isOriginal;
 
     @Column(name = "original_amount")
-    private BigInteger originalAmount;
+    private Integer originalAmount;
 
     @Column(name = "gap_days_schedule")
     private Integer gapDaysSchedule;
@@ -171,11 +171,11 @@ public class ClfMemLoanScheduleEntity implements Serializable {
         this.repaid = repaid;
     }
 
-    public Timestamp getLastPaidDate1() {
+    public Date getLastPaidDate1() {
         return lastPaidDate1;
     }
 
-    public void setLastPaidDate1(Timestamp lastPaidDate1) {
+    public void setLastPaidDate1(Date lastPaidDate1) {
         this.lastPaidDate1 = lastPaidDate1;
     }
 
@@ -269,27 +269,27 @@ public class ClfMemLoanScheduleEntity implements Serializable {
         this.gapDaysSchedule = gapDaysSchedule;
     }
 
-    public BigInteger getOriginalAmount() {
+    public Integer getOriginalAmount() {
         return originalAmount;
     }
 
-    public void setOriginalAmount(BigInteger originalAmount) {
+    public void setOriginalAmount(Integer originalAmount) {
         this.originalAmount = originalAmount;
     }
 
-    public Boolean getOriginal() {
+    public Short getOriginal() {
         return isOriginal;
     }
 
-    public void setOriginal(Boolean original) {
+    public void setOriginal(Short original) {
         isOriginal = original;
     }
 
-    public Integer getTransactionNo() {
+    public String getTransactionNo() {
         return transactionNo;
     }
 
-    public void setTransactionNo(Integer transactionNo) {
+    public void setTransactionNo(String transactionNo) {
         this.transactionNo = transactionNo;
     }
 

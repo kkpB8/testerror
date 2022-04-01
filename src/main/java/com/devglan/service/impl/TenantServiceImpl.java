@@ -2775,7 +2775,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				   clfMemLoanScheduleEntity.setRepaid(Short.valueOf("1"));
 				   clfMemLoanScheduleEntity.setInterestDemandActual(currentInterest);
 				   clfMemLoanScheduleEntity.setTxnMtgNo(clfFinTxnDetMemEntity.getMtgNo());
-				   clfMemLoanScheduleEntity.setModePayment(clfFinTxnDetMemEntity.getModePayment());
+				   clfMemLoanScheduleEntity.setModePayment(clfFinTxnDetMemEntity.getModePayment().intValue());
 				   clfMemLoanScheduleEntity.setUpdatedOn1(new Timestamp(today.getTime()));
 				   clfMemLoanScheduleEntity.setInterestDemandActual(currentInterest);
 

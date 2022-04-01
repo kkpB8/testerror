@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.util.Date;
+
 @Entity
 @Cacheable(value = false)
 @Table(name="clf_group_loan")
@@ -28,10 +30,10 @@ public class ClfGroupLoanEntity implements Serializable {
     private Integer mtgNo;
 
     @Column(name = "disbursement_date", nullable = false)
-    private Timestamp disbursementDate1;
+    private Date disbursementDate1;
 
     @Column(name = "installment_date")
-    private Timestamp installmentDate1;
+    private Date installmentDate1;
 
     @Column(name = "loan_ref_no")
     private Integer loanRefNo;
@@ -58,7 +60,7 @@ public class ClfGroupLoanEntity implements Serializable {
     private Integer interestOverdue;
 
     @Column(name = "completion_flag")
-    private Integer completionFlag;
+    private Short completionFlag;
 
 
     @Column(name = "mode_payment")
@@ -155,15 +157,15 @@ public class ClfGroupLoanEntity implements Serializable {
         this.mtgNo = mtgNo;
     }
 
-    public Timestamp getDisbursementDate1() {
+    public Date getDisbursementDate1() {
         return disbursementDate1;
     }
 
-    public void setDisbursementDate1(Timestamp disbursementDate1) {
+    public void setDisbursementDate1(Date disbursementDate1) {
         this.disbursementDate1 = disbursementDate1;
     }
 
-    public Timestamp getInstallmentDate1() {
+    public Date getInstallmentDate1() {
         return installmentDate1;
     }
 
@@ -235,11 +237,11 @@ public class ClfGroupLoanEntity implements Serializable {
         this.interestOverdue = interestOverdue;
     }
 
-    public Integer getCompletionFlag() {
+    public Short getCompletionFlag() {
         return completionFlag;
     }
 
-    public void setCompletionFlag(Integer completionFlag) {
+    public void setCompletionFlag(Short completionFlag) {
         this.completionFlag = completionFlag;
     }
 

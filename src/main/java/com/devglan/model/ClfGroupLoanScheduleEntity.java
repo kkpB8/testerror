@@ -4,6 +4,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.util.Date;
+
+
 @Entity
 @Cacheable(value = false)
 @Table(name = "clf_group_loan_schedule")
@@ -33,16 +36,16 @@ public class ClfGroupLoanScheduleEntity implements Serializable {
     private Integer subInstallmentNo;
 
     @Column(name = "installment_date", nullable = false)
-    private Timestamp installmentDate1;
+    private Date installmentDate1;
 
     @Column(name = "loan_date")
-    private Timestamp loanDate1;
+    private Date loanDate1;
 
     @Column(name = "repaid")
-    private Boolean repaid;
+    private Short repaid;
 
     @Column(name = "last_paid_date")
-    private Timestamp lastPaidDate1;
+    private Date lastPaidDate1;
 
     @Column(name = "created_by")
     private String createdBy;
@@ -72,13 +75,13 @@ public class ClfGroupLoanScheduleEntity implements Serializable {
     private Integer bankCode;
 
     @Column(name = "transaction_no")
-    private Integer transactionNo;
+    private String transactionNo;
 
     @Column(name = "is_original")
-    private Boolean isOriginal;
+    private Short isOriginal;
 
     @Column(name = "original_amount")
-    private BigInteger originalAmount;
+    private Integer originalAmount;
 
     @Column(name = "gap_days_schedule")
     private Integer gapDaysSchedule;
@@ -166,37 +169,8 @@ public class ClfGroupLoanScheduleEntity implements Serializable {
         this.subInstallmentNo = subInstallmentNo;
     }
 
-    public Timestamp getInstallmentDate1() {
-        return installmentDate1;
-    }
 
-    public void setInstallmentDate1(Timestamp installmentDate1) {
-        this.installmentDate1 = installmentDate1;
-    }
 
-    public Timestamp getLoanDate1() {
-        return loanDate1;
-    }
-
-    public void setLoanDate1(Timestamp loanDate1) {
-        this.loanDate1 = loanDate1;
-    }
-
-    public Boolean getRepaid() {
-        return repaid;
-    }
-
-    public void setRepaid(Boolean repaid) {
-        this.repaid = repaid;
-    }
-
-    public Timestamp getLastPaidDate1() {
-        return lastPaidDate1;
-    }
-
-    public void setLastPaidDate1(Timestamp lastPaidDate1) {
-        this.lastPaidDate1 = lastPaidDate1;
-    }
 
     public String getCreatedBy() {
         return createdBy;
@@ -270,29 +244,8 @@ public class ClfGroupLoanScheduleEntity implements Serializable {
         this.bankCode = bankCode;
     }
 
-    public Integer getTransactionNo() {
-        return transactionNo;
-    }
 
-    public void setTransactionNo(Integer transactionNo) {
-        this.transactionNo = transactionNo;
-    }
 
-    public Boolean getOriginal() {
-        return isOriginal;
-    }
-
-    public void setOriginal(Boolean original) {
-        isOriginal = original;
-    }
-
-    public BigInteger getOriginalAmount() {
-        return originalAmount;
-    }
-
-    public void setOriginalAmount(BigInteger originalAmount) {
-        this.originalAmount = originalAmount;
-    }
 
     public Integer getGapDaysSchedule() {
         return gapDaysSchedule;
@@ -375,5 +328,61 @@ public class ClfGroupLoanScheduleEntity implements Serializable {
 
     public void setEmi(Integer emi) {
         this.emi = emi;
+    }
+
+    public Date getInstallmentDate1() {
+        return installmentDate1;
+    }
+
+    public void setInstallmentDate1(Date installmentDate1) {
+        this.installmentDate1 = installmentDate1;
+    }
+
+    public Date getLoanDate1() {
+        return loanDate1;
+    }
+
+    public void setLoanDate1(Date loanDate1) {
+        this.loanDate1 = loanDate1;
+    }
+
+    public Short getRepaid() {
+        return repaid;
+    }
+
+    public void setRepaid(Short repaid) {
+        this.repaid = repaid;
+    }
+
+    public Date getLastPaidDate1() {
+        return lastPaidDate1;
+    }
+
+    public void setLastPaidDate1(Date lastPaidDate1) {
+        this.lastPaidDate1 = lastPaidDate1;
+    }
+
+    public String getTransactionNo() {
+        return transactionNo;
+    }
+
+    public void setTransactionNo(String transactionNo) {
+        this.transactionNo = transactionNo;
+    }
+
+    public Short getIsOriginal() {
+        return isOriginal;
+    }
+
+    public void setIsOriginal(Short isOriginal) {
+        this.isOriginal = isOriginal;
+    }
+
+    public Integer getOriginalAmount() {
+        return originalAmount;
+    }
+
+    public void setOriginalAmount(Integer originalAmount) {
+        this.originalAmount = originalAmount;
     }
 }
