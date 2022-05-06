@@ -11,10 +11,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -29,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.util.SerializationUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -208,6 +208,15 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 	
 	@Autowired
 	private VoFinTxnVouchersDao voFinTxnVouchersDao;
+
+	@Autowired
+	private ClfFinTxnDetMemDao clfFinTxnDetMemDao;
+
+	@Autowired
+	private ClfMemLoanScheduleDao clfMemLoanScheduleDao;
+
+	@Autowired
+	private ClfMemLoanDao clfMemLoanDao;
 
 	public TenantsEntity findByIdentifier(String identifier) {
 		TenantsEntity tenants = tenantsDao.findByIdentifier(identifier);
@@ -2687,6 +2696,140 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 			e.printStackTrace();
 		}
 		return res;
+	}
+
+	private List<ClfMemLoanScheduleEntity> getFutureMemLoanInstallments(List<ClfMemLoanScheduleEntity> scheduleList){
+		List<ClfMemLoanScheduleEntity> futureItems = scheduleList.stream().filter((item)->{
+			return  item.getLastPaidDate1() == null;
+		}).collect(Collectors.toList());
+		return  futureItems;
+	}
+
+	private Integer getTotalInstallmentPay(List<ClfMemLoanScheduleEntity> scheduleList,Integer installmentNo){
+		Integer loanRepaid = 0;
+		for(ClfMemLoanScheduleEntity item: scheduleList){
+			if(item.getInstallmentNo() == installmentNo && item.getLastPaidDate1() != null && item.getLoanRePaid() != null){
+				loanRepaid = loanRepaid + item.getLoanRePaid();
+			}
+		}
+		return  loanRepaid;
+	}
+
+	private ClfMemLoanScheduleEntity getLastPaidInstallment(List<ClfMemLoanScheduleEntity> scheduleList){
+		List<ClfMemLoanScheduleEntity> onlyPaidInstls = scheduleList.stream().filter((item)->{
+			return  item.getLastPaidDate1()!= null;
+		}).collect(Collectors.toList());
+		if(onlyPaidInstls.size()>0){
+			return onlyPaidInstls.get(onlyPaidInstls.size()-1);
+		}
+		return  null;
+	}
+
+	public void processLoanPaymentVouchers(){
+       List<ClfFinTxnDetMemEntity> clfFinTxnDetMemEntityList = clfFinTxnDetMemDao.getUnProcessedPayments();
+       List<ClfMemLoanScheduleEntity> updatedInstallments = new ArrayList<>();
+	   for(ClfFinTxnDetMemEntity clfFinTxnDetMemEntity:clfFinTxnDetMemEntityList) {
+		    Integer paidAmount = clfFinTxnDetMemEntity.getAmount();
+		   List<ClfMemLoanScheduleEntity> clfMemLoanScheduleEntityList = clfMemLoanScheduleDao.findByLoanNo(clfFinTxnDetMemEntity.getLoanNo());
+		   //System.out.println(clfMemLoanScheduleEntityList.size());
+		   List<ClfMemLoanScheduleEntity> futureInsts = this.getFutureMemLoanInstallments(clfMemLoanScheduleEntityList);
+		   ClfMemLoanScheduleEntity lastPaidInstallment = this.getLastPaidInstallment(clfMemLoanScheduleEntityList);
+		   ClfMemLoanEntity clfMemLoanEntity = clfMemLoanDao.findByLoanNo(clfFinTxnDetMemEntity.getLoanNo());
+		   for(ClfMemLoanScheduleEntity clfMemLoanScheduleEntity : futureInsts){
+
+			   //fixed principal
+			   if (clfMemLoanScheduleEntity.getInstallmentType() == 1) {
+				   Date today = new Date();
+				   Calendar cal = Calendar.getInstance();
+				   BigInteger loanOsActual = lastPaidInstallment.getLoanOsActual();
+				   Integer osIntrest = 0;
+				   if (lastPaidInstallment != null) {
+					   cal.setTime(lastPaidInstallment.getLastPaidDate1());
+					   //if any partially paid intrest in last payment
+					   osIntrest = lastPaidInstallment.getInterestDemandActual() - lastPaidInstallment.getInterestRePaid();
+				   } else {
+					   //if not installment paid then disbursed date of loan --> for first installment
+					   cal.setTime(clfMemLoanEntity.getDisbursementDate1());
+					   loanOsActual = clfMemLoanScheduleEntity.getLoanOsSchedule();
+				   }
+
+				   Date lastMonthInstlDate = cal.getTime();
+				   Long diffInMillies2 = Math.abs(today.getTime() - lastMonthInstlDate.getTime());
+				   Long days = TimeUnit.DAYS.convert(diffInMillies2, TimeUnit.MILLISECONDS);
+
+				   Integer currentPrincipal = clfMemLoanScheduleEntity.getPrincipalDemand();
+
+				   //if subInstallment then adjust principal from previous payments
+				   if (clfMemLoanScheduleEntity.getSubInstallmentNo() > 1) {
+					   Integer loanrepaid = this.getTotalInstallmentPay(clfMemLoanScheduleEntityList, clfMemLoanScheduleEntity.getInstallmentNo());
+					   currentPrincipal = currentPrincipal - loanrepaid;
+				   }
+				   Integer currentInterest = Math.round(loanOsActual.intValue() * clfMemLoanEntity.getInterestRate() * (Float.valueOf(days) / 365) / 100) + osIntrest;
+				   Integer totalCurDemand = currentPrincipal + currentInterest;
+
+
+				   clfMemLoanScheduleEntity.setLastPaidDate1(new Timestamp(today.getTime()));
+				   clfMemLoanScheduleEntity.setBankCode(clfFinTxnDetMemEntity.getBankCode());
+				   clfMemLoanScheduleEntity.setLoanRePaid(currentPrincipal);
+				   clfMemLoanScheduleEntity.setInterestRePaid(currentInterest);
+				   clfMemLoanScheduleEntity.setRepaid(Short.valueOf("1"));
+				   clfMemLoanScheduleEntity.setInterestDemandActual(currentInterest);
+				   clfMemLoanScheduleEntity.setTxnMtgNo(clfFinTxnDetMemEntity.getMtgNo());
+				   clfMemLoanScheduleEntity.setModePayment(clfFinTxnDetMemEntity.getModePayment().intValue());
+				   clfMemLoanScheduleEntity.setUpdatedOn1(new Timestamp(today.getTime()));
+				   clfMemLoanScheduleEntity.setInterestDemandActual(currentInterest);
+
+				   //if paid amount is same as demand(emi)
+				   if (paidAmount == totalCurDemand) {
+					   updatedInstallments.add(clfMemLoanScheduleEntity);
+					   break;
+				   } else if (paidAmount > totalCurDemand) {
+					   //if paidAmount is excess then deduct current demand value and continue to update next installments
+					   paidAmount = paidAmount - totalCurDemand;
+					   updatedInstallments.add(clfMemLoanScheduleEntity);
+				   } else if (paidAmount < totalCurDemand) {
+					   //if paidAmount is lesser than current demand then adjust intrest first and add subinstallment for remaining
+					   Integer loanRepaid = paidAmount - currentInterest;
+					   clfMemLoanScheduleEntity.setRepaid(Short.valueOf("0"));
+
+					   clfMemLoanScheduleEntity.setLoanRePaid(loanRepaid);
+					   clfMemLoanScheduleEntity.setLoanOsActual(loanOsActual.subtract(new BigInteger(loanRepaid.toString())));
+
+					   // Serializes `ClfMemLoanScheduleEntity(currentDemand)` object to a `byte[]` array
+					   byte[] bytes = SerializationUtils.serialize(clfMemLoanScheduleEntity);
+					   ClfMemLoanScheduleEntity subinstlEntity = (ClfMemLoanScheduleEntity) SerializationUtils.deserialize(bytes);
+					   if(currentInterest < paidAmount) {
+						   clfMemLoanScheduleEntity.setInterestRePaid(currentInterest);
+					   }else {
+						   clfMemLoanScheduleEntity.setInterestRePaid(paidAmount);
+
+					   }
+					   updatedInstallments.add(clfMemLoanScheduleEntity);
+
+					   subinstlEntity.setSubInstallmentNo(clfMemLoanScheduleEntity.getSubInstallmentNo() + 1);
+					   subinstlEntity.setLoanRePaid(null);
+					   subinstlEntity.setInterestRePaid(null);
+					   subinstlEntity.setLastPaidDate1(null);
+					   subinstlEntity.setLoanOsActual(null);
+					   subinstlEntity.setUid(null);
+					   updatedInstallments.add(subinstlEntity);
+					   break;
+				   }
+
+
+			   }
+			   else {
+				   //TODO emi
+			   }
+
+		   }
+		   clfFinTxnDetMemEntity.setIsProcessed(1);
+		   this.clfMemLoanScheduleDao.save(updatedInstallments);
+		   updatedInstallments.clear();
+	   }
+	   //
+	   this.clfFinTxnDetMemDao.save(clfFinTxnDetMemEntityList);
+	   System.out.println(clfFinTxnDetMemEntityList.size());
 	}
 
 }

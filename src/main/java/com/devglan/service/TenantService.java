@@ -34,4 +34,6 @@ public interface TenantService {
 	public Boolean createMeetingSummary(BigInteger bg);
 
 	public String createVoMeetingProfileUpload(String role, UploadVoMeeting uploadVoMeeting);
+
+	public void processLoanPaymentVouchers();
 }
