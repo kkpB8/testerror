@@ -17,8 +17,8 @@ public class ClfGroupLoanEntity implements Serializable {
     private BigInteger uid;
 
 
-    @Column(name = "loan_application_id", nullable = false)
-    private BigInteger loanApplicationId;
+    /*@Column(name = "loan_application_id", nullable = false)
+    private BigInteger loanApplicationId;*/
 
     @Column(name = "cbo_id", nullable = false)
     private BigInteger cboId;
@@ -81,6 +81,9 @@ public class ClfGroupLoanEntity implements Serializable {
     @Column(name = "organization_name")
     private String organizationName;
 
+    @Column(name="organization_id", nullable = true)
+    private BigInteger organizationId;
+
     @Column(name = "sanctioned_amount")
     private Integer sanctionedAmount;
 
@@ -91,13 +94,13 @@ public class ClfGroupLoanEntity implements Serializable {
     private String createdBy;
 
     @Column(name = "created_on")
-    private Timestamp createdOn1;
+    private Date createdOn1;
 
     @Column(name = "updated_by")
     private String updatedBy;
 
     @Column(name = "updated_on")
-    private Timestamp updatedOn1;
+    private Date updatedOn1;
 
     @Column(name = "organization_type")
     private Integer organizationType;
@@ -115,7 +118,16 @@ public class ClfGroupLoanEntity implements Serializable {
     private Integer installmentType;
 
     @Column(name = "cheque_issued_date")
-    private Timestamp chequeIssuedDate1;
+    private Date chequeIssuedDate1;
+
+    @Column(name = "principal_demand")
+    private Integer principalDemand;
+
+    @Column(name = "interest_demand_schedule")
+    private Integer interestDemandSchedule;
+
+    @Column(name = "narration")
+    private String narration;
 
     public BigInteger getUid() {
         return uid;
@@ -124,6 +136,7 @@ public class ClfGroupLoanEntity implements Serializable {
     public void setUid(BigInteger uid) {
         this.uid = uid;
     }
+/*
 
     public BigInteger getLoanApplicationId() {
         return loanApplicationId;
@@ -132,6 +145,7 @@ public class ClfGroupLoanEntity implements Serializable {
     public void setLoanApplicationId(BigInteger loanApplicationId) {
         this.loanApplicationId = loanApplicationId;
     }
+*/
 
     public BigInteger getCboId() {
         return cboId;
@@ -169,7 +183,7 @@ public class ClfGroupLoanEntity implements Serializable {
         return installmentDate1;
     }
 
-    public void setInstallmentDate1(Timestamp installmentDate1) {
+    public void setInstallmentDate1(Date installmentDate1) {
         this.installmentDate1 = installmentDate1;
     }
 
@@ -317,11 +331,11 @@ public class ClfGroupLoanEntity implements Serializable {
         this.createdBy = createdBy;
     }
 
-    public Timestamp getCreatedOn1() {
+    public Date getCreatedOn1() {
         return createdOn1;
     }
 
-    public void setCreatedOn1(Timestamp createdOn1) {
+    public void setCreatedOn1(Date createdOn1) {
         this.createdOn1 = createdOn1;
     }
 
@@ -333,11 +347,11 @@ public class ClfGroupLoanEntity implements Serializable {
         this.updatedBy = updatedBy;
     }
 
-    public Timestamp getUpdatedOn1() {
+    public Date getUpdatedOn1() {
         return updatedOn1;
     }
 
-    public void setUpdatedOn1(Timestamp updatedOn1) {
+    public void setUpdatedOn1(Date updatedOn1) {
         this.updatedOn1 = updatedOn1;
     }
 
@@ -381,12 +395,43 @@ public class ClfGroupLoanEntity implements Serializable {
         this.installmentType = installmentType;
     }
 
-
-    public Timestamp getChequeIssuedDate1() {
+    public Date getChequeIssuedDate1() {
         return chequeIssuedDate1;
     }
 
-    public void setChequeIssuedDate1(Timestamp chequeIssuedDate1) {
+    public void setChequeIssuedDate1(Date chequeIssuedDate1) {
         this.chequeIssuedDate1 = chequeIssuedDate1;
+    }
+
+    public Integer getPrincipalDemand() {
+        return principalDemand;
+    }
+
+    public void setPrincipalDemand(Integer principalDemand) {
+        this.principalDemand = principalDemand;
+    }
+
+    public Integer getInterestDemandSchedule() {
+        return interestDemandSchedule;
+    }
+
+    public void setInterestDemandSchedule(Integer interestDemandSchedule) {
+        this.interestDemandSchedule = interestDemandSchedule;
+    }
+
+    public String getNarration() {
+        return narration;
+    }
+
+    public void setNarration(String narration) {
+        this.narration = narration;
+    }
+
+    public BigInteger getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(BigInteger organizationId) {
+        this.organizationId = organizationId;
     }
 }

@@ -50,13 +50,13 @@ public class ClfMemLoanScheduleEntity implements Serializable {
     private String createdBy;
 
     @Column(name = "created_on")
-    private Timestamp createdOn1;
+    private Date createdOn1;
 
     @Column(name = "updated_by")
     private String updatedBy;
 
     @Column(name = "updated_on")
-    private Timestamp updatedOn1;
+    private Date updatedOn1;
 
     @Column(name = "interest_repaid")
     private Integer interestRePaid;
@@ -98,7 +98,7 @@ public class ClfMemLoanScheduleEntity implements Serializable {
     private Integer installmentType;
 
     @Column(name = "cheque_issued_date")
-    private Timestamp chequeIssuedDate1;
+    private Date chequeIssuedDate1;
 
     @Column(name = "interest_accured")
     private Integer interestAccured;
@@ -135,6 +135,14 @@ public class ClfMemLoanScheduleEntity implements Serializable {
         this.principalDemand = principalDemand;
     }
 
+    public Integer getLoanRePaid() {
+        return loanRePaid;
+    }
+
+    public void setLoanRePaid(Integer loanRePaid) {
+        this.loanRePaid = loanRePaid;
+    }
+
     public Integer getInstallmentNo() {
         return installmentNo;
     }
@@ -159,10 +167,6 @@ public class ClfMemLoanScheduleEntity implements Serializable {
         this.installmentDate1 = installmentDate1;
     }
 
-    public void setInstallmentDate1(Timestamp installmentDate1) {
-        this.installmentDate1 = installmentDate1;
-    }
-
     public Short getRepaid() {
         return repaid;
     }
@@ -179,6 +183,14 @@ public class ClfMemLoanScheduleEntity implements Serializable {
         this.lastPaidDate1 = lastPaidDate1;
     }
 
+    public Integer getTxnMtgNo() {
+        return txnMtgNo;
+    }
+
+    public void setTxnMtgNo(Integer txnMtgNo) {
+        this.txnMtgNo = txnMtgNo;
+    }
+
     public String getCreatedBy() {
         return createdBy;
     }
@@ -187,11 +199,11 @@ public class ClfMemLoanScheduleEntity implements Serializable {
         this.createdBy = createdBy;
     }
 
-    public Timestamp getCreatedOn1() {
+    public Date getCreatedOn1() {
         return createdOn1;
     }
 
-    public void setCreatedOn1(Timestamp createdOn1) {
+    public void setCreatedOn1(Date createdOn1) {
         this.createdOn1 = createdOn1;
     }
 
@@ -203,12 +215,92 @@ public class ClfMemLoanScheduleEntity implements Serializable {
         this.updatedBy = updatedBy;
     }
 
-    public Timestamp getUpdatedOn1() {
+    public Date getUpdatedOn1() {
         return updatedOn1;
     }
 
-    public void setUpdatedOn1(Timestamp updatedOn1) {
+    public void setUpdatedOn1(Date updatedOn1) {
         this.updatedOn1 = updatedOn1;
+    }
+
+    public Integer getInterestRePaid() {
+        return interestRePaid;
+    }
+
+    public void setInterestRePaid(Integer interestRePaid) {
+        this.interestRePaid = interestRePaid;
+    }
+
+    public Integer getModePayment() {
+        return modePayment;
+    }
+
+    public void setModePayment(Integer modePayment) {
+        this.modePayment = modePayment;
+    }
+
+    public String getBankCode() {
+        return bankCode;
+    }
+
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
+    }
+
+    public String getTransactionNo() {
+        return transactionNo;
+    }
+
+    public void setTransactionNo(String transactionNo) {
+        this.transactionNo = transactionNo;
+    }
+
+    public Short getIsOriginal() {
+        return isOriginal;
+    }
+
+    public void setIsOriginal(Short isOriginal) {
+        this.isOriginal = isOriginal;
+    }
+
+    public Integer getOriginalAmount() {
+        return originalAmount;
+    }
+
+    public void setOriginalAmount(Integer originalAmount) {
+        this.originalAmount = originalAmount;
+    }
+
+    public Integer getGapDaysSchedule() {
+        return gapDaysSchedule;
+    }
+
+    public void setGapDaysSchedule(Integer gapDaysSchedule) {
+        this.gapDaysSchedule = gapDaysSchedule;
+    }
+
+    public Integer getGapDaysActual() {
+        return gapDaysActual;
+    }
+
+    public void setGapDaysActual(Integer gapDaysActual) {
+        this.gapDaysActual = gapDaysActual;
+    }
+
+    public Integer getInterestDemandSchedule() {
+        return interestDemandSchedule;
+    }
+
+    public void setInterestDemandSchedule(Integer interestDemandSchedule) {
+        this.interestDemandSchedule = interestDemandSchedule;
+    }
+
+    public Integer getInterestDemandActual() {
+        return interestDemandActual;
+    }
+
+    public void setInterestDemandActual(Integer interestDemandActual) {
+        this.interestDemandActual = interestDemandActual;
     }
 
     public BigInteger getLoanOsActual() {
@@ -227,8 +319,6 @@ public class ClfMemLoanScheduleEntity implements Serializable {
         this.loanOsSchedule = loanOsSchedule;
     }
 
-
-
     public Integer getInstallmentType() {
         return installmentType;
     }
@@ -237,100 +327,12 @@ public class ClfMemLoanScheduleEntity implements Serializable {
         this.installmentType = installmentType;
     }
 
-    public Integer getInterestDemandActual() {
-        return interestDemandActual;
+    public Date getChequeIssuedDate1() {
+        return chequeIssuedDate1;
     }
 
-    public void setInterestDemandActual(Integer interestDemandActual) {
-        this.interestDemandActual = interestDemandActual;
-    }
-
-    public Integer getInterestDemandSchedule() {
-        return interestDemandSchedule;
-    }
-
-    public void setInterestDemandSchedule(Integer interestDemandSchedule) {
-        this.interestDemandSchedule = interestDemandSchedule;
-    }
-
-    public Integer getGapDaysActual() {
-        return gapDaysActual;
-    }
-
-    public void setGapDaysActual(Integer gapDaysActual) {
-        this.gapDaysActual = gapDaysActual;
-    }
-
-    public Integer getGapDaysSchedule() {
-        return gapDaysSchedule;
-    }
-
-    public void setGapDaysSchedule(Integer gapDaysSchedule) {
-        this.gapDaysSchedule = gapDaysSchedule;
-    }
-
-    public Integer getOriginalAmount() {
-        return originalAmount;
-    }
-
-    public void setOriginalAmount(Integer originalAmount) {
-        this.originalAmount = originalAmount;
-    }
-
-    public Short getOriginal() {
-        return isOriginal;
-    }
-
-    public void setOriginal(Short original) {
-        isOriginal = original;
-    }
-
-    public String getTransactionNo() {
-        return transactionNo;
-    }
-
-    public void setTransactionNo(String transactionNo) {
-        this.transactionNo = transactionNo;
-    }
-
-    public String getBankCode() {
-        return bankCode;
-    }
-
-    public void setBankCode(String bankCode) {
-        this.bankCode = bankCode;
-    }
-
-    public Integer getModePayment() {
-        return modePayment;
-    }
-
-    public void setModePayment(Integer modePayment) {
-        this.modePayment = modePayment;
-    }
-
-    public Integer getInterestRePaid() {
-        return interestRePaid;
-    }
-
-    public void setInterestRePaid(Integer interestRePaid) {
-        this.interestRePaid = interestRePaid;
-    }
-
-    public Integer getTxnMtgNo() {
-        return txnMtgNo;
-    }
-
-    public void setTxnMtgNo(Integer txnMtgNo) {
-        this.txnMtgNo = txnMtgNo;
-    }
-
-    public Integer getLoanRePaid() {
-        return loanRePaid;
-    }
-
-    public void setLoanRePaid(Integer loanRePaid) {
-        this.loanRePaid = loanRePaid;
+    public void setChequeIssuedDate1(Date chequeIssuedDate1) {
+        this.chequeIssuedDate1 = chequeIssuedDate1;
     }
 
     public Integer getInterestAccured() {
@@ -341,11 +343,5 @@ public class ClfMemLoanScheduleEntity implements Serializable {
         this.interestAccured = interestAccured;
     }
 
-    public Timestamp getChequeIssuedDate1() {
-        return chequeIssuedDate1;
-    }
 
-    public void setChequeIssuedDate1(Timestamp chequeIssuedDate1) {
-        this.chequeIssuedDate1 = chequeIssuedDate1;
-    }
 }

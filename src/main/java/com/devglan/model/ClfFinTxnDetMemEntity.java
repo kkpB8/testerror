@@ -15,7 +15,7 @@ public class ClfFinTxnDetMemEntity {
     private BigInteger uid;
     @Column(name = "mtg_uid")
     private BigInteger mtgUid;
-    @Column(name = "cbo_id", nullable = false)
+    @Column(name = "cbo_id")
     private BigInteger cboId;
     @Column(name = "guid", nullable = false)
     private String guid;
@@ -27,6 +27,8 @@ public class ClfFinTxnDetMemEntity {
     private Short organizationType;
     @Column(name = "organization_name")
     private String organizationName;
+    @Column(name="organization_id", nullable = true)
+    private BigInteger organizationId;
     @Column(name = "mtg_no")
     private Integer mtgNo;
     @Column(name = "txn_date", nullable = false)
@@ -45,33 +47,50 @@ public class ClfFinTxnDetMemEntity {
     private String bankCode;
     @Column(name = "transaction_no")
     private String transactionNo;
-    @Column(name = "voucher_number", nullable = false)
+    @Column(name = "voucher_number")
     private String voucherNumber;
-    @Column(name = "voucher_date", nullable = false)
+    @Column(name = "voucher_date")
     private Date voucherDate1;
     @Column(name = "narration", nullable = false)
     private String narration;
     @Column(name = "add_lref_date", nullable = false)
-    private Timestamp addlrefDate1;
+    private Date addlRefDate1;
     @Column(name = "created_by")
     private String createdBy;
     @Column(name = "created_on")
-    private Timestamp createdOn1;
+    private Date createdOn1;
     @Column(name = "updated_by")
     private String updatedBy;
     @Column(name = "updated_on")
-    private Timestamp updatedOn1;
+    private Date updatedOn1;
     @Column(name = "reference_mtg_no")
     private Integer referenceMtgNo;
-    @Column(name = "payee_bank_id",nullable = false)
+    @Column(name = "payee_bank_id")
     private String payeeBankId;
-    @Column(name = "payee_branch_id",nullable = false)
+    @Column(name = "payee_branch_id")
     private String payeeBranchId;
     @Column(name = "loan_no")
     private Integer loanNo;
     @Column(name = "is_processed")
     private Integer isProcessed;
+    @Column(name = "cheque_no")
+    private Integer chequeNo;
+    @Column(name = "cheque_issue_date")
+    private Date chequeIssueDate1;
+    @Column(name = "cheque_recevied_date")
+    private Date chequeReceviedDate1;
+    @Column(name = "recipient_account_no")
+    private BigInteger recipientAccountNo;
+    @Column(name = "clf_bank_id")
+    private BigInteger clfBankId;
 
+    public BigInteger getClfBankId() {
+        return clfBankId;
+    }
+
+    public void setClfBankId(BigInteger clfBankId) {
+        this.clfBankId = clfBankId;
+    }
     public BigInteger getUid() {
         return uid;
     }
@@ -144,6 +163,14 @@ public class ClfFinTxnDetMemEntity {
         this.mtgNo = mtgNo;
     }
 
+    public Date getTxnDate1() {
+        return txnDate1;
+    }
+
+    public void setTxnDate1(Date txnDate1) {
+        this.txnDate1 = txnDate1;
+    }
+
     public Integer getAuid() {
         return auid;
     }
@@ -168,6 +195,21 @@ public class ClfFinTxnDetMemEntity {
         this.amount = amount;
     }
 
+    public Date getDateRealisation1() {
+        return dateRealisation1;
+    }
+
+    public void setDateRealisation1(Date dateRealisation1) {
+        this.dateRealisation1 = dateRealisation1;
+    }
+
+    public Short getModePayment() {
+        return modePayment;
+    }
+
+    public void setModePayment(Short modePayment) {
+        this.modePayment = modePayment;
+    }
 
     public String getBankCode() {
         return bankCode;
@@ -193,6 +235,13 @@ public class ClfFinTxnDetMemEntity {
         this.voucherNumber = voucherNumber;
     }
 
+    public Date getVoucherDate1() {
+        return voucherDate1;
+    }
+
+    public void setVoucherDate1(Date voucherDate1) {
+        this.voucherDate1 = voucherDate1;
+    }
 
     public String getNarration() {
         return narration;
@@ -202,12 +251,12 @@ public class ClfFinTxnDetMemEntity {
         this.narration = narration;
     }
 
-    public Timestamp getAddlrefDate1() {
-        return addlrefDate1;
+    public Date getAddlRefDate1() {
+        return addlRefDate1;
     }
 
-    public void setAddlrefDate1(Timestamp addlrefDate1) {
-        this.addlrefDate1 = addlrefDate1;
+    public void setAddlRefDate1(Date addlRefDate1) {
+        this.addlRefDate1 = addlRefDate1;
     }
 
     public String getCreatedBy() {
@@ -218,11 +267,11 @@ public class ClfFinTxnDetMemEntity {
         this.createdBy = createdBy;
     }
 
-    public Timestamp getCreatedOn1() {
+    public Date getCreatedOn1() {
         return createdOn1;
     }
 
-    public void setCreatedOn1(Timestamp createdOn1) {
+    public void setCreatedOn1(Date createdOn1) {
         this.createdOn1 = createdOn1;
     }
 
@@ -234,11 +283,11 @@ public class ClfFinTxnDetMemEntity {
         this.updatedBy = updatedBy;
     }
 
-    public Timestamp getUpdatedOn1() {
+    public Date getUpdatedOn1() {
         return updatedOn1;
     }
 
-    public void setUpdatedOn1(Timestamp updatedOn1) {
+    public void setUpdatedOn1(Date updatedOn1) {
         this.updatedOn1 = updatedOn1;
     }
 
@@ -282,35 +331,43 @@ public class ClfFinTxnDetMemEntity {
         this.isProcessed = isProcessed;
     }
 
-    public Date getDateRealisation1() {
-        return dateRealisation1;
+    public Integer getChequeNo() {
+        return chequeNo;
     }
 
-    public void setDateRealisation1(Date dateRealisation1) {
-        this.dateRealisation1 = dateRealisation1;
+    public void setChequeNo(Integer chequeNo) {
+        this.chequeNo = chequeNo;
     }
 
-    public Short getModePayment() {
-        return modePayment;
+    public Date getChequeIssueDate1() {
+        return chequeIssueDate1;
     }
 
-    public void setModePayment(Short modePayment) {
-        this.modePayment = modePayment;
+    public void setChequeIssueDate1(Date chequeIssueDate1) {
+        this.chequeIssueDate1 = chequeIssueDate1;
     }
 
-    public Date getVoucherDate1() {
-        return voucherDate1;
+    public Date getChequeReceviedDate1() {
+        return chequeReceviedDate1;
     }
 
-    public void setVoucherDate1(Date voucherDate1) {
-        this.voucherDate1 = voucherDate1;
+    public void setChequeReceviedDate1(Date chequeReceviedDate1) {
+        this.chequeReceviedDate1 = chequeReceviedDate1;
     }
 
-    public Date getTxnDate1() {
-        return txnDate1;
+    public BigInteger getRecipientAccountNo() {
+        return recipientAccountNo;
     }
 
-    public void setTxnDate1(Date txnDate1) {
-        this.txnDate1 = txnDate1;
+    public void setRecipientAccountNo(BigInteger recipientAccountNo) {
+        this.recipientAccountNo = recipientAccountNo;
+    }
+
+    public BigInteger getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(BigInteger organizationId) {
+        this.organizationId = organizationId;
     }
 }

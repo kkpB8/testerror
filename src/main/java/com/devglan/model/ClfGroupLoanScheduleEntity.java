@@ -12,6 +12,7 @@ import java.util.Date;
 @Table(name = "clf_group_loan_schedule")
 public class ClfGroupLoanScheduleEntity implements Serializable {
 
+
     @Id
     @Column(name = "uid", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,13 +52,13 @@ public class ClfGroupLoanScheduleEntity implements Serializable {
     private String createdBy;
 
     @Column(name = "created_on")
-    private Timestamp createdOn1;
+    private Date createdOn1;
 
     @Column(name = "updated_by")
     private String updatedBy;
 
     @Column(name = "updated_on")
-    private Timestamp updatedOn1;
+    private Date updatedOn1;
 
     @Column(name = "loan_repaid")
     private Integer loanRepaid;
@@ -72,7 +73,7 @@ public class ClfGroupLoanScheduleEntity implements Serializable {
     private Integer modePayment;
 
     @Column(name = "bank_code")
-    private Integer bankCode;
+    private String bankCode;
 
     @Column(name = "transaction_no")
     private String transactionNo;
@@ -108,7 +109,7 @@ public class ClfGroupLoanScheduleEntity implements Serializable {
     private Integer installmentType;
 
     @Column(name = "cheque_issued_date")
-    private Timestamp chequeIssuedDate1;
+    private Date chequeIssuedDate1;
 
     @Column(name = "emi")
     private Integer emi;
@@ -169,8 +170,37 @@ public class ClfGroupLoanScheduleEntity implements Serializable {
         this.subInstallmentNo = subInstallmentNo;
     }
 
+    public Date getInstallmentDate1() {
+        return installmentDate1;
+    }
 
+    public void setInstallmentDate1(Date installmentDate1) {
+        this.installmentDate1 = installmentDate1;
+    }
 
+    public Date getLoanDate1() {
+        return loanDate1;
+    }
+
+    public void setLoanDate1(Date loanDate1) {
+        this.loanDate1 = loanDate1;
+    }
+
+    public Short getRepaid() {
+        return repaid;
+    }
+
+    public void setRepaid(Short repaid) {
+        this.repaid = repaid;
+    }
+
+    public Date getLastPaidDate1() {
+        return lastPaidDate1;
+    }
+
+    public void setLastPaidDate1(Date lastPaidDate1) {
+        this.lastPaidDate1 = lastPaidDate1;
+    }
 
     public String getCreatedBy() {
         return createdBy;
@@ -180,11 +210,11 @@ public class ClfGroupLoanScheduleEntity implements Serializable {
         this.createdBy = createdBy;
     }
 
-    public Timestamp getCreatedOn1() {
+    public Date getCreatedOn1() {
         return createdOn1;
     }
 
-    public void setCreatedOn1(Timestamp createdOn1) {
+    public void setCreatedOn1(Date createdOn1) {
         this.createdOn1 = createdOn1;
     }
 
@@ -196,11 +226,11 @@ public class ClfGroupLoanScheduleEntity implements Serializable {
         this.updatedBy = updatedBy;
     }
 
-    public Timestamp getUpdatedOn1() {
+    public Date getUpdatedOn1() {
         return updatedOn1;
     }
 
-    public void setUpdatedOn1(Timestamp updatedOn1) {
+    public void setUpdatedOn1(Date updatedOn1) {
         this.updatedOn1 = updatedOn1;
     }
 
@@ -236,16 +266,37 @@ public class ClfGroupLoanScheduleEntity implements Serializable {
         this.modePayment = modePayment;
     }
 
-    public Integer getBankCode() {
+    public String getBankCode() {
         return bankCode;
     }
 
-    public void setBankCode(Integer bankCode) {
+    public void setBankCode(String bankCode) {
         this.bankCode = bankCode;
     }
 
+    public String getTransactionNo() {
+        return transactionNo;
+    }
 
+    public void setTransactionNo(String transactionNo) {
+        this.transactionNo = transactionNo;
+    }
 
+    public Short getIsOriginal() {
+        return isOriginal;
+    }
+
+    public void setIsOriginal(Short isOriginal) {
+        this.isOriginal = isOriginal;
+    }
+
+    public Integer getOriginalAmount() {
+        return originalAmount;
+    }
+
+    public void setOriginalAmount(Integer originalAmount) {
+        this.originalAmount = originalAmount;
+    }
 
     public Integer getGapDaysSchedule() {
         return gapDaysSchedule;
@@ -295,7 +346,6 @@ public class ClfGroupLoanScheduleEntity implements Serializable {
         this.loanOsSchedule = loanOsSchedule;
     }
 
-
     public Integer getInterestAccured() {
         return interestAccured;
     }
@@ -312,13 +362,11 @@ public class ClfGroupLoanScheduleEntity implements Serializable {
         this.installmentType = installmentType;
     }
 
-
-
-    public Timestamp getChequeIssuedDate1() {
+    public Date getChequeIssuedDate1() {
         return chequeIssuedDate1;
     }
 
-    public void setChequeIssuedDate1(Timestamp chequeIssuedDate1) {
+    public void setChequeIssuedDate1(Date chequeIssuedDate1) {
         this.chequeIssuedDate1 = chequeIssuedDate1;
     }
 
@@ -328,61 +376,5 @@ public class ClfGroupLoanScheduleEntity implements Serializable {
 
     public void setEmi(Integer emi) {
         this.emi = emi;
-    }
-
-    public Date getInstallmentDate1() {
-        return installmentDate1;
-    }
-
-    public void setInstallmentDate1(Date installmentDate1) {
-        this.installmentDate1 = installmentDate1;
-    }
-
-    public Date getLoanDate1() {
-        return loanDate1;
-    }
-
-    public void setLoanDate1(Date loanDate1) {
-        this.loanDate1 = loanDate1;
-    }
-
-    public Short getRepaid() {
-        return repaid;
-    }
-
-    public void setRepaid(Short repaid) {
-        this.repaid = repaid;
-    }
-
-    public Date getLastPaidDate1() {
-        return lastPaidDate1;
-    }
-
-    public void setLastPaidDate1(Date lastPaidDate1) {
-        this.lastPaidDate1 = lastPaidDate1;
-    }
-
-    public String getTransactionNo() {
-        return transactionNo;
-    }
-
-    public void setTransactionNo(String transactionNo) {
-        this.transactionNo = transactionNo;
-    }
-
-    public Short getIsOriginal() {
-        return isOriginal;
-    }
-
-    public void setIsOriginal(Short isOriginal) {
-        this.isOriginal = isOriginal;
-    }
-
-    public Integer getOriginalAmount() {
-        return originalAmount;
-    }
-
-    public void setOriginalAmount(Integer originalAmount) {
-        this.originalAmount = originalAmount;
     }
 }
