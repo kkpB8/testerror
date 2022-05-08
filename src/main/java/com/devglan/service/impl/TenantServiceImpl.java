@@ -2743,10 +2743,12 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				   Calendar cal = Calendar.getInstance();
 				   BigInteger loanOsActual = lastPaidInstallment.getLoanOsActual();
 				   Integer osIntrest = 0;
-				   if (lastPaidInstallment != null) {
+				   if (lastPaidInstallment != null && lastPaidInstallment.getInterestDemandActual()!= null) {
 					   cal.setTime(lastPaidInstallment.getLastPaidDate1());
+					  Integer intrestRepaid = lastPaidInstallment.getInterestRePaid() == null?0:lastPaidInstallment.getInterestRePaid();
+
 					   //if any partially paid intrest in last payment
-					   osIntrest = lastPaidInstallment.getInterestDemandActual() - lastPaidInstallment.getInterestRePaid();
+					   osIntrest = lastPaidInstallment.getInterestDemandActual() - intrestRepaid;
 				   } else {
 					   //if not installment paid then disbursed date of loan --> for first installment
 					   cal.setTime(clfMemLoanEntity.getDisbursementDate1());

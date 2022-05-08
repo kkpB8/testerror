@@ -29,7 +29,7 @@ public class ClfMemLoanEntity implements Serializable {
     private Integer mtgNo;
 
     @Column(name = "installment_date")
-    private Timestamp installmentDate1;
+    private Date installmentDate1;
 
     @Column(name = "original_loan_amount")
     private Integer originalLoanAmount;
@@ -71,13 +71,13 @@ public class ClfMemLoanEntity implements Serializable {
     private String createdBy;
 
     @Column(name = "created_on")
-    private Timestamp createdOn1;
+    private Date createdOn1;
 
     @Column(name = "updated_by")
     private String updatedBy;
 
     @Column(name = "updated_on")
-    private Timestamp updatedOn1;
+    private Date updatedOn1;
 
     @Column(name = "principal_repaid")
     private Integer principalRepaid;
@@ -86,7 +86,7 @@ public class ClfMemLoanEntity implements Serializable {
     private Integer interestRepaid;
 
     @Column(name = "disbursement_date")
-    private Timestamp disbursementDate1;
+    private Date disbursementDate1;
 
     @Column(name = "vo_id", nullable = false)
     private BigInteger voId;
@@ -100,11 +100,23 @@ public class ClfMemLoanEntity implements Serializable {
     @Column(name = "organization_name")
     private String organizationName;
 
+    @Column(name="organization_id", nullable = true)
+    private BigInteger organizationId;
+
     @Column(name = "installment_type")
     private Integer installmentType;
 
     @Column(name = "cheque_issued_date")
-    private Timestamp chequeIssuedDate1;
+    private Date chequeIssuedDate1;
+
+    @Column(name = "principal_demand")
+    private Integer principalDemand;
+
+    @Column(name = "interest_demand_schedule")
+    private Integer interestDemandSchedule;
+
+    @Column(name = "narration")
+    private String narration;
 
     public BigInteger getUid() {
         return uid;
@@ -146,6 +158,13 @@ public class ClfMemLoanEntity implements Serializable {
         this.mtgNo = mtgNo;
     }
 
+    public Date getInstallmentDate1() {
+        return installmentDate1;
+    }
+
+    public void setInstallmentDate1(Date installmentDate1) {
+        this.installmentDate1 = installmentDate1;
+    }
 
     public Integer getOriginalLoanAmount() {
         return originalLoanAmount;
@@ -243,22 +262,6 @@ public class ClfMemLoanEntity implements Serializable {
         this.moratoriumPeriod = moratoriumPeriod;
     }
 
-    public Timestamp getCreatedOn1() {
-        return createdOn1;
-    }
-
-    public void setCreatedOn1(Timestamp createdOn1) {
-        this.createdOn1 = createdOn1;
-    }
-
-    public Timestamp getUpdatedOn1() {
-        return updatedOn1;
-    }
-
-    public void setUpdatedOn1(Timestamp updatedOn1) {
-        this.updatedOn1 = updatedOn1;
-    }
-
     public String getCreatedBy() {
         return createdBy;
     }
@@ -267,12 +270,28 @@ public class ClfMemLoanEntity implements Serializable {
         this.createdBy = createdBy;
     }
 
+    public Date getCreatedOn1() {
+        return createdOn1;
+    }
+
+    public void setCreatedOn1(Date createdOn1) {
+        this.createdOn1 = createdOn1;
+    }
+
     public String getUpdatedBy() {
         return updatedBy;
     }
 
     public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
+    }
+
+    public Date getUpdatedOn1() {
+        return updatedOn1;
+    }
+
+    public void setUpdatedOn1(Date updatedOn1) {
+        this.updatedOn1 = updatedOn1;
     }
 
     public Integer getPrincipalRepaid() {
@@ -291,19 +310,11 @@ public class ClfMemLoanEntity implements Serializable {
         this.interestRepaid = interestRepaid;
     }
 
-    public Timestamp getInstallmentDate1() {
-        return installmentDate1;
-    }
-
-    public void setInstallmentDate1(Timestamp installmentDate1) {
-        this.installmentDate1 = installmentDate1;
-    }
-
-    public Timestamp getDisbursementDate1() {
+    public Date getDisbursementDate1() {
         return disbursementDate1;
     }
 
-    public void setDisbursementDate1(Timestamp disbursementDate1) {
+    public void setDisbursementDate1(Date disbursementDate1) {
         this.disbursementDate1 = disbursementDate1;
     }
 
@@ -347,12 +358,43 @@ public class ClfMemLoanEntity implements Serializable {
         this.installmentType = installmentType;
     }
 
-
-    public Timestamp getChequeIssuedDate1() {
+    public Date getChequeIssuedDate1() {
         return chequeIssuedDate1;
     }
 
-    public void setChequeIssuedDate1(Timestamp chequeIssuedDate1) {
+    public void setChequeIssuedDate1(Date chequeIssuedDate1) {
         this.chequeIssuedDate1 = chequeIssuedDate1;
+    }
+
+    public Integer getPrincipalDemand() {
+        return principalDemand;
+    }
+
+    public void setPrincipalDemand(Integer principalDemand) {
+        this.principalDemand = principalDemand;
+    }
+
+    public Integer getInterestDemandSchedule() {
+        return interestDemandSchedule;
+    }
+
+    public void setInterestDemandSchedule(Integer interestDemandSchedule) {
+        this.interestDemandSchedule = interestDemandSchedule;
+    }
+
+    public String getNarration() {
+        return narration;
+    }
+
+    public void setNarration(String narration) {
+        this.narration = narration;
+    }
+
+    public BigInteger getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(BigInteger organizationId) {
+        this.organizationId = organizationId;
     }
 }
