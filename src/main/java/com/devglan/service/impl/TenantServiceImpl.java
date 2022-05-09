@@ -2741,9 +2741,10 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 			   if (clfMemLoanScheduleEntity.getInstallmentType() == 1) {
 				   Date today = new Date();
 				   Calendar cal = Calendar.getInstance();
-				   BigInteger loanOsActual = lastPaidInstallment.getLoanOsActual();
+				   BigInteger loanOsActual;
 				   Integer osIntrest = 0;
 				   if (lastPaidInstallment != null && lastPaidInstallment.getInterestDemandActual()!= null) {
+					   loanOsActual = lastPaidInstallment.getLoanOsActual();
 					   cal.setTime(lastPaidInstallment.getLastPaidDate1());
 					  Integer intrestRepaid = lastPaidInstallment.getInterestRePaid() == null?0:lastPaidInstallment.getInterestRePaid();
 
