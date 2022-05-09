@@ -6,11 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
+import java.math.BigInteger;
 import java.util.List;
 
 public interface ClfMemLoanScheduleDao extends JpaRepository<ClfMemLoanScheduleEntity, Long>, JpaSpecificationExecutor<ClfMemLoanScheduleEntity> {
-    @Query("from ClfMemLoanScheduleEntity cms where cms.loanNo = ?1 order by cms.installmentNo,cms.subInstallmentNo")
-    List<ClfMemLoanScheduleEntity> findByLoanNo(Integer loanNo);
+    @Query("from ClfMemLoanScheduleEntity cms where cms.loanNo = ?1 and cms.cboId = ?2 order by cms.installmentNo,cms.subInstallmentNo")
+    List<ClfMemLoanScheduleEntity> findByLoanNo(Integer loanNo, BigInteger cboId);
 
 //	 @Modifying
 //	@Query(nativeQuery = true, value = "Update shg_mem_loan_schedule set repaid=false, loan_paid=0, loan_os=principal_demand,last_paid_date=null where shg_mtg_uid=?1")
