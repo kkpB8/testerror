@@ -2730,11 +2730,11 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
        List<ClfMemLoanScheduleEntity> updatedInstallments = new ArrayList<>();
 	   for(ClfFinTxnDetMemEntity clfFinTxnDetMemEntity:clfFinTxnDetMemEntityList) {
 		    Integer paidAmount = clfFinTxnDetMemEntity.getAmount();
-		   List<ClfMemLoanScheduleEntity> clfMemLoanScheduleEntityList = clfMemLoanScheduleDao.findByLoanNo(clfFinTxnDetMemEntity.getLoanNo());
+		   List<ClfMemLoanScheduleEntity> clfMemLoanScheduleEntityList = clfMemLoanScheduleDao.findByLoanNo(clfFinTxnDetMemEntity.getLoanNo(),clfFinTxnDetMemEntity.getCboId());
 		   //System.out.println(clfMemLoanScheduleEntityList.size());
 		   List<ClfMemLoanScheduleEntity> futureInsts = this.getFutureMemLoanInstallments(clfMemLoanScheduleEntityList);
 		   ClfMemLoanScheduleEntity lastPaidInstallment = this.getLastPaidInstallment(clfMemLoanScheduleEntityList);
-		   ClfMemLoanEntity clfMemLoanEntity = clfMemLoanDao.findByLoanNo(clfFinTxnDetMemEntity.getLoanNo());
+		   ClfMemLoanEntity clfMemLoanEntity = clfMemLoanDao.findByLoanNo(clfFinTxnDetMemEntity.getLoanNo(),clfFinTxnDetMemEntity.getCboId());
 		   for(ClfMemLoanScheduleEntity clfMemLoanScheduleEntity : futureInsts){
 
 			   //fixed principal
