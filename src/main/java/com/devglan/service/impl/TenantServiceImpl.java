@@ -2739,7 +2739,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 		   for(ClfMemLoanScheduleEntity clfMemLoanScheduleEntity : futureInsts){
 
 			   //fixed principal
-			   if (clfMemLoanScheduleEntity.getInstallmentType() == 1) {
+			//   if (clfMemLoanScheduleEntity.getInstallmentType() == 1) {
 
 				   Calendar cal = Calendar.getInstance();
 				   BigInteger loanOsActual;
@@ -2754,7 +2754,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				   } else {
 					   //if not installment paid then disbursed date of loan --> for first installment
 					   cal.setTime(clfMemLoanEntity.getDisbursementDate1());
-					   loanOsActual = clfMemLoanScheduleEntity.getLoanOsSchedule();
+					   loanOsActual = BigInteger.valueOf(clfMemLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
 				   }
 
 				   Date lastMonthInstlDate = cal.getTime();
@@ -2784,7 +2784,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				   clfMemLoanScheduleEntity.setInterestDemandActual(currentInterest);
 
 				   //if paid amount is same as demand(emi)
-				   if (paidAmount == totalCurDemand) {
+				   if (paidAmount.equals(totalCurDemand)) {
 					   updatedInstallments.add(clfMemLoanScheduleEntity);
 					   break;
 				   } else if (paidAmount > totalCurDemand) {
@@ -2821,10 +2821,10 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				   }
 
 
-			   }
-			   else {
-				   //TODO emi
-			   }
+			  // }
+//			   else {
+//				   //TODO emi
+//			   }
 
 		   }
 		   clfFinTxnDetMemEntity.setIsProcessed(1);
