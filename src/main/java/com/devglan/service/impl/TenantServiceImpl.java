@@ -2730,6 +2730,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
        List<ClfMemLoanScheduleEntity> updatedInstallments = new ArrayList<>();
 	   for(ClfFinTxnDetMemEntity clfFinTxnDetMemEntity:clfFinTxnDetMemEntityList) {
 		    Integer paidAmount = clfFinTxnDetMemEntity.getAmount();
+			Date txnDate = clfFinTxnDetMemEntity.getTxnDate1();
 		   List<ClfMemLoanScheduleEntity> clfMemLoanScheduleEntityList = clfMemLoanScheduleDao.findByLoanNo(clfFinTxnDetMemEntity.getLoanNo(),clfFinTxnDetMemEntity.getCboId());
 		   //System.out.println(clfMemLoanScheduleEntityList.size());
 		   List<ClfMemLoanScheduleEntity> futureInsts = this.getFutureMemLoanInstallments(clfMemLoanScheduleEntityList);
@@ -2739,7 +2740,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 			   //fixed principal
 			   if (clfMemLoanScheduleEntity.getInstallmentType() == 1) {
-				   Date today = new Date();
+
 				   Calendar cal = Calendar.getInstance();
 				   BigInteger loanOsActual;
 				   Integer osIntrest = 0;
@@ -2757,7 +2758,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				   }
 
 				   Date lastMonthInstlDate = cal.getTime();
-				   Long diffInMillies2 = Math.abs(today.getTime() - lastMonthInstlDate.getTime());
+				   Long diffInMillies2 = Math.abs(txnDate.getTime() - lastMonthInstlDate.getTime());
 				   Long days = TimeUnit.DAYS.convert(diffInMillies2, TimeUnit.MILLISECONDS);
 
 				   Integer currentPrincipal = clfMemLoanScheduleEntity.getPrincipalDemand();
@@ -2771,7 +2772,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				   Integer totalCurDemand = currentPrincipal + currentInterest;
 
 
-				   clfMemLoanScheduleEntity.setLastPaidDate1(new Timestamp(today.getTime()));
+				   clfMemLoanScheduleEntity.setLastPaidDate1(new Timestamp(txnDate.getTime()));
 				   clfMemLoanScheduleEntity.setBankCode(clfFinTxnDetMemEntity.getBankCode());
 				   clfMemLoanScheduleEntity.setLoanRePaid(currentPrincipal);
 				   clfMemLoanScheduleEntity.setInterestRePaid(currentInterest);
@@ -2779,7 +2780,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				   clfMemLoanScheduleEntity.setInterestDemandActual(currentInterest);
 				   clfMemLoanScheduleEntity.setTxnMtgNo(clfFinTxnDetMemEntity.getMtgNo());
 				   clfMemLoanScheduleEntity.setModePayment(clfFinTxnDetMemEntity.getModePayment().intValue());
-				   clfMemLoanScheduleEntity.setUpdatedOn1(new Timestamp(today.getTime()));
+				   clfMemLoanScheduleEntity.setUpdatedOn1(new Timestamp(txnDate.getTime()));
 				   clfMemLoanScheduleEntity.setInterestDemandActual(currentInterest);
 
 				   //if paid amount is same as demand(emi)
