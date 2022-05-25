@@ -2735,109 +2735,111 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 		   //System.out.println(clfMemLoanScheduleEntityList.size());
 		   List<ClfMemLoanScheduleEntity> futureInsts = this.getFutureMemLoanInstallments(clfMemLoanScheduleEntityList);
 		    ClfMemLoanEntity clfMemLoanEntity = clfMemLoanDao.findByLoanNo(clfFinTxnDetMemEntity.getLoanNo(),clfFinTxnDetMemEntity.getCboId());
-		   for(ClfMemLoanScheduleEntity clfMemLoanScheduleEntity : futureInsts){
+		 if(clfMemLoanEntity != null) {
+			 for (ClfMemLoanScheduleEntity clfMemLoanScheduleEntity : futureInsts) {
 
-			   //fixed principal
-			//   if (clfMemLoanScheduleEntity.getInstallmentType() == 1) {
-			   ClfMemLoanScheduleEntity lastPaidInstallment = this.getLastPaidInstallment(clfMemLoanScheduleEntityList);
+				 //fixed principal
+				 //   if (clfMemLoanScheduleEntity.getInstallmentType() == 1) {
+				 ClfMemLoanScheduleEntity lastPaidInstallment = this.getLastPaidInstallment(clfMemLoanScheduleEntityList);
 
-			   Calendar cal = Calendar.getInstance();
-				   BigInteger loanOsActual;
-				   Integer osIntrest = 0;
-				   if (lastPaidInstallment != null) {
-					   loanOsActual = lastPaidInstallment.getLoanOsActual();
-					   cal.setTime(lastPaidInstallment.getLastPaidDate1());
-					   if(lastPaidInstallment.getInterestDemandActual()!= null) {
-						   Integer intrestRepaid = lastPaidInstallment.getInterestRePaid() == null ? 0 : lastPaidInstallment.getInterestRePaid();
-						   //if any partially paid intrest in last payment
-						   osIntrest = lastPaidInstallment.getInterestDemandActual() - intrestRepaid;
-					   }
-				   } else {
-					   //if not installment paid then disbursed date of loan --> for first installment
-					   cal.setTime(clfMemLoanEntity.getDisbursementDate1());
-					   loanOsActual = BigInteger.valueOf(clfMemLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
-				   }
+				 Calendar cal = Calendar.getInstance();
+				 BigInteger loanOsActual;
+				 Integer osIntrest = 0;
+				 if (lastPaidInstallment != null) {
+					 loanOsActual = lastPaidInstallment.getLoanOsActual()!=null?lastPaidInstallment.getLoanOsActual():lastPaidInstallment.getLoanOsSchedule();
+					 cal.setTime(lastPaidInstallment.getLastPaidDate1());
+					 if (lastPaidInstallment.getInterestDemandActual() != null) {
+						 Integer intrestRepaid = lastPaidInstallment.getInterestRePaid() == null ? 0 : lastPaidInstallment.getInterestRePaid();
+						 //if any partially paid intrest in last payment
+						 osIntrest = lastPaidInstallment.getInterestDemandActual() - intrestRepaid;
+					 }
+				 } else {
+					 //if not installment paid then disbursed date of loan --> for first installment
+					 cal.setTime(clfMemLoanEntity.getDisbursementDate1());
+					 loanOsActual = BigInteger.valueOf(clfMemLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
+				 }
 
-				   Date lastMonthInstlDate = cal.getTime();
-				   Long diffInMillies2 = Math.abs(txnDate.getTime() - lastMonthInstlDate.getTime());
-				   Long days = TimeUnit.DAYS.convert(diffInMillies2, TimeUnit.MILLISECONDS);
+				 Date lastMonthInstlDate = cal.getTime();
+				 Long diffInMillies2 = Math.abs(txnDate.getTime() - lastMonthInstlDate.getTime());
+				 Long days = TimeUnit.DAYS.convert(diffInMillies2, TimeUnit.MILLISECONDS);
 
-				   Integer currentPrincipal = clfMemLoanScheduleEntity.getPrincipalDemand();
+				 Integer currentPrincipal = clfMemLoanScheduleEntity.getPrincipalDemand();
 
-				   //if subInstallment then adjust principal from previous payments
-				   if (clfMemLoanScheduleEntity.getSubInstallmentNo() > 1) {
-					   Integer loanrepaid = this.getTotalInstallmentPay(clfMemLoanScheduleEntityList, clfMemLoanScheduleEntity.getInstallmentNo());
-					   currentPrincipal = currentPrincipal - loanrepaid;
-				   }
-				   Integer currentInterest = Math.round(loanOsActual.intValue() * clfMemLoanEntity.getInterestRate() * (Float.valueOf(days) / 365) / 100) + osIntrest;
-				   Integer totalCurDemand = currentPrincipal + currentInterest;
-
-
-				   clfMemLoanScheduleEntity.setLastPaidDate1(new Timestamp(txnDate.getTime()));
-				   clfMemLoanScheduleEntity.setBankCode(clfFinTxnDetMemEntity.getBankCode());
-				   clfMemLoanScheduleEntity.setLoanRePaid(currentPrincipal);
-				   clfMemLoanScheduleEntity.setInterestRePaid(currentInterest);
-				   clfMemLoanScheduleEntity.setRepaid(Short.valueOf("1"));
-				   clfMemLoanScheduleEntity.setInterestDemandActual(currentInterest);
-				   clfMemLoanScheduleEntity.setTxnMtgNo(clfFinTxnDetMemEntity.getMtgNo());
-				   clfMemLoanScheduleEntity.setModePayment(clfFinTxnDetMemEntity.getModePayment().intValue());
-				   clfMemLoanScheduleEntity.setUpdatedOn1(new Timestamp(txnDate.getTime()));
-				   clfMemLoanScheduleEntity.setInterestDemandActual(currentInterest);
-
-				   //if paid amount is same as demand(emi)
-				   if (paidAmount.equals(totalCurDemand)) {
-					   updatedInstallments.add(clfMemLoanScheduleEntity);
-					   break;
-				   } else if (paidAmount > totalCurDemand) {
-					   //if paidAmount is excess then deduct current demand value and continue to update next installments
-					   paidAmount = paidAmount - totalCurDemand;
-					   updatedInstallments.add(clfMemLoanScheduleEntity);
-				   } else if (paidAmount < totalCurDemand) {
-					   //if paidAmount is lesser than current demand then adjust intrest first and add subinstallment for remaining
-					   Integer loanRepaid = paidAmount - currentInterest;
-					   clfMemLoanScheduleEntity.setRepaid(Short.valueOf("0"));
-
-					   clfMemLoanScheduleEntity.setLoanRePaid(loanRepaid);
-					   clfMemLoanScheduleEntity.setLoanOsActual(loanOsActual.subtract(new BigInteger(loanRepaid.toString())));
-
-					   clfMemLoanEntity.setPrincipalRepaid(loanRepaid);
-					   clfMemLoanEntity.setPrincipalOverdue(clfMemLoanScheduleEntity.getLoanOsActual().intValue());
-					   if(clfMemLoanEntity.getPrincipalOverdue()<=0){
-						   clfMemLoanEntity.setCompletionFlag(1);
-					   }
-					   // Serializes `ClfMemLoanScheduleEntity(currentDemand)` object to a `byte[]` array
-					   byte[] bytes = SerializationUtils.serialize(clfMemLoanScheduleEntity);
-					   ClfMemLoanScheduleEntity subinstlEntity = (ClfMemLoanScheduleEntity) SerializationUtils.deserialize(bytes);
-					   if(currentInterest < paidAmount) {
-						   clfMemLoanScheduleEntity.setInterestRePaid(currentInterest);
-					   }else {
-						   clfMemLoanScheduleEntity.setInterestRePaid(paidAmount);
-
-					   }
-					   updatedInstallments.add(clfMemLoanScheduleEntity);
-
-					   subinstlEntity.setSubInstallmentNo(clfMemLoanScheduleEntity.getSubInstallmentNo() + 1);
-					   subinstlEntity.setRepaid(Short.valueOf("0"));
-					   subinstlEntity.setLoanRePaid(null);
-					   subinstlEntity.setInterestRePaid(null);
-					   subinstlEntity.setLastPaidDate1(null);
-					   subinstlEntity.setLoanOsActual(null);
-					   subinstlEntity.setUid(null);
-					   updatedInstallments.add(subinstlEntity);
-					   break;
-				   }
+				 //if subInstallment then adjust principal from previous payments
+				 if (clfMemLoanScheduleEntity.getSubInstallmentNo() > 1) {
+					 Integer loanrepaid = this.getTotalInstallmentPay(clfMemLoanScheduleEntityList, clfMemLoanScheduleEntity.getInstallmentNo());
+					 currentPrincipal = currentPrincipal - loanrepaid;
+				 }
+				 Integer currentInterest = Math.round(loanOsActual.intValue() * clfMemLoanEntity.getInterestRate() * (Float.valueOf(days) / 365) / 100) + osIntrest;
+				 Integer totalCurDemand = currentPrincipal + currentInterest;
 
 
-			  // }
+				 clfMemLoanScheduleEntity.setLastPaidDate1(new Timestamp(txnDate.getTime()));
+				 clfMemLoanScheduleEntity.setBankCode(clfFinTxnDetMemEntity.getBankCode());
+				 clfMemLoanScheduleEntity.setLoanRePaid(currentPrincipal);
+				 clfMemLoanScheduleEntity.setInterestRePaid(currentInterest);
+				 clfMemLoanScheduleEntity.setRepaid(Short.valueOf("1"));
+				 clfMemLoanScheduleEntity.setInterestDemandActual(currentInterest);
+				 clfMemLoanScheduleEntity.setTxnMtgNo(clfFinTxnDetMemEntity.getMtgNo());
+				 clfMemLoanScheduleEntity.setModePayment(clfFinTxnDetMemEntity.getModePayment().intValue());
+				 clfMemLoanScheduleEntity.setUpdatedOn1(new Timestamp(txnDate.getTime()));
+				 clfMemLoanScheduleEntity.setInterestDemandActual(currentInterest);
+
+				 //if paid amount is same as demand(emi)
+				 if (paidAmount.equals(totalCurDemand)) {
+					 updatedInstallments.add(clfMemLoanScheduleEntity);
+					 break;
+				 } else if (paidAmount > totalCurDemand) {
+					 //if paidAmount is excess then deduct current demand value and continue to update next installments
+					 paidAmount = paidAmount - totalCurDemand;
+					 updatedInstallments.add(clfMemLoanScheduleEntity);
+				 } else if (paidAmount < totalCurDemand) {
+					 //if paidAmount is lesser than current demand then adjust intrest first and add subinstallment for remaining
+					 Integer loanRepaid = paidAmount - currentInterest;
+					 clfMemLoanScheduleEntity.setRepaid(Short.valueOf("0"));
+
+					 clfMemLoanScheduleEntity.setLoanRePaid(loanRepaid);
+					 clfMemLoanScheduleEntity.setLoanOsActual(loanOsActual.subtract(new BigInteger(loanRepaid.toString())));
+
+					 clfMemLoanEntity.setPrincipalRepaid(loanRepaid);
+					 clfMemLoanEntity.setPrincipalOverdue(clfMemLoanScheduleEntity.getLoanOsActual().intValue());
+					 if (clfMemLoanEntity.getPrincipalOverdue() <= 0) {
+						 clfMemLoanEntity.setCompletionFlag(1);
+					 }
+					 // Serializes `ClfMemLoanScheduleEntity(currentDemand)` object to a `byte[]` array
+					 byte[] bytes = SerializationUtils.serialize(clfMemLoanScheduleEntity);
+					 ClfMemLoanScheduleEntity subinstlEntity = (ClfMemLoanScheduleEntity) SerializationUtils.deserialize(bytes);
+					 if (currentInterest < paidAmount) {
+						 clfMemLoanScheduleEntity.setInterestRePaid(currentInterest);
+					 } else {
+						 clfMemLoanScheduleEntity.setInterestRePaid(paidAmount);
+
+					 }
+					 updatedInstallments.add(clfMemLoanScheduleEntity);
+
+					 subinstlEntity.setSubInstallmentNo(clfMemLoanScheduleEntity.getSubInstallmentNo() + 1);
+					 subinstlEntity.setRepaid(Short.valueOf("0"));
+					 subinstlEntity.setLoanRePaid(null);
+					 subinstlEntity.setInterestRePaid(null);
+					 subinstlEntity.setLastPaidDate1(null);
+					 subinstlEntity.setLoanOsActual(null);
+					 subinstlEntity.setUid(null);
+					 updatedInstallments.add(subinstlEntity);
+					 break;
+				 }
+
+
+				 // }
 //			   else {
 //				   //TODO emi
 //			   }
 
-		   }
-		   clfFinTxnDetMemEntity.setIsProcessed(1);
-		   this.clfMemLoanScheduleDao.save(updatedInstallments);
-		   this.clfMemLoanDao.save(clfMemLoanEntity);
-		   updatedInstallments.clear();
+			 }
+			 clfFinTxnDetMemEntity.setIsProcessed(1);
+			 this.clfMemLoanScheduleDao.save(updatedInstallments);
+			 this.clfMemLoanDao.save(clfMemLoanEntity);
+			 updatedInstallments.clear();
+		 }
 	   }
 	   //
 	   this.clfFinTxnDetMemDao.save(clfFinTxnDetMemEntityList);
