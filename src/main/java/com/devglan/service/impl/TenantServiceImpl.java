@@ -2773,7 +2773,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				 Integer currentInterest = Math.round(loanOsActual.intValue() * clfMemLoanEntity.getInterestRate() * (Float.valueOf(days) / 365) / 100) + osIntrest;
 				 Integer totalCurDemand = currentPrincipal + currentInterest;
 
-
+				 clfMemLoanScheduleEntity.setGapDaysActual(days.intValue());
 				 clfMemLoanScheduleEntity.setLastPaidDate1(new Timestamp(txnDate.getTime()));
 				 clfMemLoanScheduleEntity.setBankCode(clfFinTxnDetMemEntity.getBankCode());
 				 clfMemLoanScheduleEntity.setLoanRePaid(currentPrincipal);
@@ -2806,6 +2806,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					 if (clfMemLoanEntity.getPrincipalOverdue() <= 0) {
 						 clfMemLoanEntity.setCompletionFlag(1);
 					 }
+
 					 // Serializes `ClfMemLoanScheduleEntity(currentDemand)` object to a `byte[]` array
 					 byte[] bytes = SerializationUtils.serialize(clfMemLoanScheduleEntity);
 					 ClfMemLoanScheduleEntity subinstlEntity = (ClfMemLoanScheduleEntity) SerializationUtils.deserialize(bytes);
@@ -2816,6 +2817,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 					 }
 					 updatedInstallments.add(clfMemLoanScheduleEntity);
+                     subinstlEntity.setGapDaysSchedule(clfMemLoanScheduleEntity.getGapDaysSchedule());
 
 					 subinstlEntity.setSubInstallmentNo(clfMemLoanScheduleEntity.getSubInstallmentNo() + 1);
 					 subinstlEntity.setRepaid(Short.valueOf("0"));
