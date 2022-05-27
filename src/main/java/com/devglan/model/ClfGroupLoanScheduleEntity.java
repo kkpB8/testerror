@@ -6,7 +6,6 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Date;
 
-
 @Entity
 @Cacheable(value = false)
 @Table(name = "clf_group_loan_schedule")

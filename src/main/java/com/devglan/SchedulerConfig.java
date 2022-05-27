@@ -271,6 +271,7 @@ public class SchedulerConfig{
 
         System.out.println("Running loan scheduler.....");
         this.tenantService.processLoanPaymentVouchers();
+        this.tenantService.processGroupLoanPaymentVouchers();
     }
     /*
 	 * @Scheduled(initialDelay = 10000,fixedDelay = 10000) public void
