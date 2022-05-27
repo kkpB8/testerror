@@ -36,4 +36,7 @@ public interface TenantService {
 	public String createVoMeetingProfileUpload(String role, UploadVoMeeting uploadVoMeeting);
 
 	public void processLoanPaymentVouchers();
+
+
+	public void processGroupLoanPaymentVouchers();
 }
