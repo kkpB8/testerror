@@ -37,7 +37,11 @@ public class ShgGroupLoanTxn {
     private Double interestRate;
     private Integer period;
 
-
+    
+   private Integer miscCharges; 
+    private Integer subvention;
+    private Integer loanType;
+    private Integer isLoanReschedule;
 
     public Integer getLoanNo() {
         return loanNo;
@@ -239,6 +243,38 @@ public class ShgGroupLoanTxn {
 
 	public void setPeriod(Integer period) {
 		this.period = period;
+	}
+
+	public Integer getMiscCharges() {
+		return miscCharges;
+	}
+
+	public void setMiscCharges(Integer miscCharges) {
+		this.miscCharges = miscCharges;
+	}
+
+	public Integer getSubvention() {
+		return subvention;
+	}
+
+	public void setSubvention(Integer subvention) {
+		this.subvention = subvention;
+	}
+
+	public Integer getLoanType() {
+		return loanType;
+	}
+
+	public void setLoanType(Integer loanType) {
+		this.loanType = loanType;
+	}
+
+	public Integer getIsLoanReschedule() {
+		return isLoanReschedule;
+	}
+
+	public void setIsLoanReschedule(Integer isLoanReschedule) {
+		this.isLoanReschedule = isLoanReschedule;
 	}
     
     

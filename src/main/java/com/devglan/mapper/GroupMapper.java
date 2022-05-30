@@ -1017,6 +1017,7 @@ public class GroupMapper {
 			 //30-3-2021
             federationProfileEntity.setPromoterCode(federationProfile.getPromoter_code());
             federationProfileEntity.setIsComplete(federationProfile.getIs_complete());
+            federationProfileEntity.setInactiveReason(federationProfile.getInactiveReason());
         }
         catch (Exception e){
             e.printStackTrace();
@@ -1173,6 +1174,7 @@ public class GroupMapper {
 			 //30-3-2021
             federationProfile.setPromoter_code(federationProfileEntity.getPromoterCode());
             federationProfile.setIs_complete (federationProfileEntity.getIsComplete());
+            federationProfile.setInactiveReason(federationProfileEntity.getInactiveReason());
         }
         catch (Exception e){
             e.printStackTrace();

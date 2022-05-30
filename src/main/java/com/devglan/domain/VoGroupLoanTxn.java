@@ -48,6 +48,7 @@ public class VoGroupLoanTxn {
     private Integer zeroMtgCashInHand;
     private Integer zeroMtgCashInTransit;
     private Integer withdrawnCash;
+    private Integer isLoanReschedule;
     public BigInteger getUid() {
         return uid;
     }
@@ -302,6 +303,14 @@ public class VoGroupLoanTxn {
 
 	public void setWithdrawnCash(Integer withdrawnCash) {
 		this.withdrawnCash = withdrawnCash;
+	}
+
+	public Integer getIsLoanReschedule() {
+		return isLoanReschedule;
+	}
+
+	public void setIsLoanReschedule(Integer isLoanReschedule) {
+		this.isLoanReschedule = isLoanReschedule;
 	}
     
     

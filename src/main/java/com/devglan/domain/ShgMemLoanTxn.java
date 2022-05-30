@@ -37,6 +37,7 @@ public class ShgMemLoanTxn {
    
     private Double interestRate;
     private Integer period;
+    private Integer isLoanReschedule;
 
     public BigInteger getUid() {
         return uid;
@@ -239,6 +240,14 @@ public class ShgMemLoanTxn {
 
 	public void setPeriod(Integer period) {
 		this.period = period;
+	}
+
+	public Integer getIsLoanReschedule() {
+		return isLoanReschedule;
+	}
+
+	public void setIsLoanReschedule(Integer isLoanReschedule) {
+		this.isLoanReschedule = isLoanReschedule;
 	}
     
     

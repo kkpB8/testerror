@@ -124,6 +124,9 @@ public class VoGroupLoanTxnEntity implements Serializable {
 
     @Column(name = "withdrawn_cash")
     private Integer withdrawnCash;
+    
+    @Column(name = "is_loan_reschedule")
+    private Integer isLoanReschedule;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -423,6 +426,17 @@ public class VoGroupLoanTxnEntity implements Serializable {
 
 	public void setWithdrawnCash(Integer withdrawnCash) {
 		this.withdrawnCash = withdrawnCash;
+	}
+	
+	
+	
+
+	public Integer getIsLoanReschedule() {
+		return isLoanReschedule;
+	}
+
+	public void setIsLoanReschedule(Integer isLoanReschedule) {
+		this.isLoanReschedule = isLoanReschedule;
 	}
 
 	@Override

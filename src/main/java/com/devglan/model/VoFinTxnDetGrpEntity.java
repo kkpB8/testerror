@@ -97,6 +97,9 @@ public class VoFinTxnDetGrpEntity implements Serializable {
 	
 	@Column(name = "org_type")
 	private Integer orgType;
+	
+	@Column(name = "guid")
+	private String guid;
 
 	public BigInteger getVoMtgUid() {
 		return voMtgUid;
@@ -318,6 +321,15 @@ public class VoFinTxnDetGrpEntity implements Serializable {
 
 	public void setOrgType(Integer orgType) {
 		this.orgType = orgType;
+	}
+
+	
+	public String getGuid() {
+		return guid;
+	}
+
+	public void setGuid(String guid) {
+		this.guid = guid;
 	}
 
 	@Override

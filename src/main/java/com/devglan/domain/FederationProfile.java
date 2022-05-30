@@ -115,6 +115,7 @@ public class FederationProfile {
 	private String federation_resolution_document;
 	private String transaction_id;
 	private BigInteger processingId;
+	 private Integer inactiveReason;
 
 	public String getView_status() {
 		return view_status;
@@ -746,6 +747,14 @@ public class FederationProfile {
 
 	public void setApprover(String approver) {
 		this.approver = approver;
+	}
+
+	public Integer getInactiveReason() {
+		return inactiveReason;
+	}
+
+	public void setInactiveReason(Integer inactiveReason) {
+		this.inactiveReason = inactiveReason;
 	}
 	
 	

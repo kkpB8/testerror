@@ -114,7 +114,7 @@ public class VoGroupLoanEntity implements Serializable {
     private Integer institution;
 	
 	@Column(name = "organization_name")
-    private Integer organizationName;
+    private String organizationName;
 	
 	@Column(name = "sanctioned_amount")
     private Integer sanctionedAmount;
@@ -166,8 +166,23 @@ public class VoGroupLoanEntity implements Serializable {
 
     @Column(name = "no_of_loan")
     private  Integer  noOfLoan ;
+    
+    @Column(name = "installment_type")
+    private Short  installmentType;
 
-    public BigInteger getVoMtgUid() {
+    
+
+    
+  
+    public Short getInstallmentType() {
+		return installmentType;
+	}
+
+	public void setInstallmentType(Short installmentType) {
+		this.installmentType = installmentType;
+	}
+
+	public BigInteger getVoMtgUid() {
         return voMtgUid;
     }
 
@@ -435,15 +450,17 @@ public class VoGroupLoanEntity implements Serializable {
         this.institution = institution;
     }
 
-    public Integer getOrganizationName() {
-        return organizationName;
-    }
+    
 
-    public void setOrganizationName(Integer organizationName) {
-        this.organizationName = organizationName;
-    }
+    public String getOrganizationName() {
+		return organizationName;
+	}
 
-    public Integer getSanctionedAmount() {
+	public void setOrganizationName(String organizationName) {
+		this.organizationName = organizationName;
+	}
+
+	public Integer getSanctionedAmount() {
         return sanctionedAmount;
     }
 
@@ -566,6 +583,8 @@ public class VoGroupLoanEntity implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+
     
     
     
