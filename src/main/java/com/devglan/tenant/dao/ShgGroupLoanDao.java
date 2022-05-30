@@ -11,8 +11,8 @@ import com.devglan.model.ShgGroupLoanEntity;
 
 public interface ShgGroupLoanDao extends JpaRepository<ShgGroupLoanEntity, Long>, JpaSpecificationExecutor<ShgGroupLoanEntity> {
 
-	@Query(nativeQuery = true, value = " Select * FROM shg_group_loan c WHERE c.cbo_id = ?1 AND c.loan_no = ?2")
-	ShgGroupLoanEntity findLoanByCboIdLoanNo(BigInteger cboId, Integer loanNo);
+	@Query(nativeQuery = true, value = " Select * FROM shg_group_loan c WHERE c.cbo_id = ?1 AND c.loan_no = ?2 AND c.installment_no = ?3")
+	ShgGroupLoanEntity findLoanByCboIdLoanNo(BigInteger cboId, Integer loanNo,Integer installmentNo);
 	
 	 @Modifying
 	    @Query(nativeQuery = true, value = "update shg_group_loan set completion_flag=false from "+
@@ -20,6 +20,13 @@ public interface ShgGroupLoanDao extends JpaRepository<ShgGroupLoanEntity, Long>
 	            " where completion_flag=true and cbo_id=?1 and mtg_no=?2) b "+
 	            " where shg_group_loan.cbo_id=b.cbo_id and shg_group_loan.loan_no=b.loan_no")
 	    void updateShgGroupLoan(BigInteger cboId, Integer mtgNo);
+
+	@Modifying
+	@Query(nativeQuery = true, value = "update shg_group_loan set period=b.period, interest_rate=b.interest_rate from "+
+			"(select cbo_id,loan_no,period,interest_rate from  shg_group_loan_txn "+
+			"where cbo_id=?1 and mtg_no=?2) b "+
+			"where shg_group_loan.cbo_id=b.cbo_id and shg_group_loan.loan_no=b.loan_no")
+    void updateShgGroupLoan1(BigInteger cboId, Integer mtgNo);
 
 
 }

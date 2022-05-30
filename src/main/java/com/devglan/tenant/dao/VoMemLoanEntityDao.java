@@ -31,4 +31,11 @@ public interface VoMemLoanEntityDao extends JpaRepository<VoMemLoanEntity, BigIn
             " where completion_flag=true and cbo_id=?1 and mtg_no=?2) b "+
             " where vo_mem_loan.cbo_id=b.cbo_id and vo_mem_loan.loan_no=b.loan_no")
     void updateVoMemLoan(BigInteger cboId, Integer mtgNo);
+
+@Modifying
+    @Query(nativeQuery = true, value = "update vo_mem_loan set period=b.period, interest_rate=b.interest_rate from "+
+            "(select cbo_id,loan_no,period,interest_rate from vo_mem_loan_txn "+
+            "where cbo_id=?1 and mtg_no=?2) b "+
+            "where vo_mem_loan.cbo_id=b.cbo_id and vo_mem_loan.loan_no=b.loan_no")
+    void updateVoMemLoan1(BigInteger cboId, Integer mtgNo);
 }

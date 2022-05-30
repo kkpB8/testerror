@@ -476,10 +476,10 @@ public class MemberMapper {
             memberKYCDetailsEntity.setCreatedDate(DateUtils.secondsToTimestampConverter(memberKYCDetails.getCreated_date()));
             memberKYCDetailsEntity.setUpdatedDate(memberKYCDetails.getUpdated_date()!=null ?
                     DateUtils.secondsToTimestampConverter(memberKYCDetails.getUpdated_date()) : null);
-            memberKYCDetailsEntity.setKycFrontDocOriginalName(memberKYCDetails.getFront_doc_original_name() !=null ?
-                    memberKYCDetails.getFront_doc_original_name()  : null);
-            memberKYCDetailsEntity.setKycRearDocOriginalName(memberKYCDetails.getRear_doc_original_name() !=null ?
-                    memberKYCDetails.getRear_doc_original_name()  : null);
+            memberKYCDetailsEntity.setKycFrontDocOriginalName(memberKYCDetails.getKyc_front_doc_orig_name() !=null ?
+                    memberKYCDetails.getKyc_front_doc_orig_name()  : null);
+            memberKYCDetailsEntity.setKycRearDocOriginalName(memberKYCDetails.getKyc_rear_doc_orig_name() !=null ?
+                    memberKYCDetails.getKyc_rear_doc_orig_name()  : null);
             memberKYCDetailsEntity.setDeduplStatus(memberKYCDetails.getDedupl_status());
             memberKYCDetailsEntity.setActivationStatus(memberKYCDetails.getActivation_status());
             memberKYCDetailsEntity.setIsVerified(memberKYCDetails.getIs_verified());
@@ -528,8 +528,8 @@ public class MemberMapper {
                 else
                     memberKYCDetails.setIs_active(shortValZero.shortValue());
             }
-            memberKYCDetails.setFront_doc_original_name(memberKYCDetailsEntity.getKycFrontDocOriginalName());
-            memberKYCDetails.setRear_doc_original_name(memberKYCDetailsEntity.getKycRearDocOriginalName());
+            memberKYCDetails.setKyc_front_doc_orig_name(memberKYCDetailsEntity.getKycFrontDocOriginalName());
+            memberKYCDetails.setKyc_rear_doc_orig_name(memberKYCDetailsEntity.getKycRearDocOriginalName());
             memberKYCDetails.setDedupl_status(memberKYCDetailsEntity.getDeduplStatus());
             memberKYCDetails.setActivation_status(memberKYCDetailsEntity.getActivationStatus());
             memberKYCDetails.setIs_verified(memberKYCDetailsEntity.getIsVerified());

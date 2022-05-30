@@ -1,5 +1,6 @@
 package com.devglan.domain;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigInteger;
@@ -32,6 +33,15 @@ public class VoGroupLoanSchedule {
     private Long updatedOn;
    // @Size(max=30,message="Updated by can be max of 30 chars long")
     private String updatedBy;
+   
+    private Integer interestDemand ;
+
+    
+    private Integer rescheduledOverdue;
+  
+    private Integer originalPrincipalDemand;
+    private Integer status  ;
+    private Integer  orgInstallmentNo;
 
 
     public BigInteger getUid() {
@@ -187,5 +197,46 @@ public class VoGroupLoanSchedule {
 	public void setMtgGuid(String mtgGuid) {
 		this.mtgGuid = mtgGuid;
 	}
-    
+
+	public Integer getInterestDemand() {
+		return interestDemand;
+	}
+
+	public void setInterestDemand(Integer interestDemand) {
+		this.interestDemand = interestDemand;
+	}
+
+	public Integer getRescheduledOverdue() {
+		return rescheduledOverdue;
+	}
+
+	public void setRescheduledOverdue(Integer rescheduledOverdue) {
+		this.rescheduledOverdue = rescheduledOverdue;
+	}
+
+	public Integer getOriginalPrincipalDemand() {
+		return originalPrincipalDemand;
+	}
+
+	public void setOriginalPrincipalDemand(Integer originalPrincipalDemand) {
+		this.originalPrincipalDemand = originalPrincipalDemand;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public Integer getOrgInstallmentNo() {
+		return orgInstallmentNo;
+	}
+
+	public void setOrgInstallmentNo(Integer orgInstallmentNo) {
+		this.orgInstallmentNo = orgInstallmentNo;
+	}
+
+	
 }

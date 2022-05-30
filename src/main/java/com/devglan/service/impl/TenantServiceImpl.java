@@ -1417,6 +1417,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 							} else if (fileMappingType.contains(ServiceConstants.federationoProfilePhoto)) {
 								federationProfilePhotoDocId.put(ServiceConstants.federationoProfilePhoto,
 										documentDetailsEntityAfterSave.getDocumentId());
+								//federationProfilePhotoDocId.add()
 
 							}
 						} catch (IOException e) {
@@ -2006,7 +2007,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 						//	shgGroupLoan.setLoanApplicationId(null);
 						//	} cbo_id +loan_no 
 						ShgGroupLoanEntity shgGroupLoanEntity1 = shgGroupLoanDao.
-								findLoanByCboIdLoanNo(mtg.getCboId(),shgGroupLoan.getLoanNo());
+								findLoanByCboIdLoanNo(mtg.getCboId(),shgGroupLoan.getLoanNo(),shgGroupLoan.getInstallmentNo());
 						ShgGroupLoanEntity shgGroupLoanEntity = MeetingMapper.map(shgGroupLoan);
 						if(shgGroupLoanEntity1 !=null) {
 							shgGroupLoanEntity.setUid(shgGroupLoanEntity1.getUid());
@@ -2034,7 +2035,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 								ShgGroupLoanScheduleEntity shgGroupLoanScheduleEntity = MeetingMapper.map(shgGroupLoanSchedule);
 								ShgGroupLoanScheduleEntity shgGroupLoanScheduleEntity1 = shgGroupLoanScheduleDao.
 										findByParam(mtg.getCboId(), shgGroupLoanSchedule.getLoanNo(),
-												shgGroupLoanSchedule.getInstallmentNo(),shgGroupLoanSchedule.getSubInstallmentNo());
+												shgGroupLoanSchedule.getInstallmentNo(),shgGroupLoanSchedule.getSubInstallmentNo(),shgGroupLoanSchedule.getOrgInstallmentNo(),shgGroupLoanSchedule.getStatus());
 								if(shgGroupLoanScheduleEntity1!=null) {
 									shgGroupLoanScheduleEntity.setUid(shgGroupLoanScheduleEntity1.getUid());
 									shgGroupLoanScheduleEntity.setShgGroupLoanUid
@@ -2094,7 +2095,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 								ShgMemLoanScheduleEntity shgMemLoanScheduleEntity = MeetingMapper.map(shgMemLoanSchedule);
 								ShgMemLoanScheduleEntity shgMemLoanScheduleEntity1 = shgMemLoanScheduleDao.
 										findByParam(mtg.getCboId(), shgMemLoanSchedule.getLoanNo(),
-												shgMemLoanSchedule.getInstallmentNo(),shgMemLoanSchedule.getSubInstallmentNo());
+												shgMemLoanSchedule.getInstallmentNo(),shgMemLoanSchedule.getSubInstallmentNo(),shgMemLoanSchedule.getOrgInstallmentNo(),shgMemLoanSchedule.getStatus());
 								if(shgMemLoanScheduleEntity1!=null) {
 									shgMemLoanScheduleEntity.setUid(shgMemLoanScheduleEntity1.getUid());
 									shgMemLoanScheduleEntity.setShgMtgUid(shgMemLoanScheduleEntity1.getShgMtgUid());
@@ -2549,7 +2550,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 								VoGroupLoanScheduleEntity voGroupLoanScheduleEntity = VoMeetingMapper.map(voGroupLoanSchedule);		
 								VoGroupLoanScheduleEntity voGroupLoanScheduleEntity1 = voGroupLoanScheduleDao.
 										findByParam(mtg.getCboId(), voGroupLoanSchedule.getLoanNo(),
-												voGroupLoanSchedule.getInstallmentNo(),voGroupLoanSchedule.getSubInstallmentNo());
+												voGroupLoanSchedule.getInstallmentNo(),voGroupLoanSchedule.getSubInstallmentNo(),voGroupLoanSchedule.getOrgInstallmentNo(),voGroupLoanSchedule.getStatus());
 								if(voGroupLoanScheduleEntity1!=null) {
 									voGroupLoanScheduleEntity.setUid(voGroupLoanScheduleEntity1.getUid());
 									voGroupLoanScheduleEntity.setVoGroupLoanUid(voGroupLoanScheduleEntity1.getVoGroupLoanUid());
@@ -2605,7 +2606,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 								VoMemLoanScheduleEntity voMemLoanScheduleEntity = VoMeetingMapper.map(voMemLoanSchedule);
 								VoMemLoanScheduleEntity voMemLoanScheduleEntity1 = voMemLoanScheduleDao.
 										findByParam(mtg.getCboId(), voMemLoanSchedule.getLoanNo(),
-												voMemLoanSchedule.getInstallmentNo(),voMemLoanSchedule.getSubInstallmentNo());
+												voMemLoanSchedule.getInstallmentNo(),voMemLoanSchedule.getSubInstallmentNo(),voMemLoanSchedule.getOrgInstallmentNo(),voMemLoanSchedule.getStatus());
 								if(voMemLoanScheduleEntity1!=null) {
 									voMemLoanScheduleEntity.setUid(voMemLoanScheduleEntity1.getUid());
 									voMemLoanScheduleEntity.setVoMtgUid(voMemLoanScheduleEntity1.getVoMtgUid());
@@ -2657,10 +2658,12 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 		ShgMtgEntity shgMtgEntity = shgMtgDao.findOne(uid);
 		if(shgMtgEntity!=null) {
 			shgMemLoanDao.updateShgMemLoan(shgMtgEntity.getCboId(), shgMtgEntity.getMtgNo());
+	                                shgMemLoanDao.updateShgMemLoan1(shgMtgEntity.getCboId(), shgMtgEntity.getMtgNo());
 			shgGroupLoanDao.updateShgGroupLoan(shgMtgEntity.getCboId(), shgMtgEntity.getMtgNo());
-			shgMemLoanScheduleDao.updateShgMemLoanSchedule(uid);
+                                                shgGroupLoanDao.updateShgGroupLoan1(shgMtgEntity.getCboId(), shgMtgEntity.getMtgNo());
+			shgMemLoanScheduleDao.updateShgMemLoanSchedule(uid,shgMtgEntity.getCboId(), shgMtgEntity.getMtgNo());
 			shgMemLoanScheduleDao.deleteShgMemLoanSchedule(uid);
-			shgGroupLoanScheduleDao.updateShgGroupLoanSchedule(uid);
+			shgGroupLoanScheduleDao.updateShgGroupLoanSchedule(uid,shgMtgEntity.getCboId(), shgMtgEntity.getMtgNo());
 			shgGroupLoanScheduleDao.deleteShgGroupLoanSchedule(uid);
 			shgMtgDao.deleteShgMtg(uid);
 		}
@@ -2670,10 +2673,12 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 		VoMtgEntity voMtgEntity = voMtgDao.findOne(uid);
 		if(voMtgEntity!=null) {
 			voMemLoanDao.updateVoMemLoan(voMtgEntity.getCboId(), voMtgEntity.getMtgNo());
+                                                voMemLoanDao.updateVoMemLoan1(voMtgEntity.getCboId(), voMtgEntity.getMtgNo());
 			voGroupLoanDao.updateVoGroupLoan(voMtgEntity.getCboId(), voMtgEntity.getMtgNo());
-			voMemLoanScheduleDao.updateVoMemLoanSchedule(uid);
+                                                voGroupLoanDao.updateVoGroupLoan1(voMtgEntity.getCboId(), voMtgEntity.getMtgNo());
+			voMemLoanScheduleDao.updateVoMemLoanSchedule(uid,voMtgEntity.getCboId(), voMtgEntity.getMtgNo());
 			voMemLoanScheduleDao.deleteVoMemLoanSchedule(uid);
-			voGroupLoanScheduleDao.updateVoGroupLoanSchedule(uid);
+			voGroupLoanScheduleDao.updateVoGroupLoanSchedule(uid,voMtgEntity.getCboId(), voMtgEntity.getMtgNo());
 			voGroupLoanScheduleDao.deleteVoGroupLoanSchedule(uid);
 			voMtgDao.deleteVoMtg(uid);
 		}
