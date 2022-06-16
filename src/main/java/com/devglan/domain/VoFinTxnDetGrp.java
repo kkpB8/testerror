@@ -48,6 +48,7 @@ public class VoFinTxnDetGrp {
     private String updatedBy;
     
     private Integer orgType;
+	private String guid;
 
     public BigInteger getUid() {
         return uid;
@@ -239,6 +240,14 @@ public class VoFinTxnDetGrp {
 
 	public void setOrgType(Integer orgType) {
 		this.orgType = orgType;
+	}
+
+	public String getGuid() {
+		return guid;
+	}
+
+	public void setGuid(String guid) {
+		this.guid = guid;
 	}
     
     

@@ -70,7 +70,15 @@ public class ShgGroupLoan {
     private String mtgGuid;
     private  Integer  totalAmount;
     private  Integer  noOfLoan ;
+    private  Integer installmentNo;
+    private Long sanctionedDate ;
+    private Short  installmentType;
+    private Integer  sanctionedAmount;
+    private Integer  drawingLimit;
+    
+    
 
+    
     public Integer getMtgNo() {
         return mtgNo;
     }
@@ -433,6 +441,48 @@ public class ShgGroupLoan {
 	public void setNoOfLoan(Integer noOfLoan) {
 		this.noOfLoan = noOfLoan;
 	}
+
+	public Integer getInstallmentNo() {
+		return installmentNo;
+	}
+
+	public void setInstallmentNo(Integer installmentNo) {
+		this.installmentNo = installmentNo;
+	}
+
+	public Long getSanctionedDate() {
+		return sanctionedDate;
+	}
+
+	public void setSanctionedDate(Long sanctionedDate) {
+		this.sanctionedDate = sanctionedDate;
+	}
+
+	public Short getInstallmentType() {
+		return installmentType;
+	}
+
+	public void setInstallmentType(Short installmentType) {
+		this.installmentType = installmentType;
+	}
+
+	public Integer getSanctionedAmount() {
+		return sanctionedAmount;
+	}
+
+	public void setSanctionedAmount(Integer sanctionedAmount) {
+		this.sanctionedAmount = sanctionedAmount;
+	}
+
+	public Integer getDrawingLimit() {
+		return drawingLimit;
+	}
+
+	public void setDrawingLimit(Integer drawingLimit) {
+		this.drawingLimit = drawingLimit;
+	}
+
+	
     
     
 }

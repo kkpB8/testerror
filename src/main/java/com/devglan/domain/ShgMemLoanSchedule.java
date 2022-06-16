@@ -32,6 +32,19 @@ public class ShgMemLoanSchedule {
   //@mohit 061221
     private String mtgGuid;
     private Integer mtgNo;
+    private Integer interestDemand ;
+    private Integer rescheduledOverdue;
+    private Integer status  ;
+    private Integer  orgInstallmentNo;
+    public Integer getOriginalPrincipalDemand() {
+		return originalPrincipalDemand;
+	}
+
+	public void setOriginalPrincipalDemand(Integer originalPrincipalDemand) {
+		this.originalPrincipalDemand = originalPrincipalDemand;
+	}
+
+	private Integer originalPrincipalDemand;
 
     public String getMtgGuid() {
         return mtgGuid;
@@ -177,4 +190,38 @@ public class ShgMemLoanSchedule {
     public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
     }
+
+	public Integer getInterestDemand() {
+		return interestDemand;
+	}
+
+	public void setInterestDemand(Integer interestDemand) {
+		this.interestDemand = interestDemand;
+	}
+
+	public Integer getRescheduledOverdue() {
+		return rescheduledOverdue;
+	}
+
+	public void setRescheduledOverdue(Integer rescheduledOverdue) {
+		this.rescheduledOverdue = rescheduledOverdue;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public Integer getOrgInstallmentNo() {
+		return orgInstallmentNo;
+	}
+
+	public void setOrgInstallmentNo(Integer orgInstallmentNo) {
+		this.orgInstallmentNo = orgInstallmentNo;
+	}
+    
+    
 }

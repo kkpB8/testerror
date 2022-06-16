@@ -86,6 +86,22 @@ public class VoMemLoanScheduleEntity implements Serializable {
     private Integer loanNo;
 
 
+    @Column(name = "interest_demand")
+    private Integer interestDemand ;
+
+    @Column(name = "rescheduled_overdue")
+    private Integer rescheduledOverdue;
+    
+    @Column(name = "original_principal_demand")
+    private Integer originalPrincipalDemand;
+    
+    @Column(name = "status")
+    private Integer status  ;
+
+    @Column(name = "org_installment_no")
+    private Integer  orgInstallmentNo;
+
+    
     public BigInteger getVoMemberLoanUid() {
         return voMemberLoanUid;
     }
@@ -273,6 +289,53 @@ public class VoMemLoanScheduleEntity implements Serializable {
 
 	public void setLoanNo(Integer loanNo) {
 		this.loanNo = loanNo;
+	}
+
+	
+	
+	public Integer getInterestDemand() {
+		return interestDemand;
+	}
+
+	public void setInterestDemand(Integer interestDemand) {
+		this.interestDemand = interestDemand;
+	}
+
+	public Integer getRescheduledOverdue() {
+		return rescheduledOverdue;
+	}
+
+	public void setRescheduledOverdue(Integer rescheduledOverdue) {
+		this.rescheduledOverdue = rescheduledOverdue;
+	}
+	
+	
+	
+
+	public Integer getOriginalPrincipalDemand() {
+		return originalPrincipalDemand;
+	}
+
+	public void setOriginalPrincipalDemand(Integer originalPrincipalDemand) {
+		this.originalPrincipalDemand = originalPrincipalDemand;
+	}
+	
+	
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public Integer getOrgInstallmentNo() {
+		return orgInstallmentNo;
+	}
+
+	public void setOrgInstallmentNo(Integer orgInstallmentNo) {
+		this.orgInstallmentNo = orgInstallmentNo;
 	}
 
 	@Override

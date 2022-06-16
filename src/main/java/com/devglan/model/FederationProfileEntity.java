@@ -157,6 +157,9 @@ FederationProfileEntity {
     
     //@Anshul 210921
     private String approver;
+    
+    @Column(name = "inactive_reason")
+    private Integer inactiveReason;
 
     public String getApprover() {
 		return approver;
@@ -708,6 +711,14 @@ FederationProfileEntity {
 
 	public void setIsComplete(Integer isComplete) {
 		this.isComplete = isComplete;
+	}
+
+	public Integer getInactiveReason() {
+		return inactiveReason;
+	}
+
+	public void setInactiveReason(Integer inactiveReason) {
+		this.inactiveReason = inactiveReason;
 	}
 
 

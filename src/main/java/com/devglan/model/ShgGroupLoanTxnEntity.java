@@ -118,6 +118,18 @@ public class ShgGroupLoanTxnEntity implements Serializable {
 
     @Column(name = "period")
     private Integer period;
+    
+    @Column(name = "misc_charges")
+    private Integer miscCharges;
+
+    @Column(name = "subvention")
+    private Integer subvention;
+
+    @Column(name = "loan_type")
+    private Integer loanType;
+    
+    @Column(name = "is_loan_reschedule")
+    private Integer isLoanReschedule;
 
 
     public void setUid(BigInteger uid) {
@@ -417,6 +429,39 @@ public class ShgGroupLoanTxnEntity implements Serializable {
 	public void setPeriod(Integer period) {
 		this.period = period;
 	}
-    
-    
+
+	public Integer getMiscCharges() {
+		return miscCharges;
+	}
+
+	public void setMiscCharges(Integer miscCharges) {
+		this.miscCharges = miscCharges;
+	}
+
+	public Integer getSubvention() {
+		return subvention;
+	}
+
+	public void setSubvention(Integer subvention) {
+		this.subvention = subvention;
+	}
+
+	public Integer getLoanType() {
+		return loanType;
+	}
+
+	public void setLoanType(Integer loanType) {
+		this.loanType = loanType;
+	}
+
+	public Integer getIsLoanReschedule() {
+		return isLoanReschedule;
+	}
+
+	public void setIsLoanReschedule(Integer isLoanReschedule) {
+		this.isLoanReschedule = isLoanReschedule;
+	}
+	
+	
+        
 }

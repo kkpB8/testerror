@@ -218,6 +218,15 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 	@Autowired
 	private ClfMemLoanDao clfMemLoanDao;
 
+	@Autowired
+	private ClfFinTxnDetGrpDao clfFinTxnDetGrpDao;
+
+	@Autowired
+	private ClfGroupLoanScheduleDao clfGroupLoanScheduleDao;
+
+	@Autowired
+	private ClfGroupLoanDao clfGroupLoanDao;
+
 	public TenantsEntity findByIdentifier(String identifier) {
 		TenantsEntity tenants = tenantsDao.findByIdentifier(identifier);
 
@@ -1426,6 +1435,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 							} else if (fileMappingType.contains(ServiceConstants.federationoProfilePhoto)) {
 								federationProfilePhotoDocId.put(ServiceConstants.federationoProfilePhoto,
 										documentDetailsEntityAfterSave.getDocumentId());
+								//federationProfilePhotoDocId.add()
 
 							}
 						} catch (IOException e) {
@@ -2015,7 +2025,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 						//	shgGroupLoan.setLoanApplicationId(null);
 						//	} cbo_id +loan_no 
 						ShgGroupLoanEntity shgGroupLoanEntity1 = shgGroupLoanDao.
-								findLoanByCboIdLoanNo(mtg.getCboId(),shgGroupLoan.getLoanNo());
+								findLoanByCboIdLoanNo(mtg.getCboId(),shgGroupLoan.getLoanNo(),shgGroupLoan.getInstallmentNo());
 						ShgGroupLoanEntity shgGroupLoanEntity = MeetingMapper.map(shgGroupLoan);
 						if(shgGroupLoanEntity1 !=null) {
 							shgGroupLoanEntity.setUid(shgGroupLoanEntity1.getUid());
@@ -2043,7 +2053,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 								ShgGroupLoanScheduleEntity shgGroupLoanScheduleEntity = MeetingMapper.map(shgGroupLoanSchedule);
 								ShgGroupLoanScheduleEntity shgGroupLoanScheduleEntity1 = shgGroupLoanScheduleDao.
 										findByParam(mtg.getCboId(), shgGroupLoanSchedule.getLoanNo(),
-												shgGroupLoanSchedule.getInstallmentNo(),shgGroupLoanSchedule.getSubInstallmentNo());
+												shgGroupLoanSchedule.getInstallmentNo(),shgGroupLoanSchedule.getSubInstallmentNo(),shgGroupLoanSchedule.getOrgInstallmentNo(),shgGroupLoanSchedule.getStatus());
 								if(shgGroupLoanScheduleEntity1!=null) {
 									shgGroupLoanScheduleEntity.setUid(shgGroupLoanScheduleEntity1.getUid());
 									shgGroupLoanScheduleEntity.setShgGroupLoanUid
@@ -2103,7 +2113,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 								ShgMemLoanScheduleEntity shgMemLoanScheduleEntity = MeetingMapper.map(shgMemLoanSchedule);
 								ShgMemLoanScheduleEntity shgMemLoanScheduleEntity1 = shgMemLoanScheduleDao.
 										findByParam(mtg.getCboId(), shgMemLoanSchedule.getLoanNo(),
-												shgMemLoanSchedule.getInstallmentNo(),shgMemLoanSchedule.getSubInstallmentNo());
+												shgMemLoanSchedule.getInstallmentNo(),shgMemLoanSchedule.getSubInstallmentNo(),shgMemLoanSchedule.getOrgInstallmentNo(),shgMemLoanSchedule.getStatus());
 								if(shgMemLoanScheduleEntity1!=null) {
 									shgMemLoanScheduleEntity.setUid(shgMemLoanScheduleEntity1.getUid());
 									shgMemLoanScheduleEntity.setShgMtgUid(shgMemLoanScheduleEntity1.getShgMtgUid());
@@ -2558,7 +2568,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 								VoGroupLoanScheduleEntity voGroupLoanScheduleEntity = VoMeetingMapper.map(voGroupLoanSchedule);		
 								VoGroupLoanScheduleEntity voGroupLoanScheduleEntity1 = voGroupLoanScheduleDao.
 										findByParam(mtg.getCboId(), voGroupLoanSchedule.getLoanNo(),
-												voGroupLoanSchedule.getInstallmentNo(),voGroupLoanSchedule.getSubInstallmentNo());
+												voGroupLoanSchedule.getInstallmentNo(),voGroupLoanSchedule.getSubInstallmentNo(),voGroupLoanSchedule.getOrgInstallmentNo(),voGroupLoanSchedule.getStatus());
 								if(voGroupLoanScheduleEntity1!=null) {
 									voGroupLoanScheduleEntity.setUid(voGroupLoanScheduleEntity1.getUid());
 									voGroupLoanScheduleEntity.setVoGroupLoanUid(voGroupLoanScheduleEntity1.getVoGroupLoanUid());
@@ -2614,7 +2624,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 								VoMemLoanScheduleEntity voMemLoanScheduleEntity = VoMeetingMapper.map(voMemLoanSchedule);
 								VoMemLoanScheduleEntity voMemLoanScheduleEntity1 = voMemLoanScheduleDao.
 										findByParam(mtg.getCboId(), voMemLoanSchedule.getLoanNo(),
-												voMemLoanSchedule.getInstallmentNo(),voMemLoanSchedule.getSubInstallmentNo());
+												voMemLoanSchedule.getInstallmentNo(),voMemLoanSchedule.getSubInstallmentNo(),voMemLoanSchedule.getOrgInstallmentNo(),voMemLoanSchedule.getStatus());
 								if(voMemLoanScheduleEntity1!=null) {
 									voMemLoanScheduleEntity.setUid(voMemLoanScheduleEntity1.getUid());
 									voMemLoanScheduleEntity.setVoMtgUid(voMemLoanScheduleEntity1.getVoMtgUid());
@@ -2666,10 +2676,12 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 		ShgMtgEntity shgMtgEntity = shgMtgDao.findOne(uid);
 		if(shgMtgEntity!=null) {
 			shgMemLoanDao.updateShgMemLoan(shgMtgEntity.getCboId(), shgMtgEntity.getMtgNo());
+	                                shgMemLoanDao.updateShgMemLoan1(shgMtgEntity.getCboId(), shgMtgEntity.getMtgNo());
 			shgGroupLoanDao.updateShgGroupLoan(shgMtgEntity.getCboId(), shgMtgEntity.getMtgNo());
-			shgMemLoanScheduleDao.updateShgMemLoanSchedule(uid);
+                                                shgGroupLoanDao.updateShgGroupLoan1(shgMtgEntity.getCboId(), shgMtgEntity.getMtgNo());
+			shgMemLoanScheduleDao.updateShgMemLoanSchedule(uid,shgMtgEntity.getCboId(), shgMtgEntity.getMtgNo());
 			shgMemLoanScheduleDao.deleteShgMemLoanSchedule(uid);
-			shgGroupLoanScheduleDao.updateShgGroupLoanSchedule(uid);
+			shgGroupLoanScheduleDao.updateShgGroupLoanSchedule(uid,shgMtgEntity.getCboId(), shgMtgEntity.getMtgNo());
 			shgGroupLoanScheduleDao.deleteShgGroupLoanSchedule(uid);
 			shgMtgDao.deleteShgMtg(uid);
 		}
@@ -2679,10 +2691,12 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 		VoMtgEntity voMtgEntity = voMtgDao.findOne(uid);
 		if(voMtgEntity!=null) {
 			voMemLoanDao.updateVoMemLoan(voMtgEntity.getCboId(), voMtgEntity.getMtgNo());
+                                                voMemLoanDao.updateVoMemLoan1(voMtgEntity.getCboId(), voMtgEntity.getMtgNo());
 			voGroupLoanDao.updateVoGroupLoan(voMtgEntity.getCboId(), voMtgEntity.getMtgNo());
-			voMemLoanScheduleDao.updateVoMemLoanSchedule(uid);
+                                                voGroupLoanDao.updateVoGroupLoan1(voMtgEntity.getCboId(), voMtgEntity.getMtgNo());
+			voMemLoanScheduleDao.updateVoMemLoanSchedule(uid,voMtgEntity.getCboId(), voMtgEntity.getMtgNo());
 			voMemLoanScheduleDao.deleteVoMemLoanSchedule(uid);
-			voGroupLoanScheduleDao.updateVoGroupLoanSchedule(uid);
+			voGroupLoanScheduleDao.updateVoGroupLoanSchedule(uid,voMtgEntity.getCboId(), voMtgEntity.getMtgNo());
 			voGroupLoanScheduleDao.deleteVoGroupLoanSchedule(uid);
 			voMtgDao.deleteVoMtg(uid);
 		}
@@ -2705,11 +2719,28 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 		return  futureItems;
 	}
 
+	private List<ClfGroupLoanScheduleEntity> getFutureGrpLoanInstallments(List<ClfGroupLoanScheduleEntity> scheduleList){
+		List<ClfGroupLoanScheduleEntity> futureItems = scheduleList.stream().filter((item)->{
+			return  item.getLastPaidDate1() == null;
+		}).collect(Collectors.toList());
+		return  futureItems;
+	}
+
 	private Integer getTotalInstallmentPay(List<ClfMemLoanScheduleEntity> scheduleList,Integer installmentNo){
 		Integer loanRepaid = 0;
 		for(ClfMemLoanScheduleEntity item: scheduleList){
 			if(item.getInstallmentNo() == installmentNo && item.getLastPaidDate1() != null && item.getLoanRePaid() != null){
 				loanRepaid = loanRepaid + item.getLoanRePaid();
+			}
+		}
+		return  loanRepaid;
+	}
+
+	private Integer getTotalGrpInstallmentPay(List<ClfGroupLoanScheduleEntity> scheduleList,Integer installmentNo){
+		Integer loanRepaid = 0;
+		for(ClfGroupLoanScheduleEntity item: scheduleList){
+			if(item.getInstallmentNo() == installmentNo && item.getLastPaidDate1() != null && item.getLoanRepaid() != null){
+				loanRepaid = loanRepaid + item.getLoanRepaid();
 			}
 		}
 		return  loanRepaid;
@@ -2725,19 +2756,30 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 		return  null;
 	}
 
+	private ClfGroupLoanScheduleEntity getLastPaidGrpInstallment(List<ClfGroupLoanScheduleEntity> scheduleList){
+		List<ClfGroupLoanScheduleEntity> onlyPaidInstls = scheduleList.stream().filter((item)->{
+			return  item.getLastPaidDate1()!= null;
+		}).collect(Collectors.toList());
+		if(onlyPaidInstls.size()>0){
+			return onlyPaidInstls.get(onlyPaidInstls.size()-1);
+		}
+		return  null;
+	}
+
 	public void processLoanPaymentVouchers(){
        List<ClfFinTxnDetMemEntity> clfFinTxnDetMemEntityList = clfFinTxnDetMemDao.getUnProcessedPayments();
        List<ClfMemLoanScheduleEntity> updatedInstallments = new ArrayList<>();
+	   Boolean loanFullyRepaid = false;
 	   for(ClfFinTxnDetMemEntity clfFinTxnDetMemEntity:clfFinTxnDetMemEntityList) {
 		    Integer paidAmount = clfFinTxnDetMemEntity.getAmount();
 			Date txnDate = clfFinTxnDetMemEntity.getTxnDate1();
 		   List<ClfMemLoanScheduleEntity> clfMemLoanScheduleEntityList = clfMemLoanScheduleDao.findByLoanNo(clfFinTxnDetMemEntity.getLoanNo(),clfFinTxnDetMemEntity.getCboId());
+		   ClfMemLoanScheduleEntity lastScheduleEntity = clfMemLoanScheduleEntityList.get(clfMemLoanScheduleEntityList.size()-1);
 		   //System.out.println(clfMemLoanScheduleEntityList.size());
 		   List<ClfMemLoanScheduleEntity> futureInsts = this.getFutureMemLoanInstallments(clfMemLoanScheduleEntityList);
 		    ClfMemLoanEntity clfMemLoanEntity = clfMemLoanDao.findByLoanNo(clfFinTxnDetMemEntity.getLoanNo(),clfFinTxnDetMemEntity.getCboId());
 		 if(clfMemLoanEntity != null) {
 			 for (ClfMemLoanScheduleEntity clfMemLoanScheduleEntity : futureInsts) {
-
 				 //fixed principal
 				 //   if (clfMemLoanScheduleEntity.getInstallmentType() == 1) {
 				 ClfMemLoanScheduleEntity lastPaidInstallment = this.getLastPaidInstallment(clfMemLoanScheduleEntityList);
@@ -2830,7 +2872,9 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					 break;
 				 }
 
-
+				if(clfMemLoanScheduleEntity.getUid().equals(lastScheduleEntity.getUid()) && clfMemLoanScheduleEntity.getRepaid().equals(new Short("1"))){
+				clfMemLoanEntity.setCompletionFlag(1);
+				}
 				 // }
 //			   else {
 //				   //TODO emi
@@ -2847,5 +2891,133 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 	   this.clfFinTxnDetMemDao.save(clfFinTxnDetMemEntityList);
 	   System.out.println(clfFinTxnDetMemEntityList.size());
 	}
+
+	public void processGroupLoanPaymentVouchers(){
+		List<ClfFinTxnDetGrpEntity> clfFinTxnDetGrpEntityList = clfFinTxnDetGrpDao.getUnProcessedPayments();
+		List<ClfGroupLoanScheduleEntity> updatedInstallments = new ArrayList<>();
+		for(ClfFinTxnDetGrpEntity clfFinTxnDetGrpEntity:clfFinTxnDetGrpEntityList) {
+			Integer paidAmount = clfFinTxnDetGrpEntity.getAmount();
+			Date txnDate = clfFinTxnDetGrpEntity.getTxnDate1();
+			List<ClfGroupLoanScheduleEntity> clfGroupLoanScheduleEntityList = clfGroupLoanScheduleDao.findByLoanNo(clfFinTxnDetGrpEntity.getLoanNo(),clfFinTxnDetGrpEntity.getCboId());
+			ClfGroupLoanScheduleEntity lastScheduleEntity = clfGroupLoanScheduleEntityList.get(clfGroupLoanScheduleEntityList.size()-1);
+
+			//System.out.println(clfMemLoanScheduleEntityList.size());
+			List<ClfGroupLoanScheduleEntity> futureInsts = this.getFutureGrpLoanInstallments(clfGroupLoanScheduleEntityList);
+			ClfGroupLoanEntity clfGroupLoanEntity = clfGroupLoanDao.findByLoanNo(clfFinTxnDetGrpEntity.getLoanNo(),clfFinTxnDetGrpEntity.getCboId());
+			if(clfGroupLoanEntity != null) {
+				for (ClfGroupLoanScheduleEntity clfGroupLoanScheduleEntity : futureInsts) {
+
+					//fixed principal
+					//   if (clfMemLoanScheduleEntity.getInstallmentType() == 1) {
+					ClfGroupLoanScheduleEntity lastPaidInstallment = this.getLastPaidGrpInstallment(clfGroupLoanScheduleEntityList);
+
+					Calendar cal = Calendar.getInstance();
+					BigInteger loanOsActual;
+					Integer osIntrest = 0;
+					if (lastPaidInstallment != null) {
+						loanOsActual = lastPaidInstallment.getLoanOsActual()!=null?lastPaidInstallment.getLoanOsActual():lastPaidInstallment.getLoanOsSchedule();
+						cal.setTime(lastPaidInstallment.getLastPaidDate1());
+						if (lastPaidInstallment.getInterestDemandActual() != null) {
+							Integer intrestRepaid = lastPaidInstallment.getInterestPaid() == null ? 0 : lastPaidInstallment.getInterestPaid();
+							//if any partially paid intrest in last payment
+							osIntrest = lastPaidInstallment.getInterestDemandActual() - intrestRepaid;
+						}
+					} else {
+						//if not installment paid then disbursed date of loan --> for first installment
+						cal.setTime(clfGroupLoanEntity.getDisbursementDate1());
+						loanOsActual = BigInteger.valueOf(clfGroupLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
+					}
+
+					Date lastMonthInstlDate = cal.getTime();
+					Long diffInMillies2 = Math.abs(txnDate.getTime() - lastMonthInstlDate.getTime());
+					Long days = TimeUnit.DAYS.convert(diffInMillies2, TimeUnit.MILLISECONDS);
+
+					Integer currentPrincipal = clfGroupLoanScheduleEntity.getPrincipalDemand();
+
+					//if subInstallment then adjust principal from previous payments
+					if (clfGroupLoanScheduleEntity.getSubInstallmentNo() > 1) {
+						Integer loanrepaid = this.getTotalGrpInstallmentPay(clfGroupLoanScheduleEntityList, clfGroupLoanScheduleEntity.getInstallmentNo());
+						currentPrincipal = currentPrincipal - loanrepaid;
+					}
+					Integer currentInterest = Math.round(loanOsActual.intValue() * clfGroupLoanEntity.getInterestRate() * (Float.valueOf(days) / 365) / 100) + osIntrest;
+					Integer totalCurDemand = currentPrincipal + currentInterest;
+
+					clfGroupLoanScheduleEntity.setGapDaysActual(days.intValue());
+					clfGroupLoanScheduleEntity.setLastPaidDate1(new Timestamp(txnDate.getTime()));
+					clfGroupLoanScheduleEntity.setBankCode(clfFinTxnDetGrpEntity.getBankCode());
+					clfGroupLoanScheduleEntity.setLoanRepaid(currentPrincipal);
+					clfGroupLoanScheduleEntity.setInterestPaid(currentInterest);
+					clfGroupLoanScheduleEntity.setRepaid(Short.valueOf("1"));
+					clfGroupLoanScheduleEntity.setInterestDemandActual(currentInterest);
+					clfGroupLoanScheduleEntity.setTxnMtgNo(clfFinTxnDetGrpEntity.getMtgNo());
+					clfGroupLoanScheduleEntity.setModePayment(clfFinTxnDetGrpEntity.getModePayment().intValue());
+					clfGroupLoanScheduleEntity.setUpdatedOn1(new Timestamp(txnDate.getTime()));
+					clfGroupLoanScheduleEntity.setInterestDemandActual(currentInterest);
+
+					//if paid amount is same as demand(emi)
+					if (paidAmount.equals(totalCurDemand)) {
+						updatedInstallments.add(clfGroupLoanScheduleEntity);
+						break;
+					} else if (paidAmount > totalCurDemand) {
+						//if paidAmount is excess then deduct current demand value and continue to update next installments
+						paidAmount = paidAmount - totalCurDemand;
+						updatedInstallments.add(clfGroupLoanScheduleEntity);
+					} else if (paidAmount < totalCurDemand) {
+						//if paidAmount is lesser than current demand then adjust intrest first and add subinstallment for remaining
+						Integer loanRepaid = paidAmount - currentInterest;
+						clfGroupLoanScheduleEntity.setRepaid(Short.valueOf("0"));
+
+						clfGroupLoanScheduleEntity.setLoanRepaid(loanRepaid);
+						clfGroupLoanScheduleEntity.setLoanOsActual(loanOsActual.subtract(new BigInteger(loanRepaid.toString())));
+
+						clfGroupLoanEntity.setPrincipalRepaid(loanRepaid);
+						clfGroupLoanEntity.setPrincipalOverdue(clfGroupLoanScheduleEntity.getLoanOsActual().intValue());
+						if (clfGroupLoanEntity.getPrincipalOverdue() <= 0) {
+							clfGroupLoanEntity.setCompletionFlag((short) 1);
+						}
+
+						// Serializes `ClfMemLoanScheduleEntity(currentDemand)` object to a `byte[]` array
+						byte[] bytes = SerializationUtils.serialize(clfGroupLoanScheduleEntity);
+						ClfGroupLoanScheduleEntity subinstlEntity = (ClfGroupLoanScheduleEntity) SerializationUtils.deserialize(bytes);
+						if (currentInterest < paidAmount) {
+							clfGroupLoanScheduleEntity.setInterestPaid(currentInterest);
+						} else {
+							clfGroupLoanScheduleEntity.setInterestPaid(paidAmount);
+
+						}
+						updatedInstallments.add(clfGroupLoanScheduleEntity);
+						subinstlEntity.setGapDaysSchedule(clfGroupLoanScheduleEntity.getGapDaysSchedule());
+
+						subinstlEntity.setSubInstallmentNo(clfGroupLoanScheduleEntity.getSubInstallmentNo() + 1);
+						subinstlEntity.setRepaid(Short.valueOf("0"));
+						subinstlEntity.setLoanRepaid(null);
+						subinstlEntity.setInterestPaid(null);
+						subinstlEntity.setLastPaidDate1(null);
+						subinstlEntity.setLoanOsActual(null);
+						subinstlEntity.setUid(null);
+						updatedInstallments.add(subinstlEntity);
+						break;
+					}
+
+
+					// }
+//			   else {
+//				   //TODO emi
+//			   }
+					if(clfGroupLoanEntity.getUid().equals(lastScheduleEntity.getUid()) && clfGroupLoanScheduleEntity.getRepaid().equals(new Short("1"))){
+						clfGroupLoanEntity.setCompletionFlag(new Short("1"));
+					}
+				}
+				clfFinTxnDetGrpEntity.setIsProcessed(1);
+				this.clfGroupLoanScheduleDao.save(updatedInstallments);
+				this.clfGroupLoanDao.save(clfGroupLoanEntity);
+				updatedInstallments.clear();
+			}
+		}
+		//
+		this.clfFinTxnDetGrpDao.save(clfFinTxnDetGrpEntityList);
+		System.out.println(clfFinTxnDetGrpEntityList.size());
+	}
+
 
 }

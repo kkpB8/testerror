@@ -21,4 +21,11 @@ public interface ShgMemLoanDao extends JpaRepository<ShgMemLoanEntity, Long>, Jp
             " where completion_flag=true and cbo_id=?1 and mtg_no=?2) b "+
             " where shg_mem_loan.cbo_id=b.cbo_id and shg_mem_loan.loan_no=b.loan_no")
     void updateShgMemLoan(BigInteger cboId, Integer mtgNo);
+
+@Modifying
+    @Query(nativeQuery = true, value = "update shg_mem_loan set period=b.period, interest_rate=b.interest_rate from " +
+            "(select cbo_id,loan_no,period,interest_rate from  shg_mem_loan_txn " +
+            "where cbo_id=?1 and mtg_no=?2) b " +
+            "where shg_mem_loan.cbo_id=b.cbo_id and shg_mem_loan.loan_no=b.loan_no")
+    void updateShgMemLoan1(BigInteger cboId, Integer mtgNo);
 }

@@ -32,4 +32,11 @@ public interface VoGroupLoanDao extends JpaRepository<VoGroupLoanEntity, BigInte
             " where completion_flag=true and cbo_id=?1 and mtg_no=?2) b "+
             " where vo_group_loan.cbo_id=b.cbo_id and vo_group_loan.loan_no=b.loan_no")
     void updateVoGroupLoan(BigInteger cboId, Integer mtgNo);
+
+ @Modifying
+    @Query(nativeQuery = true, value = "update vo_group_loan set period=b.period, interest_rate=b.interest_rate from "+
+            "(select cbo_id,loan_no,period,interest_rate from vo_group_loan_txn "+
+            "where cbo_id=?1 and mtg_no=?2) b "+
+            "where vo_group_loan.cbo_id=b.cbo_id and vo_group_loan.loan_no=b.loan_no")
+    void updateVoGroupLoan1(BigInteger cboId, Integer mtgNo);
 }
