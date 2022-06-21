@@ -265,7 +265,17 @@ public class SchedulerConfig{
 		  e.printStackTrace();
 	  }
 	  }
-
+  
+  
+@Scheduled(initialDelay = 10000,fixedDelay = 120000)
+public void runLoanScheduler() {
+        logger.info("Loan Scheduler started successfully");
+        System.out.println("Running loan scheduler.....");
+        this.tenantService.processLoanPaymentVouchers();
+        this.tenantService.processGroupLoanPaymentVouchers();
+    }
+  
+  
    @Scheduled(cron = "0 0 0 * * *",zone = "Indian/Maldives")
    public void meetingSummary() {
       logger.info("meetingSummary - > Scheduler started successfully");

@@ -33,4 +33,5 @@ public interface ServiceConstants {
   public static String cboKYCTANNoPhoto = "8000";
   public static String shgProfilePhoto = "2000";
   public static String federationoProfilePhoto = "9000";
+  public enum loanTxnProcessFlag { PROCESSED,NOT_PROCESSED}
 }
