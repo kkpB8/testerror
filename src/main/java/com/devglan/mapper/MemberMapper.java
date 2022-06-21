@@ -376,6 +376,7 @@ public class MemberMapper {
             memberBankDetailsEntity.setNpciStatus(memberBank.getNpci_status());
             memberBankDetailsEntity.setIsVerified(memberBank.getIs_verified());
             memberBankDetailsEntity.setIsComplete(memberBank.getIs_complete());
+            memberBankDetailsEntity.setInactiveDate((memberBank.getInactive_date() != null) ? DateUtils.secondsToDateConverter(memberBank.getInactive_date()) : null);
         }
         catch(Exception e){
             e.printStackTrace();
@@ -432,6 +433,7 @@ public class MemberMapper {
         memberBank.setNpci_status(memberBankDetailsEntity.getNpciStatus());
         memberBank.setIs_verified(memberBankDetailsEntity.getIsVerified());
         memberBank.setIs_complete (memberBankDetailsEntity.getIsComplete());
+        memberBank.setInactive_date((memberBankDetailsEntity.getInactiveDate() != null) ? DateUtils.dateToSecondsConverter(memberBankDetailsEntity.getInactiveDate()) : null);
         return memberBank;
     }
 

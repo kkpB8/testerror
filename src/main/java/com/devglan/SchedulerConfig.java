@@ -265,20 +265,28 @@ public class SchedulerConfig{
 		  e.printStackTrace();
 	  }
 	  }
-    @Scheduled(initialDelay = 10000,fixedDelay = 120000)
-    public void runLoanScheduler() {
+  
+  
+@Scheduled(initialDelay = 10000,fixedDelay = 120000)
+public void runLoanScheduler() {
         logger.info("Loan Scheduler started successfully");
-
         System.out.println("Running loan scheduler.....");
         this.tenantService.processLoanPaymentVouchers();
         this.tenantService.processGroupLoanPaymentVouchers();
     }
-    /*
-	 * @Scheduled(initialDelay = 10000,fixedDelay = 10000) public void
-	 * meetingSummary() {
-	 * logger.info("meetingSummary - > Scheduler started successfully"); BigInteger
-	 * bg = new BigInteger("210"); tenantService.createMeetingSummary(bg); }
-	 */
+  
+  
+   @Scheduled(cron = "0 0 0 * * *",zone = "Indian/Maldives")
+   public void meetingSummary() {
+      logger.info("meetingSummary - > Scheduler started successfully");
+      Boolean b = tenantService.createMeetingSummary();
+      if(b){
+         System.out.println("update successfully!!");
+      }else{
+         System.out.println("update failed!!");
+      }
+   }
+
 }
 
 

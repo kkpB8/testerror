@@ -156,7 +156,9 @@ public interface VoMtgEntityDao extends CrudRepository<VoMtgEntity, BigInteger>,
  	@Query("FROM VoMtgEntity c WHERE c.mtgNo = :mtgNo and c.cboId= :cboId")
 	VoMtgEntity getPreviousMtg(@Param("mtgNo")final Integer mtgNo,@Param("cboId")final  BigInteger cboId);
 
- 
+   @Query(nativeQuery = true, value = "select uid from vo_mtg where summary_flag!=?1")
+   List<BigInteger> getMtgIdsForSummary(Boolean summaryFlag);
+
 
     
 
