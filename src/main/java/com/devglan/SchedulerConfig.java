@@ -266,12 +266,17 @@ public class SchedulerConfig{
 	  }
 	  }
 
-	/*
-	 * @Scheduled(initialDelay = 10000,fixedDelay = 10000) public void
-	 * meetingSummary() {
-	 * logger.info("meetingSummary - > Scheduler started successfully"); BigInteger
-	 * bg = new BigInteger("210"); tenantService.createMeetingSummary(bg); }
-	 */
+   @Scheduled(cron = "0 0 0 * * *",zone = "Indian/Maldives")
+   public void meetingSummary() {
+      logger.info("meetingSummary - > Scheduler started successfully");
+      Boolean b = tenantService.createMeetingSummary();
+      if(b){
+         System.out.println("update successfully!!");
+      }else{
+         System.out.println("update failed!!");
+      }
+   }
+
 }
 
 

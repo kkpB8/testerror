@@ -93,4 +93,22 @@ public static Date secondsToDateConverterLong(Long seconds){
         else
             return 0;
         }
+
+    public static Long TimestampToSecondsConverterLong(Timestamp dateTime) {
+        if(dateTime!=null) {
+            long ldt = dateTime.getTime()/1000;
+            Integer intDate = (int) ldt;
+            return ldt;
+        }
+        else
+            return new Long("0");
+    }
+    public static Timestamp secondsToTimestampConverterLong(Long seconds) {
+        if(seconds!=0) {
+            long millis = seconds;
+            return new Timestamp(millis);
+        }
+        else
+            return null;
+    }
 }
