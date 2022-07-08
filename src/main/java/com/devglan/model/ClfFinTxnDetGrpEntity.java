@@ -69,7 +69,7 @@ public class ClfFinTxnDetGrpEntity {
     @Column(name = "is_processed")
     private Integer isProcessed;
     @Column(name = "cheque_no")
-    private Integer chequeNo;
+    private BigInteger chequeNo;
     @Column(name = "cheque_issue_date")
     private Date chequeIssueDate1;
     @Column(name = "cheque_recevied_date")
@@ -316,11 +316,11 @@ public class ClfFinTxnDetGrpEntity {
         this.isProcessed = isProcessed;
     }
 
-    public Integer getChequeNo() {
+    public BigInteger getChequeNo() {
         return chequeNo;
     }
 
-    public void setChequeNo(Integer chequeNo) {
+    public void setChequeNo(BigInteger chequeNo) {
         this.chequeNo = chequeNo;
     }
 

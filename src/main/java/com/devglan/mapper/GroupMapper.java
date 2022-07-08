@@ -306,6 +306,7 @@ public class GroupMapper {
             cboBankDetailsEntity.setNpciStatus(cboBankDetails.getNpci_status());
             cboBankDetailsEntity.setIsVerified(cboBankDetails.getIs_verified());
             cboBankDetailsEntity.setIsComplete(cboBankDetails.getIs_complete());
+            cboBankDetailsEntity.setInactiveDate((cboBankDetails.getInactive_date() != null) ? DateUtils.secondsToDateConverter(cboBankDetails.getInactive_date()) : null);
         }
         catch(Exception e){
             e.printStackTrace();
@@ -374,6 +375,7 @@ public class GroupMapper {
             cboBankDetails.setNpci_status(cboBankDetailsEntity.getNpciStatus());
             cboBankDetails.setIs_verified(cboBankDetailsEntity.getIsVerified());
             cboBankDetails.setIs_complete (cboBankDetailsEntity.getIsComplete());
+            cboBankDetails.setInactive_date((cboBankDetailsEntity.getInactiveDate() != null) ? DateUtils.dateToSecondsConverter(cboBankDetailsEntity.getInactiveDate()) : null);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -1018,6 +1020,11 @@ public class GroupMapper {
             federationProfileEntity.setPromoterCode(federationProfile.getPromoter_code());
             federationProfileEntity.setIsComplete(federationProfile.getIs_complete());
             federationProfileEntity.setInactiveReason(federationProfile.getInactiveReason());
+            federationProfileEntity.setRegistrationAct(federationProfile.getRegistration_act());
+            federationProfileEntity.setIsRegistered(federationProfile.getIs_registered());
+            federationProfileEntity.setMembershipFlag(federationProfile.getMembership_flag());
+            federationProfileEntity.setRegistrationNo(federationProfile.getRegistration_no());
+            federationProfileEntity.setRegistrationDate((federationProfile.getRegistration_date() != null) ? DateUtils.secondsToDateConverter(federationProfile.getRegistration_date()) : null);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -1175,6 +1182,12 @@ public class GroupMapper {
             federationProfile.setPromoter_code(federationProfileEntity.getPromoterCode());
             federationProfile.setIs_complete (federationProfileEntity.getIsComplete());
             federationProfile.setInactiveReason(federationProfileEntity.getInactiveReason());
+            federationProfile.setRegistration_date((federationProfileEntity.getRegistrationDate() != null) ? DateUtils.dateToSecondsConverter(federationProfileEntity.getRegistrationDate()) : null);
+            federationProfile.setRegistration_act(federationProfileEntity.getRegistrationAct());
+            federationProfile.setMembership_flag(federationProfileEntity.getMembershipFlag());
+            federationProfile.setRegistration_no(federationProfile.getRegistration_no());
+            federationProfile.setIs_registered(federationProfile.getIs_registered());
+
         }
         catch (Exception e){
             e.printStackTrace();

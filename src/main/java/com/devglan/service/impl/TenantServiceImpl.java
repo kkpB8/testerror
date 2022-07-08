@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -21,6 +22,7 @@ import com.devglan.domain.*;
 import com.devglan.domain.UploadVoMeeting;
 import com.devglan.domain.VoFinTxnVouchers;
 import com.devglan.model.*;
+import com.devglan.tenant.dao.PGFunctionProcedureService;
 import com.devglan.tenant.dao.*;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -145,7 +147,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 	@Autowired
 	private VoMemSettlementDao voMemSettlementDao;
 
-	
+
 	@Autowired
 	private ShgFinTxnDetMemDao shgFinTxnDetMemDao;
 
@@ -160,8 +162,8 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 	@Autowired
 	private TestDao testDao;
-	
-	
+
+
 	@Autowired
 	private VoMtgEntityDao voMtgDao;
 
@@ -197,15 +199,15 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 	@Autowired
 	private VoMtgDetEntityDao voMtgDetDao;
-	
+
 	@Autowired
-    private MemberInsuranceDao memberInsuranceDao;
+	private MemberInsuranceDao memberInsuranceDao;
 
 
 
 	@Autowired
 	private ShgFinTxnVouchersDao shgFinTxnVouchersDao;
-	
+
 	@Autowired
 	private VoFinTxnVouchersDao voFinTxnVouchersDao;
 
@@ -226,6 +228,12 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 	@Autowired
 	private ClfGroupLoanDao clfGroupLoanDao;
+  
+  @Autowired
+  private PGFunctionProcedureService pgFunctionProcedureService;
+
+	public TenantServiceImpl() {
+	}
 
 	public TenantsEntity findByIdentifier(String identifier) {
 		TenantsEntity tenants = tenantsDao.findByIdentifier(identifier);
@@ -673,8 +681,8 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					}
 					cboBankDetailsDao.save(cboBankDetailsEntityList);
 				}
-				
-			
+
+
 
 				// SAVE KYC DETAILS
 
@@ -715,7 +723,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					systemTagsDao.save(systemTagsEntityList);
 				}
 
-			
+
 				// add by mohit start
 				// SAVE shg designation
 				List<SHGDesignationEntity> shgDesignationEntityList = new ArrayList<SHGDesignationEntity>();
@@ -766,7 +774,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 								}
 							}
 						}
-						
+
 						BigInteger memberConsentFormPhotoDocIdInternal = new BigInteger("0");
 						if (memberConsentFormPhotoDocId != null) {
 							/*
@@ -780,7 +788,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 								}
 							}
 						}
-						
+
 						BigInteger memberBankPassbookPhotoDocIdInternal = new BigInteger("0");
 						/*
 						 * if(memberBankPassbookPhotoDocId!=null){ for(String keys :
@@ -1090,35 +1098,35 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				}
 			}
 			memberSystemTagsDao.save(memberSystemTagsEntityList);
-			
-			 //Member Insurance
-	        List<MemberInsuranceEntity> memberInsuranceEntityList = new ArrayList<MemberInsuranceEntity>();
-	        if (memberProfile.getMemberInsuranceList() != null && memberProfile.getMemberInsuranceList().size() > 0) {
-	            for (MemberInsurance memberInsuranceTemp : memberProfile.getMemberInsuranceList()) {
-	                MemberInsuranceEntity memberInsuranceEntity = null;
-	                if (memberInsuranceTemp.getInsurance_id() != null) {
-	                    memberInsuranceEntity = memberInsuranceDao.
-	                            findOne(memberInsuranceTemp.getInsurance_id());
-	                } else if (memberInsuranceTemp.getInsurance_type() != null) {
-	                    memberInsuranceEntity = memberInsuranceDao.
-	                            fetchByMemberCodeAndInsuranceType(memberInsuranceTemp.getInsurance_type(),memberInsuranceTemp.getMember_code());
-	                    if (memberInsuranceEntity != null) {
-	                        memberInsuranceTemp.setInsurance_id(memberInsuranceEntity
-	                                .getInsuranceId());
-	                    }
-	                }
 
-	                memberInsuranceTemp.setMember_code(memberId);
-	                memberInsuranceTemp.setCbo_id(memberProfile.getCbo_id());
-	                memberInsuranceTemp.setCreated_by(memberProfile.getCreated_by());
-	                if (memberProfile.getUpdated_by() != null)
-	                    memberInsuranceTemp.setUpdated_by(memberProfile.getUpdated_by());
-	                memberInsuranceEntity = MemberMapper.map(memberInsuranceTemp);
-	                memberInsuranceEntityList.add(memberInsuranceEntity);
-	            }
-	        }
-	        memberInsuranceDao.save(memberInsuranceEntityList);
-			
+			//Member Insurance
+			List<MemberInsuranceEntity> memberInsuranceEntityList = new ArrayList<MemberInsuranceEntity>();
+			if (memberProfile.getMemberInsuranceList() != null && memberProfile.getMemberInsuranceList().size() > 0) {
+				for (MemberInsurance memberInsuranceTemp : memberProfile.getMemberInsuranceList()) {
+					MemberInsuranceEntity memberInsuranceEntity = null;
+					if (memberInsuranceTemp.getInsurance_id() != null) {
+						memberInsuranceEntity = memberInsuranceDao.
+								findOne(memberInsuranceTemp.getInsurance_id());
+					} else if (memberInsuranceTemp.getInsurance_type() != null) {
+						memberInsuranceEntity = memberInsuranceDao.
+								fetchByMemberCodeAndInsuranceType(memberInsuranceTemp.getInsurance_type(),memberInsuranceTemp.getMember_code());
+						if (memberInsuranceEntity != null) {
+							memberInsuranceTemp.setInsurance_id(memberInsuranceEntity
+									.getInsuranceId());
+						}
+					}
+
+					memberInsuranceTemp.setMember_code(memberId);
+					memberInsuranceTemp.setCbo_id(memberProfile.getCbo_id());
+					memberInsuranceTemp.setCreated_by(memberProfile.getCreated_by());
+					if (memberProfile.getUpdated_by() != null)
+						memberInsuranceTemp.setUpdated_by(memberProfile.getUpdated_by());
+					memberInsuranceEntity = MemberMapper.map(memberInsuranceTemp);
+					memberInsuranceEntityList.add(memberInsuranceEntity);
+				}
+			}
+			memberInsuranceDao.save(memberInsuranceEntityList);
+
 
 			// SAVE KYC DETAILS
 			List<MemberKYCDetailsEntity> memberKYCDetailsEntityList = new ArrayList<MemberKYCDetailsEntity>();
@@ -1396,7 +1404,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 							modifiedName += "_" + new Timestamp(System.currentTimeMillis()) + "."
 									+ FilenameUtils.getExtension(uploadFile.getOriginalFilename());
-							
+
 
 							// FILE MODIFIED NAME
 
@@ -1553,7 +1561,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 					cboBankDetailsDao.save(cboBankDetailsEntityList);
 				}
-				
+
 
 				// SAVE KYC DETAILS
 				if (federationProfile.getCboKYCDetailsList() != null
@@ -1658,9 +1666,9 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 		try {
 			//TEST STARTS
 			// shg meeting
-			
+
 			/*  System.out.println(TransactionSynchronizationManager.isActualTransactionActive());
-      
+
 			TestEntity testEntity = new TestEntity();
 			testEntity.setTest("cbwjhdcjwehcjwkh");
 			testDao.save(testEntity);
@@ -1789,7 +1797,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					throw new Exception();
 				}
 			}
-			
+
 			//VALIDATION ON OPENING CLOSING BALANCE
 
 			if(shgMtgEntityValidation!=null) {
@@ -1863,7 +1871,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					shgFinTxnVouchersDao.save(shgFinTxnVouchersEntity);
 				}
 			}
-			
+
 			// shg meeting details
 			List<ShgMtgDet> shgMeetingDetailsList = shgMeeting.getShgMeetingDetailsList();
 			if(shgMeetingDetailsList!=null && shgMeetingDetailsList.size()>0) {
@@ -1928,7 +1936,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 							}
 						}
 
-						
+
 
 						// shg financial transaction detail member
 						List<ShgFinTxnDetMem> shgFinTxnDetMemList = shgMtgDet.getShgFinanceTransactionDetailMemberList();
@@ -2023,14 +2031,14 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					for (ShgGroupLoan shgGroupLoan : shgGroupLoanList) {
 						//	if(shgGroupLoan.getLoanApplicationId().equals(zeroBigInteger)) {
 						//	shgGroupLoan.setLoanApplicationId(null);
-						//	} cbo_id +loan_no 
+						//	} cbo_id +loan_no
 						ShgGroupLoanEntity shgGroupLoanEntity1 = shgGroupLoanDao.
 								findLoanByCboIdLoanNo(mtg.getCboId(),shgGroupLoan.getLoanNo(),shgGroupLoan.getInstallmentNo());
 						ShgGroupLoanEntity shgGroupLoanEntity = MeetingMapper.map(shgGroupLoan);
 						if(shgGroupLoanEntity1 !=null) {
 							shgGroupLoanEntity.setUid(shgGroupLoanEntity1.getUid());
 							shgGroupLoanEntity.setCboId(mtg.getCboId());
-							
+
 						}else {
 							shgGroupLoanEntity.setCboId(mtg.getCboId());
 						}
@@ -2057,16 +2065,16 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 								if(shgGroupLoanScheduleEntity1!=null) {
 									shgGroupLoanScheduleEntity.setUid(shgGroupLoanScheduleEntity1.getUid());
 									shgGroupLoanScheduleEntity.setShgGroupLoanUid
-									(shgGroupLoanScheduleEntity1.getShgGroupLoanUid());
-							shgGroupLoanScheduleEntity.setShgMtgUid(shgGroupLoanScheduleEntity1.getShgMtgUid());
+											(shgGroupLoanScheduleEntity1.getShgGroupLoanUid());
+									shgGroupLoanScheduleEntity.setShgMtgUid(shgGroupLoanScheduleEntity1.getShgMtgUid());
 								}else {
 									shgGroupLoanScheduleEntity.setUid(null);
 									shgGroupLoanScheduleEntity.setShgGroupLoanUid
-									(shgGroupLoanEntityAfterSave.getUid());
-							shgGroupLoanScheduleEntity.setShgMtgUid(mtg.getUid());
+											(shgGroupLoanEntityAfterSave.getUid());
+									shgGroupLoanScheduleEntity.setShgMtgUid(mtg.getUid());
 								}
 								shgGroupLoanScheduleEntity.setCboId(mtg.getCboId());
-								
+
 								/*
 								 * shgGroupLoanScheduleEntity.setMtgGuid(mtg.getMtgGuid());
 								 * shgGroupLoanScheduleEntity.setMtgNo(mtg.getMtgNo());
@@ -2093,7 +2101,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 							shgMemLoanEntity.setUid(shgMemLoanEntity1.getUid());
 							shgMemLoanEntity.setCboId(mtg.getCboId());
 						}else {
-							shgMemLoanEntity.setCboId(mtg.getCboId());	
+							shgMemLoanEntity.setCboId(mtg.getCboId());
 						}
 						if(shgMemLoanEntity.getMtgNo().equals(mtg.getMtgNo())) {
 							shgMemLoanEntity.setShgMtgUid(mtg.getUid());
@@ -2124,12 +2132,12 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 									shgMemLoanScheduleEntity.setShgMemberLoanUid(shgMemLoanEntityAfterSave.getUid());
 								}
 								shgMemLoanScheduleEntity.setCboId(mtg.getCboId());
-								
+
 								/*
 								 * shgMemLoanScheduleEntity.setMtgGuid(mtg.getMtgGuid());
 								 * shgMemLoanScheduleEntity.setMtgNo(mtg.getMtgNo());
 								 */
-								
+
 								shgMemLoanScheduleDao.save(shgMemLoanScheduleEntity);
 							}
 						}
@@ -2142,6 +2150,12 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				//  System.out.println("meeting summary response - " + resp);
 
 
+			}
+			try {
+				pgFunctionProcedureService.update_meeting_summary(mtg.getUid());
+				shgMtgDao.updateSummaryFlag(mtg.getUid(), Boolean.TRUE);
+			}catch (SQLException e){
+				System.out.println("Calculate summary failed!!");
 			}
 		} catch (Exception e) {
 
@@ -2245,7 +2259,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 			//MEETING NO SHOULD BE NEXT TO MAX MEETING NO
 			//MEETING NO SHOULD BE NEXT TO MAX MEETING NO
 			//if(voMeeting.getMtgType().equals(VoMtgEntity.zeroMeeting)) {
-				if(voMeeting.getMtgType() == VoMtgEntity.zeroMeeting) {
+			if(voMeeting.getMtgType() == VoMtgEntity.zeroMeeting) {
 				VoMtgEntity voMtgEntityPrv = voMtgDao.getPreviousMtg(voMeeting.getMtgNo()-1, voMeeting.getCboId());
 				if(voMeeting.getMtgNo()>1 && (voMtgEntityPrv==null)) {
 					dataToBeInserted=Boolean.FALSE;
@@ -2290,7 +2304,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					throw new Exception();
 				}
 			}
-			
+
 
 			//VALIDATION ON OPENING CLOSING BALANCE
 
@@ -2538,14 +2552,14 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 						//	if(shgGroupLoan.getLoanApplicationId().equals(zeroBigInteger)) {
 						//	shgGroupLoan.setLoanApplicationId(null);
 						//	}
-						
+
 						VoGroupLoanEntity voGroupLoanEntity1 = voGroupLoanDao.
 								findLoanByCboIdLoanNo(mtg.getCboId(),voGroupLoan.getLoanNo());
 						VoGroupLoanEntity voGroupLoanEntity = VoMeetingMapper.map(voGroupLoan);
 						if(voGroupLoanEntity1 !=null) {
 							voGroupLoanEntity.setUid(voGroupLoanEntity1.getUid());
 							voGroupLoanEntity.setCboId(mtg.getCboId());
-							
+
 						}else {
 							voGroupLoanEntity.setCboId(mtg.getCboId());
 						}
@@ -2565,7 +2579,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 						List<VoGroupLoanSchedule> voGroupLoanScheduleList = voGroupLoan.getVoGroupLoanScheduleList();
 						if (voGroupLoanScheduleList != null && voGroupLoanScheduleList.size() > 0) {
 							for (VoGroupLoanSchedule voGroupLoanSchedule : voGroupLoanScheduleList) {
-								VoGroupLoanScheduleEntity voGroupLoanScheduleEntity = VoMeetingMapper.map(voGroupLoanSchedule);		
+								VoGroupLoanScheduleEntity voGroupLoanScheduleEntity = VoMeetingMapper.map(voGroupLoanSchedule);
 								VoGroupLoanScheduleEntity voGroupLoanScheduleEntity1 = voGroupLoanScheduleDao.
 										findByParam(mtg.getCboId(), voGroupLoanSchedule.getLoanNo(),
 												voGroupLoanSchedule.getInstallmentNo(),voGroupLoanSchedule.getSubInstallmentNo(),voGroupLoanSchedule.getOrgInstallmentNo(),voGroupLoanSchedule.getStatus());
@@ -2594,7 +2608,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 						//if(shgMemLoan.getLoanApplicationId().equals(zeroBigInteger)) {
 						//	shgMemLoan.setLoanApplicationId(null);
 						//	}
-						
+
 						VoMemLoanEntity voMemLoanEntity1 = voMemLoanDao.
 								findLoanByCboIdLoanNo(mtg.getCboId(),voMemLoan.getLoanNo());
 						VoMemLoanEntity voMemLoanEntity = VoMeetingMapper.map(voMemLoan);
@@ -2602,7 +2616,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 							voMemLoanEntity.setUid(voMemLoanEntity1.getUid());
 							voMemLoanEntity.setCboId(mtg.getCboId());
 						}else {
-							voMemLoanEntity.setCboId(mtg.getCboId());	
+							voMemLoanEntity.setCboId(mtg.getCboId());
 						}
 						if(voMemLoanEntity.getMtgNo().equals(mtg.getMtgNo())) {
 							voMemLoanEntity.setVoMtgUid(mtg.getUid());
@@ -2616,7 +2630,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 						}
 						VoMemLoanEntity voMemLoanEntityAfterSave = voMemLoanDao.save(voMemLoanEntity);
 
-						
+
 						// vo member loan schedule
 						List<VoMemLoanSchedule> voMemLoanScheduleList = voMemLoan.getVoMemberLoanScheduleList();
 						if (voMemLoanScheduleList != null && voMemLoanScheduleList.size() > 0) {
@@ -2648,6 +2662,12 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 
 			}
+			try {
+				pgFunctionProcedureService.update_vo_meeting_summary(mtg.getUid());
+				voMtgDao.updateSummaryFlag(mtg.getUid(), Boolean.TRUE);
+			}catch (SQLException e){
+				System.out.println("Calculate summary failed!!");
+			}
 		} catch (Exception e) {
 
 
@@ -2671,14 +2691,14 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 		return returnString;
 
 	}
-	
+
 	private void deleteMeeting(BigInteger uid) {
 		ShgMtgEntity shgMtgEntity = shgMtgDao.findOne(uid);
 		if(shgMtgEntity!=null) {
 			shgMemLoanDao.updateShgMemLoan(shgMtgEntity.getCboId(), shgMtgEntity.getMtgNo());
-	                                shgMemLoanDao.updateShgMemLoan1(shgMtgEntity.getCboId(), shgMtgEntity.getMtgNo());
+			shgMemLoanDao.updateShgMemLoan1(shgMtgEntity.getCboId(), shgMtgEntity.getMtgNo());
 			shgGroupLoanDao.updateShgGroupLoan(shgMtgEntity.getCboId(), shgMtgEntity.getMtgNo());
-                                                shgGroupLoanDao.updateShgGroupLoan1(shgMtgEntity.getCboId(), shgMtgEntity.getMtgNo());
+			shgGroupLoanDao.updateShgGroupLoan1(shgMtgEntity.getCboId(), shgMtgEntity.getMtgNo());
 			shgMemLoanScheduleDao.updateShgMemLoanSchedule(uid,shgMtgEntity.getCboId(), shgMtgEntity.getMtgNo());
 			shgMemLoanScheduleDao.deleteShgMemLoanSchedule(uid);
 			shgGroupLoanScheduleDao.updateShgGroupLoanSchedule(uid,shgMtgEntity.getCboId(), shgMtgEntity.getMtgNo());
@@ -2691,9 +2711,9 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 		VoMtgEntity voMtgEntity = voMtgDao.findOne(uid);
 		if(voMtgEntity!=null) {
 			voMemLoanDao.updateVoMemLoan(voMtgEntity.getCboId(), voMtgEntity.getMtgNo());
-                                                voMemLoanDao.updateVoMemLoan1(voMtgEntity.getCboId(), voMtgEntity.getMtgNo());
+			voMemLoanDao.updateVoMemLoan1(voMtgEntity.getCboId(), voMtgEntity.getMtgNo());
 			voGroupLoanDao.updateVoGroupLoan(voMtgEntity.getCboId(), voMtgEntity.getMtgNo());
-                                                voGroupLoanDao.updateVoGroupLoan1(voMtgEntity.getCboId(), voMtgEntity.getMtgNo());
+			voGroupLoanDao.updateVoGroupLoan1(voMtgEntity.getCboId(), voMtgEntity.getMtgNo());
 			voMemLoanScheduleDao.updateVoMemLoanSchedule(uid,voMtgEntity.getCboId(), voMtgEntity.getMtgNo());
 			voMemLoanScheduleDao.deleteVoMemLoanSchedule(uid);
 			voGroupLoanScheduleDao.updateVoGroupLoanSchedule(uid,voMtgEntity.getCboId(), voMtgEntity.getMtgNo());
@@ -2701,10 +2721,20 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 			voMtgDao.deleteVoMtg(uid);
 		}
 	}
-	public Boolean createMeetingSummary(BigInteger uid) {
+	public Boolean createMeetingSummary() {
 		Boolean res = Boolean.TRUE;
 		try{
-			shgMtgDao.createMeetingSummary(uid.intValue());
+			List<BigInteger> shgMtgIds = shgMtgDao.getMtgIdsForSummary(Boolean.TRUE);
+			for (BigInteger uid : shgMtgIds){
+				pgFunctionProcedureService.update_meeting_summary(uid);
+				shgMtgDao.updateSummaryFlag(uid, Boolean.TRUE);
+			}
+
+			List<BigInteger> voMtgIds = voMtgDao.getMtgIdsForSummary(Boolean.TRUE);
+			for (BigInteger uid : voMtgIds){
+				pgFunctionProcedureService.update_meeting_summary(uid);
+				voMtgDao.updateSummaryFlag(uid, Boolean.TRUE);
+			}
 		}catch (Exception e) {
 			res = Boolean.FALSE;
 			e.printStackTrace();
@@ -2823,6 +2853,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				 clfMemLoanScheduleEntity.setRepaid(Short.valueOf("1"));
 				 clfMemLoanScheduleEntity.setInterestDemandActual(currentInterest);
 				 clfMemLoanScheduleEntity.setTxnMtgNo(clfFinTxnDetMemEntity.getMtgNo());
+				 clfMemLoanScheduleEntity.setTransactionNo(clfFinTxnDetMemEntity.getTransactionNo());
 				 clfMemLoanScheduleEntity.setModePayment(clfFinTxnDetMemEntity.getModePayment().intValue());
 				 clfMemLoanScheduleEntity.setUpdatedOn1(new Timestamp(txnDate.getTime()));
 				 clfMemLoanScheduleEntity.setInterestDemandActual(currentInterest);
@@ -2950,6 +2981,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					clfGroupLoanScheduleEntity.setRepaid(Short.valueOf("1"));
 					clfGroupLoanScheduleEntity.setInterestDemandActual(currentInterest);
 					clfGroupLoanScheduleEntity.setTxnMtgNo(clfFinTxnDetGrpEntity.getMtgNo());
+					clfGroupLoanScheduleEntity.setTransactionNo(clfFinTxnDetGrpEntity.getTransactionNo());
 					clfGroupLoanScheduleEntity.setModePayment(clfFinTxnDetGrpEntity.getModePayment().intValue());
 					clfGroupLoanScheduleEntity.setUpdatedOn1(new Timestamp(txnDate.getTime()));
 					clfGroupLoanScheduleEntity.setInterestDemandActual(currentInterest);
@@ -3004,7 +3036,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 //			   else {
 //				   //TODO emi
 //			   }
-					if(lastScheduleEntity!=null && clfGroupLoanEntity.getUid().equals(lastScheduleEntity.getUid()) && clfGroupLoanScheduleEntity.getRepaid().equals(new Short("1"))){
+					if(lastScheduleEntity!=null && clfGroupLoanScheduleEntity.getUid().equals(lastScheduleEntity.getUid()) && clfGroupLoanScheduleEntity.getRepaid().equals(new Short("1"))){
 						clfGroupLoanEntity.setCompletionFlag(new Short("1"));
 					}
 				}

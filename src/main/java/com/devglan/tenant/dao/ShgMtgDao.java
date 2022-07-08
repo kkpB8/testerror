@@ -1,6 +1,7 @@
 package  com.devglan.tenant.dao;
 
 import java.math.BigInteger;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -36,6 +37,13 @@ public interface ShgMtgDao extends JpaRepository<ShgMtgEntity, BigInteger> {
 	 
 	 	@Modifying(clearAutomatically = true)
 		@Query(nativeQuery = true, value = "Delete from shg_mtg where uid=?1")
-	 	void deleteShgMtg(BigInteger uid); 	
-	 	
+	 	void deleteShgMtg(BigInteger uid);
+
+	 	@Query(nativeQuery = true, value = "select uid from shg_mtg where summary_flag!=?1")
+	List<BigInteger> getMtgIdsForSummary(Boolean summaryFlag);
+
+	@Modifying(clearAutomatically = true)
+	@Transactional
+	@Query("update ShgMtgEntity u set u.summaryFlag = :summaryFlag where u.uid =:uid")
+	void updateSummaryFlag(BigInteger uid, Boolean aTrue);
 }
