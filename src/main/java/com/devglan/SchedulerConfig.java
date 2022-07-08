@@ -267,7 +267,7 @@ public class SchedulerConfig{
 	  }
   
   
-@Scheduled(initialDelay = 10000,fixedDelay = 120000)
+@Scheduled(initialDelay = 10000,fixedDelay = 20000)
 public void runLoanScheduler() {
         logger.info("Loan Scheduler started successfully");
         System.out.println("Running loan scheduler.....");
