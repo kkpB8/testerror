@@ -3034,7 +3034,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 //			   else {
 //				   //TODO emi
 //			   }
-					if(lastScheduleEntity!=null && clfGroupLoanEntity.getUid().equals(lastScheduleEntity.getUid()) && clfGroupLoanScheduleEntity.getRepaid().equals(new Short("1"))){
+					if(lastScheduleEntity!=null && clfGroupLoanScheduleEntity.getUid().equals(lastScheduleEntity.getUid()) && clfGroupLoanScheduleEntity.getRepaid().equals(new Short("1"))){
 						clfGroupLoanEntity.setCompletionFlag(new Short("1"));
 					}
 				}

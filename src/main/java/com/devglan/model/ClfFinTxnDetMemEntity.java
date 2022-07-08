@@ -51,7 +51,7 @@ public class ClfFinTxnDetMemEntity {
     private String voucherNumber;
     @Column(name = "voucher_date")
     private Date voucherDate1;
-    @Column(name = "narration", nullable = false)
+    @Column(name = "narration")
     private String narration;
     @Column(name = "add_lref_date", nullable = false)
     private Date addlRefDate1;
@@ -74,7 +74,7 @@ public class ClfFinTxnDetMemEntity {
     @Column(name = "is_processed")
     private Integer isProcessed;
     @Column(name = "cheque_no")
-    private Integer chequeNo;
+    private BigInteger chequeNo;
     @Column(name = "cheque_issue_date")
     private Date chequeIssueDate1;
     @Column(name = "cheque_recevied_date")
@@ -331,11 +331,11 @@ public class ClfFinTxnDetMemEntity {
         this.isProcessed = isProcessed;
     }
 
-    public Integer getChequeNo() {
+    public BigInteger getChequeNo() {
         return chequeNo;
     }
 
-    public void setChequeNo(Integer chequeNo) {
+    public void setChequeNo(BigInteger chequeNo) {
         this.chequeNo = chequeNo;
     }
 
