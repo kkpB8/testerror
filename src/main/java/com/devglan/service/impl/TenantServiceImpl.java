@@ -2853,6 +2853,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				 clfMemLoanScheduleEntity.setRepaid(Short.valueOf("1"));
 				 clfMemLoanScheduleEntity.setInterestDemandActual(currentInterest);
 				 clfMemLoanScheduleEntity.setTxnMtgNo(clfFinTxnDetMemEntity.getMtgNo());
+				 clfMemLoanScheduleEntity.setTransactionNo(clfFinTxnDetMemEntity.getTransactionNo());
 				 clfMemLoanScheduleEntity.setModePayment(clfFinTxnDetMemEntity.getModePayment().intValue());
 				 clfMemLoanScheduleEntity.setUpdatedOn1(new Timestamp(txnDate.getTime()));
 				 clfMemLoanScheduleEntity.setInterestDemandActual(currentInterest);
@@ -2980,6 +2981,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					clfGroupLoanScheduleEntity.setRepaid(Short.valueOf("1"));
 					clfGroupLoanScheduleEntity.setInterestDemandActual(currentInterest);
 					clfGroupLoanScheduleEntity.setTxnMtgNo(clfFinTxnDetGrpEntity.getMtgNo());
+					clfGroupLoanScheduleEntity.setTransactionNo(clfFinTxnDetGrpEntity.getTransactionNo());
 					clfGroupLoanScheduleEntity.setModePayment(clfFinTxnDetGrpEntity.getModePayment().intValue());
 					clfGroupLoanScheduleEntity.setUpdatedOn1(new Timestamp(txnDate.getTime()));
 					clfGroupLoanScheduleEntity.setInterestDemandActual(currentInterest);
