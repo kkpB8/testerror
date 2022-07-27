@@ -33,7 +33,7 @@ public class PGFunctionProcedureService {
             System.out.println("Call Procedure update_meeting_summary{?} Failed! - " + e.getMessage());
             throw new SQLException("Call Procedure update_meeting_summary{?} Failed!");
         }finally {
-            pstmt.execute();
+           // pstmt.execute();
             pstmt.close();
             con.close();
         }
@@ -50,11 +50,12 @@ public class PGFunctionProcedureService {
             pstmt.execute();
             pstmt.close();
             con.close();
+            System.out.println("call update_vo_meeting_summary(?) successfully!!");
         } catch (SQLException e) {
             System.out.println("Call Procedure update_vo_meeting_summary{?} Failed! - "+ e.getMessage());
             throw new SQLException("Call Procedure update_vo_meeting_summary{?} Failed!");
         }finally {
-            pstmt.execute();
+           // pstmt.execute();
             pstmt.close();
             con.close();
         }
