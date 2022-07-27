@@ -763,7 +763,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 						String memberSeqNo = "";
 						BigInteger memberProfilePhotoDocIdInternal = new BigInteger("0");
 						;
-						if (memberProfilePhotoDocId != null) {
+						if (memberProfilePhotoDocId != null && memberProfilePhotoDocId.size()>0) {
 							if (memberProfile.getSeq_no() != null)
 								memberSeqNo = memberProfile.getSeq_no().toString().trim();
 
@@ -776,7 +776,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 						}
 
 						BigInteger memberConsentFormPhotoDocIdInternal = new BigInteger("0");
-						if (memberConsentFormPhotoDocId != null) {
+						if (memberConsentFormPhotoDocId != null && memberConsentFormPhotoDocId.size()>0) {
 							/*
 							 * if (memberProfile.getSeq_no() != null) memberSeqNo =
 							 * memberProfile.getSeq_no().toString().trim();
@@ -803,7 +803,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 						BigInteger memberKYCAdhaarFrontPhotoDocIdInternal = new BigInteger("0");
 						;
 
-						if (memberKYCAdhaarFrontPhotoDocId != null) {
+						if (memberKYCAdhaarFrontPhotoDocId != null && memberKYCAdhaarFrontPhotoDocId.size()>0) {
 							for (String keys : memberKYCAdhaarFrontPhotoDocId.keySet()) {
 								String member = keys.replaceAll(ServiceConstants.memberKYCAdhaarFrontPhoto, "");
 
@@ -815,7 +815,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 						}
 						BigInteger memberKYCAdhaarRearPhotoDocIdInternal = new BigInteger("0");
 						;
-						if (memberKYCAdhaarRearPhotoDocId != null) {
+						if (memberKYCAdhaarRearPhotoDocId != null && memberKYCAdhaarRearPhotoDocId.size()>0) {
 							for (String keys : memberKYCAdhaarRearPhotoDocId.keySet()) {
 								String member = keys.replaceAll(ServiceConstants.memberKYCAdhaarRearPhoto, "");
 								if (member.equals(memberSeqNo)) {
@@ -825,7 +825,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 						}
 						BigInteger memberKYCElectionFrontPhotoDocIdInternal = new BigInteger("0");
 						;
-						if (memberKYCElectionFrontPhotoDocId != null) {
+						if (memberKYCElectionFrontPhotoDocId != null && memberKYCElectionFrontPhotoDocId.size()>0) {
 							for (String keys : memberKYCElectionFrontPhotoDocId.keySet()) {
 								String member = keys.replaceAll(ServiceConstants.memberKYCElectionFrontPhoto, "");
 								if (member.equals(memberSeqNo)) {
@@ -837,7 +837,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 						BigInteger memberKYCElectionRearPhotoDocIdInternal = new BigInteger("0");
 						;
-						if (memberKYCElectionRearPhotoDocId != null) {
+						if (memberKYCElectionRearPhotoDocId != null && memberKYCElectionRearPhotoDocId.size()>0) {
 							for (String keys : memberKYCElectionRearPhotoDocId.keySet()) {
 								String member = keys.replaceAll(ServiceConstants.memberKYCElectionRearPhoto, "");
 								if (member.equals(memberSeqNo)) {
@@ -907,10 +907,10 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 			MemberProfileEntity memberProfileEntityAfterSave = MemberMapper.map(memberProfile);
 			memberProfileEntityAfterSave.setMemberProfileDocumentId(memberDocId);
 			memberProfileEntityAfterSave.setConsentFormId(memberConsentDocId);
-			if (memberProfilePhotoDocId != null) {
+			if (memberProfilePhotoDocId != null && !memberProfilePhotoDocId.equals(BigInteger.ZERO)) {
 				memberProfileEntityAfterSave.setMemberProfileDocumentId(memberProfilePhotoDocId);
 			}
-			if (memberConsentFormPhotoDocId != null) {
+			if (memberConsentFormPhotoDocId != null && !memberConsentFormPhotoDocId.equals(BigInteger.ZERO)) {
 				memberProfileEntityAfterSave.setConsentFormId(memberConsentFormPhotoDocId);
 			}
 			if (memberProfile.getMember_id() != null || memberProfileEntity != null)
@@ -1160,18 +1160,18 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					memberKYCDetailsEntity.setKycRearDocId(kycRearDocId);
 					if (memberKYCDetailsTemp.getKyc_type().equals(MemberKYCDetailsEntity.kycAdhaar)) {
 
-						if (memberKYCAdhaarFrontPhotoDocId != null) {
+						if (memberKYCAdhaarFrontPhotoDocId != null && !memberKYCAdhaarFrontPhotoDocId.equals(BigInteger.ZERO)) {
 							memberKYCDetailsEntity.setKycFrontDocId(memberKYCAdhaarFrontPhotoDocId);
 						}
-						if (memberKYCAdhaarRearPhotoDocId != null) {
+						if (memberKYCAdhaarRearPhotoDocId != null && !memberKYCAdhaarRearPhotoDocId.equals(BigInteger.ZERO)) {
 							memberKYCDetailsEntity.setKycRearDocId(memberKYCAdhaarRearPhotoDocId);
 						}
 					}
 					if (memberKYCDetailsTemp.getKyc_type().equals(MemberKYCDetailsEntity.kycElectionId)) {
-						if (memberKYCElectionFrontPhotoDocId != null) {
+						if (memberKYCElectionFrontPhotoDocId != null && !memberKYCElectionFrontPhotoDocId.equals(BigInteger.ZERO)) {
 							memberKYCDetailsEntity.setKycFrontDocId(memberKYCElectionFrontPhotoDocId);
 						}
-						if (memberKYCElectionRearPhotoDocId != null) {
+						if (memberKYCElectionRearPhotoDocId != null && !memberKYCElectionRearPhotoDocId.equals(BigInteger.ZERO)) {
 							memberKYCDetailsEntity.setKycRearDocId(memberKYCElectionRearPhotoDocId);
 						}
 					}
@@ -1454,7 +1454,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				}
 
 				// Images End
-				if (federationProfilePhotoDocId != null) {
+				if (federationProfilePhotoDocId != null && federationProfilePhotoDocId.size()>0) {
 					federationProfileEntityAfterSave.setFederationProfileDocId(
 							federationProfilePhotoDocId.get(ServiceConstants.federationoProfilePhoto));
 				}
