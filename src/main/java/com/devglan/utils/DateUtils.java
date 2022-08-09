@@ -13,7 +13,7 @@ public class DateUtils {
 
 //DATE
 public static Date secondsToDateConverter(Integer seconds){
-    if(seconds!=0 && seconds!=null){
+    if(seconds!=null && seconds!=0){
         long millis = seconds;
         LocalDateTime date = LocalDateTime.ofEpochSecond(millis, 0, ZoneOffset.UTC);
        Date out = Date.from(date.atZone(ZoneId.systemDefault()).toInstant());
@@ -24,7 +24,7 @@ public static Date secondsToDateConverter(Integer seconds){
 }
 
 public static Date secondsToDateConverterLong(Long seconds){
-    if(seconds!=0 && seconds!=null){
+    if(seconds!=null && seconds!=0){
         long millis = seconds;
         LocalDateTime date = LocalDateTime.ofEpochSecond(millis, 0, ZoneOffset.UTC);
         Date out = Date.from(date.atZone(ZoneId.systemDefault()).toInstant());

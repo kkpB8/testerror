@@ -430,7 +430,7 @@ public class GroupMapper {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         try {
             cboKYCDetailsEntity.setCboKYCDetailsId(cboKYCDetails.getCbo_kyc_details_id());
-            cboKYCDetailsEntity.setKycGuid(cboKYCDetails.getCbo_guid());
+            cboKYCDetailsEntity.setKycGuid(cboKYCDetails.getKyc_guid());
             cboKYCDetailsEntity.setCboGuid(cboKYCDetails.getCbo_guid());
             cboKYCDetailsEntity.setCboId(cboKYCDetails.getCbo_id());
             cboKYCDetailsEntity.setDocumentId(cboKYCDetails.getDocument_id());
@@ -464,6 +464,7 @@ public class GroupMapper {
             cboKYCDetailsEntity.setCboType(cboKYCDetails.getCbo_type());
             cboKYCDetailsEntity.setIsVerified(cboKYCDetails.getIs_verified());
             cboKYCDetailsEntity.setIsComplete(cboKYCDetails.getIs_complete());
+            cboKYCDetailsEntity.setKycFrontDocOrigName(cboKYCDetails.getKyc_front_doc_orig_name());
         }
         catch(Exception e){
             e.printStackTrace();
@@ -512,6 +513,7 @@ public class GroupMapper {
             cboKYCDetails.setCbo_type(cboKYCDetailsEntity.getCboType());
             cboKYCDetails.setIs_verified(cboKYCDetailsEntity.getIsVerified());
             cboKYCDetails.setIs_complete (cboKYCDetailsEntity.getIsComplete());
+            cboKYCDetails.setKyc_front_doc_orig_name(cboKYCDetailsEntity.getKycFrontDocOrigName());
         }
         catch(Exception e){
             e.printStackTrace();

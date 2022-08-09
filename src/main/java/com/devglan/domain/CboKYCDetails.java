@@ -46,6 +46,10 @@ public class CboKYCDetails {
     private Integer is_verified;
     private Integer is_complete;
 
+    //30/06/2022@anshul
+    private String kyc_front_doc_orig_name;
+
+
     public BigInteger getCbo_kyc_details_id() {
         return cbo_kyc_details_id;
     }
@@ -253,4 +257,14 @@ public class CboKYCDetails {
     public void setIs_complete(Integer is_complete) {
         this.is_complete = is_complete;
     }
+
+    public String getKyc_front_doc_orig_name() {
+        return kyc_front_doc_orig_name;
+    }
+
+    public void setKyc_front_doc_orig_name(String kyc_front_doc_orig_name) {
+        this.kyc_front_doc_orig_name = kyc_front_doc_orig_name;
+    }
+
+
 }

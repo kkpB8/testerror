@@ -67,6 +67,13 @@ public class CboKYCDetailsEntity {
     @Column(name = "is_complete")
     private Integer isComplete;
 
+    //30/06/2022@anshul
+    @Column(name = "kyc_front_doc_orig_name")
+    private String kycFrontDocOrigName;
+
+
+
+
     public static Integer kycRegistrationNo = 1;
     public static Integer kycTANNo = 2;
 
@@ -266,4 +273,13 @@ public class CboKYCDetailsEntity {
     public void setIsComplete(Integer isComplete) {
         this.isComplete = isComplete;
     }
+
+    public String getKycFrontDocOrigName() {
+        return kycFrontDocOrigName;
+    }
+
+    public void setKycFrontDocOrigName(String kycFrontDocOrigName) {
+        this.kycFrontDocOrigName = kycFrontDocOrigName;
+    }
+    
 }
