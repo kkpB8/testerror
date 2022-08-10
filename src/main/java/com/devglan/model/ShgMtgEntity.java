@@ -2,6 +2,8 @@ package com.devglan.model;
 
 
 
+import org.hibernate.validator.constraints.Email;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -225,6 +227,9 @@ public class ShgMtgEntity implements Serializable {
 
     @Column(name = "zero_mtg_cash_in_transit")
     private Integer zeroMtgCashInTransit;
+
+    @Column(name = "summary_flag")
+    private Boolean summaryFlag;
 
     public static Integer zeroMeeting = 0;
     public static Integer cutOffMeeting1 = 11;
@@ -782,5 +787,13 @@ public class ShgMtgEntity implements Serializable {
 
     public void setZeroMtgCashInTransit(Integer zeroMtgCashInTransit) {
         this.zeroMtgCashInTransit = zeroMtgCashInTransit;
+    }
+
+    public Boolean getSummaryFlag() {
+        return summaryFlag;
+    }
+
+    public void setSummaryFlag(Boolean summaryFlag) {
+        this.summaryFlag = summaryFlag;
     }
 }

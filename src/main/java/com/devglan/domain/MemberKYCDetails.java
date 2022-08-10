@@ -44,8 +44,8 @@ public class MemberKYCDetails {
     private Integer updated_date;
     @NotEmpty(message = "Document must be uploaded")
     private DocumentDetails documentDetails;
-    private String front_doc_original_name;
-    private String rear_doc_original_name;
+    private String kyc_front_doc_orig_name;
+    private String kyc_rear_doc_orig_name;
     private String kyc_front_document;
     private String kyc_rear_document;
     //@Satwant 06052021
@@ -236,23 +236,24 @@ public class MemberKYCDetails {
         this.documentDetails = documentDetails;
     }
 
-    public String getFront_doc_original_name() {
-        return front_doc_original_name;
-    }
 
-    public void setFront_doc_original_name(String front_doc_original_name) {
-        this.front_doc_original_name = front_doc_original_name;
-    }
+    public String getKyc_front_doc_orig_name() {
+		return kyc_front_doc_orig_name;
+	}
 
-    public String getRear_doc_original_name() {
-        return rear_doc_original_name;
-    }
+	public void setKyc_front_doc_orig_name(String kyc_front_doc_orig_name) {
+		this.kyc_front_doc_orig_name = kyc_front_doc_orig_name;
+	}
 
-    public void setRear_doc_original_name(String rear_doc_original_name) {
-        this.rear_doc_original_name = rear_doc_original_name;
-    }
+	public String getKyc_rear_doc_orig_name() {
+		return kyc_rear_doc_orig_name;
+	}
 
-    public String getKyc_front_document() {
+	public void setKyc_rear_doc_orig_name(String kyc_rear_doc_orig_name) {
+		this.kyc_rear_doc_orig_name = kyc_rear_doc_orig_name;
+	}
+
+	public String getKyc_front_document() {
         return kyc_front_document;
     }
 

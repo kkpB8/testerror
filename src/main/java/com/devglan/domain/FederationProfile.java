@@ -115,6 +115,12 @@ public class FederationProfile {
 	private String federation_resolution_document;
 	private String transaction_id;
 	private BigInteger processingId;
+	 private Integer inactiveReason;
+	private Integer membership_flag;
+	private Integer registration_act;
+	private Integer is_registered;
+	private String registration_no;
+	private Integer registration_date;
 
 	public String getView_status() {
 		return view_status;
@@ -747,6 +753,60 @@ public class FederationProfile {
 	public void setApprover(String approver) {
 		this.approver = approver;
 	}
-	
-	
+
+	public Integer getInactiveReason() {
+		return inactiveReason;
+	}
+
+	public void setInactiveReason(Integer inactiveReason) {
+		this.inactiveReason = inactiveReason;
+	}
+
+	public static String getExceptionStringFederation() {
+		return exceptionStringFederation;
+	}
+
+	public static void setExceptionStringFederation(String exceptionStringFederation) {
+		FederationProfile.exceptionStringFederation = exceptionStringFederation;
+	}
+
+	public Integer getMembership_flag() {
+		return membership_flag;
+	}
+
+	public void setMembership_flag(Integer membership_flag) {
+		this.membership_flag = membership_flag;
+	}
+
+	public Integer getRegistration_act() {
+		return registration_act;
+	}
+
+	public void setRegistration_act(Integer registration_act) {
+		this.registration_act = registration_act;
+	}
+
+	public Integer getIs_registered() {
+		return is_registered;
+	}
+
+	public void setIs_registered(Integer is_registered) {
+		this.is_registered = is_registered;
+	}
+
+	public String getRegistration_no() {
+		return registration_no;
+	}
+
+	public void setRegistration_no(String registration_no) {
+		this.registration_no = registration_no;
+	}
+
+	public Integer getRegistration_date() {
+		return registration_date;
+	}
+
+	public void setRegistration_date(Integer registration_date) {
+		this.registration_date = registration_date;
+	}
 }

@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
+import java.sql.Timestamp;
 
 public class MemberBank {
     private BigInteger member_bank_details_id;
@@ -60,6 +61,8 @@ public class MemberBank {
     //@Satwant 06052021
     private Integer is_verified;
     private Integer is_complete;
+    private Integer inactive_date ;
+
 
     public BigInteger getMember_bank_details_id() {
         return member_bank_details_id;
@@ -338,5 +341,13 @@ public class MemberBank {
 
     public void setIs_complete(Integer is_complete) {
         this.is_complete = is_complete;
+    }
+
+    public Integer getInactive_date() {
+        return inactive_date;
+    }
+
+    public void setInactive_date(Integer inactive_date) {
+        this.inactive_date = inactive_date;
     }
 }

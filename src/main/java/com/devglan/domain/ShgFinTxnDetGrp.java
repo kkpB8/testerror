@@ -20,8 +20,9 @@ public class ShgFinTxnDetGrp {
     private String createdBy;
     private Long updatedOn;
     private String updatedBy;
-
-
+	private Integer systGenerated;
+	private Long effectiveDate;
+	private String guid;
    
     public Integer getAuid() {
         return auid;
@@ -135,5 +136,31 @@ public class ShgFinTxnDetGrp {
     public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
     }
+
+	public Integer getSystGenerated() {
+		return systGenerated;
+	}
+
+	public void setSystGenerated(Integer systGenerated) {
+		this.systGenerated = systGenerated;
+	}
+
+	public Long getEffectiveDate() {
+		return effectiveDate;
+	}
+
+	public void setEffectiveDate(Long effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
+
+	public String getGuid() {
+		return guid;
+	}
+
+	public void setGuid(String guid) {
+		this.guid = guid;
+	}
+    
+    
 }
 

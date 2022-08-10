@@ -306,6 +306,7 @@ public class GroupMapper {
             cboBankDetailsEntity.setNpciStatus(cboBankDetails.getNpci_status());
             cboBankDetailsEntity.setIsVerified(cboBankDetails.getIs_verified());
             cboBankDetailsEntity.setIsComplete(cboBankDetails.getIs_complete());
+            cboBankDetailsEntity.setInactiveDate((cboBankDetails.getInactive_date() != null) ? DateUtils.secondsToDateConverter(cboBankDetails.getInactive_date()) : null);
         }
         catch(Exception e){
             e.printStackTrace();
@@ -374,6 +375,7 @@ public class GroupMapper {
             cboBankDetails.setNpci_status(cboBankDetailsEntity.getNpciStatus());
             cboBankDetails.setIs_verified(cboBankDetailsEntity.getIsVerified());
             cboBankDetails.setIs_complete (cboBankDetailsEntity.getIsComplete());
+            cboBankDetails.setInactive_date((cboBankDetailsEntity.getInactiveDate() != null) ? DateUtils.dateToSecondsConverter(cboBankDetailsEntity.getInactiveDate()) : null);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -428,7 +430,7 @@ public class GroupMapper {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         try {
             cboKYCDetailsEntity.setCboKYCDetailsId(cboKYCDetails.getCbo_kyc_details_id());
-            cboKYCDetailsEntity.setKycGuid(cboKYCDetails.getCbo_guid());
+            cboKYCDetailsEntity.setKycGuid(cboKYCDetails.getKyc_guid());
             cboKYCDetailsEntity.setCboGuid(cboKYCDetails.getCbo_guid());
             cboKYCDetailsEntity.setCboId(cboKYCDetails.getCbo_id());
             cboKYCDetailsEntity.setDocumentId(cboKYCDetails.getDocument_id());
@@ -462,6 +464,7 @@ public class GroupMapper {
             cboKYCDetailsEntity.setCboType(cboKYCDetails.getCbo_type());
             cboKYCDetailsEntity.setIsVerified(cboKYCDetails.getIs_verified());
             cboKYCDetailsEntity.setIsComplete(cboKYCDetails.getIs_complete());
+            cboKYCDetailsEntity.setKycFrontDocOrigName(cboKYCDetails.getKyc_front_doc_orig_name());
         }
         catch(Exception e){
             e.printStackTrace();
@@ -510,6 +513,7 @@ public class GroupMapper {
             cboKYCDetails.setCbo_type(cboKYCDetailsEntity.getCboType());
             cboKYCDetails.setIs_verified(cboKYCDetailsEntity.getIsVerified());
             cboKYCDetails.setIs_complete (cboKYCDetailsEntity.getIsComplete());
+            cboKYCDetails.setKyc_front_doc_orig_name(cboKYCDetailsEntity.getKycFrontDocOrigName());
         }
         catch(Exception e){
             e.printStackTrace();
@@ -1017,6 +1021,12 @@ public class GroupMapper {
 			 //30-3-2021
             federationProfileEntity.setPromoterCode(federationProfile.getPromoter_code());
             federationProfileEntity.setIsComplete(federationProfile.getIs_complete());
+            federationProfileEntity.setInactiveReason(federationProfile.getInactiveReason());
+            federationProfileEntity.setRegistrationAct(federationProfile.getRegistration_act());
+            federationProfileEntity.setIsRegistered(federationProfile.getIs_registered());
+            federationProfileEntity.setMembershipFlag(federationProfile.getMembership_flag());
+            federationProfileEntity.setRegistrationNo(federationProfile.getRegistration_no());
+            federationProfileEntity.setRegistrationDate((federationProfile.getRegistration_date() != null) ? DateUtils.secondsToDateConverter(federationProfile.getRegistration_date()) : null);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -1173,6 +1183,13 @@ public class GroupMapper {
 			 //30-3-2021
             federationProfile.setPromoter_code(federationProfileEntity.getPromoterCode());
             federationProfile.setIs_complete (federationProfileEntity.getIsComplete());
+            federationProfile.setInactiveReason(federationProfileEntity.getInactiveReason());
+            federationProfile.setRegistration_date((federationProfileEntity.getRegistrationDate() != null) ? DateUtils.dateToSecondsConverter(federationProfileEntity.getRegistrationDate()) : null);
+            federationProfile.setRegistration_act(federationProfileEntity.getRegistrationAct());
+            federationProfile.setMembership_flag(federationProfileEntity.getMembershipFlag());
+            federationProfile.setRegistration_no(federationProfile.getRegistration_no());
+            federationProfile.setIs_registered(federationProfile.getIs_registered());
+
         }
         catch (Exception e){
             e.printStackTrace();

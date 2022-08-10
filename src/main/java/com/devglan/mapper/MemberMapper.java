@@ -376,6 +376,7 @@ public class MemberMapper {
             memberBankDetailsEntity.setNpciStatus(memberBank.getNpci_status());
             memberBankDetailsEntity.setIsVerified(memberBank.getIs_verified());
             memberBankDetailsEntity.setIsComplete(memberBank.getIs_complete());
+            memberBankDetailsEntity.setInactiveDate((memberBank.getInactive_date() != null) ? DateUtils.secondsToDateConverter(memberBank.getInactive_date()) : null);
         }
         catch(Exception e){
             e.printStackTrace();
@@ -432,6 +433,7 @@ public class MemberMapper {
         memberBank.setNpci_status(memberBankDetailsEntity.getNpciStatus());
         memberBank.setIs_verified(memberBankDetailsEntity.getIsVerified());
         memberBank.setIs_complete (memberBankDetailsEntity.getIsComplete());
+        memberBank.setInactive_date((memberBankDetailsEntity.getInactiveDate() != null) ? DateUtils.dateToSecondsConverter(memberBankDetailsEntity.getInactiveDate()) : null);
         return memberBank;
     }
 
@@ -476,10 +478,10 @@ public class MemberMapper {
             memberKYCDetailsEntity.setCreatedDate(DateUtils.secondsToTimestampConverter(memberKYCDetails.getCreated_date()));
             memberKYCDetailsEntity.setUpdatedDate(memberKYCDetails.getUpdated_date()!=null ?
                     DateUtils.secondsToTimestampConverter(memberKYCDetails.getUpdated_date()) : null);
-            memberKYCDetailsEntity.setKycFrontDocOriginalName(memberKYCDetails.getFront_doc_original_name() !=null ?
-                    memberKYCDetails.getFront_doc_original_name()  : null);
-            memberKYCDetailsEntity.setKycRearDocOriginalName(memberKYCDetails.getRear_doc_original_name() !=null ?
-                    memberKYCDetails.getRear_doc_original_name()  : null);
+            memberKYCDetailsEntity.setKycFrontDocOriginalName(memberKYCDetails.getKyc_front_doc_orig_name() !=null ?
+                    memberKYCDetails.getKyc_front_doc_orig_name()  : null);
+            memberKYCDetailsEntity.setKycRearDocOriginalName(memberKYCDetails.getKyc_rear_doc_orig_name() !=null ?
+                    memberKYCDetails.getKyc_rear_doc_orig_name()  : null);
             memberKYCDetailsEntity.setDeduplStatus(memberKYCDetails.getDedupl_status());
             memberKYCDetailsEntity.setActivationStatus(memberKYCDetails.getActivation_status());
             memberKYCDetailsEntity.setIsVerified(memberKYCDetails.getIs_verified());
@@ -528,8 +530,8 @@ public class MemberMapper {
                 else
                     memberKYCDetails.setIs_active(shortValZero.shortValue());
             }
-            memberKYCDetails.setFront_doc_original_name(memberKYCDetailsEntity.getKycFrontDocOriginalName());
-            memberKYCDetails.setRear_doc_original_name(memberKYCDetailsEntity.getKycRearDocOriginalName());
+            memberKYCDetails.setKyc_front_doc_orig_name(memberKYCDetailsEntity.getKycFrontDocOriginalName());
+            memberKYCDetails.setKyc_rear_doc_orig_name(memberKYCDetailsEntity.getKycRearDocOriginalName());
             memberKYCDetails.setDedupl_status(memberKYCDetailsEntity.getDeduplStatus());
             memberKYCDetails.setActivation_status(memberKYCDetailsEntity.getActivationStatus());
             memberKYCDetails.setIs_verified(memberKYCDetailsEntity.getIsVerified());

@@ -74,6 +74,8 @@ public class MeetingMapper {
         shgFinTxnDetGrpEntity.setUpdatedOn1(shgFinTxn.getUpdatedOn()!=null ? 
         		DateUtils.secondsToTimestampConverter(shgFinTxn.getUpdatedOn()) : null);
         shgFinTxnDetGrpEntity.setUploadedOn(new Timestamp(System.currentTimeMillis()));
+        shgFinTxnDetGrpEntity.setEffectiveDate1(shgFinTxn.getEffectiveDate()!=null ? 
+        		DateUtils.secondsToTimestampConverter(shgFinTxn.getEffectiveDate()) : null);
         return shgFinTxnDetGrpEntity;
     }
 
@@ -96,6 +98,8 @@ public class MeetingMapper {
         shgGroupLoanEntity.setUploadedOn(new Timestamp(System.currentTimeMillis()));
         shgGroupLoanEntity.setDisbursementDate1(shgGroupLoan.getDisbursementDate()!=null ? 
         		DateUtils.secondsToTimestampConverter(shgGroupLoan.getDisbursementDate()) : null);
+        shgGroupLoanEntity.setSanctionedDate1(shgGroupLoan.getSanctionedDate()!=null ?
+        		DateUtils.secondsToTimestampConverter(shgGroupLoan.getSanctionedDate()) : null);
         return shgGroupLoanEntity;
     }
 

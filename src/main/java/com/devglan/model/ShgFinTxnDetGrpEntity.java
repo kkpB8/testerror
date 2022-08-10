@@ -52,7 +52,7 @@ public class ShgFinTxnDetGrpEntity implements Serializable {
 	@Column(name = "amount")
 	private Integer amount;
 
-	@Column(name = "trans_date", nullable = false)
+	@Column(name = "trans_date")
 	private Timestamp transDate1;
 
 	@Column(name = "date_realisation")
@@ -84,6 +84,15 @@ public class ShgFinTxnDetGrpEntity implements Serializable {
 
 	@Column(name = "uploaded_on")
 	private Timestamp uploadedOn;
+	
+	@Column(name = "syst_generated")
+	private Integer systGenerated;
+
+	@Column(name = "effective_date")
+	private Timestamp effectiveDate1;
+	
+	@Column(name = "guid")
+	private String guid;
 
 	@Override
 	public String toString() {
@@ -278,4 +287,31 @@ public class ShgFinTxnDetGrpEntity implements Serializable {
 	public void setUploadedOn(Timestamp uploadedOn) {
 		this.uploadedOn = uploadedOn;
 	}
+
+	public Integer getSystGenerated() {
+		return systGenerated;
+	}
+
+	public void setSystGenerated(Integer systGenerated) {
+		this.systGenerated = systGenerated;
+	}
+
+	public Timestamp getEffectiveDate1() {
+		return effectiveDate1;
+	}
+
+	public void setEffectiveDate1(Timestamp effectiveDate1) {
+		this.effectiveDate1 = effectiveDate1;
+	}
+
+	public String getGuid() {
+		return guid;
+	}
+
+	public void setGuid(String guid) {
+		this.guid = guid;
+	}
+	
+	
+	
 }

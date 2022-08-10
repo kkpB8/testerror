@@ -165,6 +165,24 @@ public class ShgGroupLoanEntity implements Serializable {
     @Column(name = "no_of_loan")
     private  Integer  noOfLoan ;
 
+    
+    @Column(name = "installment_no")
+    private  Integer installmentNo;
+
+    @Column(name = "sanctioned_date  ")
+    private Timestamp sanctionedDate1 ;
+    
+    @Column(name = "installment_type")
+    private Short  installmentType;
+    
+    @Column(name = "sanctioned_amount")
+    private Integer  sanctionedAmount;
+
+    @Column(name = "drawing_limit")
+    private Integer  drawingLimit;
+
+  
+
 
     public BigInteger getUid() {
         return uid;
@@ -541,6 +559,47 @@ public class ShgGroupLoanEntity implements Serializable {
 	public void setNoOfLoan(Integer noOfLoan) {
 		this.noOfLoan = noOfLoan;
 	}
+
+	public Integer getInstallmentNo() {
+		return installmentNo;
+	}
+
+	public void setInstallmentNo(Integer installmentNo) {
+		this.installmentNo = installmentNo;
+	}
+
+	public Timestamp getSanctionedDate1() {
+		return sanctionedDate1;
+	}
+
+	public void setSanctionedDate1(Timestamp sanctionedDate1) {
+		this.sanctionedDate1 = sanctionedDate1;
+	}
+
+	public Short getInstallmentType() {
+		return installmentType;
+	}
+
+	public void setInstallmentType(Short installmentType) {
+		this.installmentType = installmentType;
+	}
+
+	public Integer getSanctionedAmount() {
+		return sanctionedAmount;
+	}
+
+	public void setSanctionedAmount(Integer sanctionedAmount) {
+		this.sanctionedAmount = sanctionedAmount;
+	}
+
+	public Integer getDrawingLimit() {
+		return drawingLimit;
+	}
+
+	public void setDrawingLimit(Integer drawingLimit) {
+		this.drawingLimit = drawingLimit;
+	}
+
 	
 	
     

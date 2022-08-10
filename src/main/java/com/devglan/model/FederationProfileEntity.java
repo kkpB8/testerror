@@ -5,6 +5,7 @@ package com.devglan.model;
 import javax.persistence.*;
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -157,6 +158,24 @@ FederationProfileEntity {
     
     //@Anshul 210921
     private String approver;
+    
+    @Column(name = "inactive_reason")
+    private Integer inactiveReason;
+
+    @Column(name = "membership_flag")
+    private Integer membershipFlag;
+
+    @Column(name = " registration_act")
+    private Integer registrationAct;
+
+    @Column(name = "is_registered")
+    private Integer isRegistered;
+
+    @Column(name = "registration_no")
+    private String registrationNo;
+
+    @Column(name = "registration_date")
+    private Date registrationDate;
 
     public String getApprover() {
 		return approver;
@@ -709,6 +728,54 @@ FederationProfileEntity {
 	public void setIsComplete(Integer isComplete) {
 		this.isComplete = isComplete;
 	}
+
+	public Integer getInactiveReason() {
+		return inactiveReason;
+	}
+
+	public void setInactiveReason(Integer inactiveReason) {
+		this.inactiveReason = inactiveReason;
+	}
+
+    public Integer getMembershipFlag() {
+        return membershipFlag;
+    }
+
+    public void setMembershipFlag(Integer membershipFlag) {
+        this.membershipFlag = membershipFlag;
+    }
+
+    public Integer getRegistrationAct() {
+        return registrationAct;
+    }
+
+    public void setRegistrationAct(Integer registrationAct) {
+        this.registrationAct = registrationAct;
+    }
+
+    public Integer getIsRegistered() {
+        return isRegistered;
+    }
+
+    public void setIsRegistered(Integer isRegistered) {
+        this.isRegistered = isRegistered;
+    }
+
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
+    public String getRegistrationNo() {
+        return registrationNo;
+    }
+
+    public void setRegistrationNo(String registrationNo) {
+        this.registrationNo = registrationNo;
+    }
 
 
 }

@@ -118,6 +118,9 @@ public class VoMemLoanTxnEntity implements Serializable {
 
     @Column(name = "period")
     private Integer period;
+    
+    @Column(name = "is_loan_reschedule")
+    private Integer isLoanReschedule;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -399,6 +402,16 @@ public class VoMemLoanTxnEntity implements Serializable {
 
 	public void setPeriod(Integer period) {
 		this.period = period;
+	}
+
+	
+	
+	public Integer getIsLoanReschedule() {
+		return isLoanReschedule;
+	}
+
+	public void setIsLoanReschedule(Integer isLoanReschedule) {
+		this.isLoanReschedule = isLoanReschedule;
 	}
 
 	@Override

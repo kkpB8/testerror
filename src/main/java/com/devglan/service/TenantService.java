@@ -31,7 +31,7 @@ public interface TenantService {
 
 	public String createMeetingProfileUpload(String role,UploadShgMeeting uploadShgMeeting) throws Exception;
 
-	public Boolean createMeetingSummary(BigInteger bg);
+	public Boolean createMeetingSummary();
 
 	public String createVoMeetingProfileUpload(String role, UploadVoMeeting uploadVoMeeting);
 }

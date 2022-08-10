@@ -99,6 +99,9 @@ public class MemberBankDetailsEntity {
     @Column(name = "is_complete")
     private Integer isComplete;
 
+    @Column(name = "inactive_date")
+    private Date inactiveDate ;
+
     public String getBankPassbookName() {
         return bankPassbookName;
     }
@@ -387,5 +390,13 @@ public class MemberBankDetailsEntity {
 
     public void setIsComplete(Integer isComplete) {
         this.isComplete = isComplete;
+    }
+
+    public Date getInactiveDate() {
+        return inactiveDate;
+    }
+
+    public void setInactiveDate(Date inactiveDate) {
+        this.inactiveDate = inactiveDate;
     }
 }

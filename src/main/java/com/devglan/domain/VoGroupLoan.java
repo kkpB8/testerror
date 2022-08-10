@@ -46,7 +46,7 @@ public class VoGroupLoan {
     private Integer repayTo;
     private Long createdOn;
 	private Integer institution;
-	private Integer organizationName;
+	private String organizationName;
 	private Integer sanctionedAmount;
 	private Integer drawingLimit;
    // @Size(max=30,message="Created by can be max of 30 chars long")
@@ -63,6 +63,9 @@ public class VoGroupLoan {
     private Integer rescheduleReason;
     private  Integer  totalAmount;
     private  Integer  noOfLoan ;
+    private Short  installmentType;
+    private int interestDemand ;
+
     
     private List<VoGroupLoanSchedule> voGroupLoanScheduleList;
 
@@ -330,15 +333,16 @@ public class VoGroupLoan {
         this.institution = institution;
     }
 
-    public Integer getOrganizationName() {
-        return organizationName;
-    }
 
-    public void setOrganizationName(Integer organizationName) {
-        this.organizationName = organizationName;
-    }
+    public String getOrganizationName() {
+		return organizationName;
+	}
 
-    public Integer getSanctionedAmount() {
+	public void setOrganizationName(String organizationName) {
+		this.organizationName = organizationName;
+	}
+
+	public Integer getSanctionedAmount() {
         return sanctionedAmount;
     }
 
@@ -440,6 +444,22 @@ public class VoGroupLoan {
 
 	public void setNoOfLoan(Integer noOfLoan) {
 		this.noOfLoan = noOfLoan;
+	}
+
+	public Short getInstallmentType() {
+		return installmentType;
+	}
+
+	public void setInstallmentType(Short installmentType) {
+		this.installmentType = installmentType;
+	}
+
+	public int getInterestDemand() {
+		return interestDemand;
+	}
+
+	public void setInterestDemand(int interestDemand) {
+		this.interestDemand = interestDemand;
 	}
     
     
