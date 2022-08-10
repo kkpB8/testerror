@@ -212,6 +212,8 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 	private VoFinTxnVouchersDao voFinTxnVouchersDao;
 
 	@Autowired
+	private PGFunctionProcedureService pgFunctionProcedureService;
+
 	private ClfFinTxnDetMemDao clfFinTxnDetMemDao;
 
 	@Autowired
@@ -229,8 +231,6 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 	@Autowired
 	private ClfGroupLoanDao clfGroupLoanDao;
   
-  @Autowired
-  private PGFunctionProcedureService pgFunctionProcedureService;
 
 	public TenantServiceImpl() {
 	}
