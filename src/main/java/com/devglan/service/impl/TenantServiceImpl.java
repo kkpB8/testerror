@@ -2857,9 +2857,15 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				 clfMemLoanScheduleEntity.setModePayment(clfFinTxnDetMemEntity.getModePayment().intValue());
 				 clfMemLoanScheduleEntity.setUpdatedOn1(new Timestamp(txnDate.getTime()));
 				 clfMemLoanScheduleEntity.setInterestDemandActual(currentInterest);
-				 Integer loanRepaid = paidAmount - currentInterest;
+				 Integer loanRepaid = 0;
 
-				 loanOsActual = loanOsActual.subtract(new BigInteger(currentPrincipal.toString()));
+				 if(paidAmount >= totalCurDemand){
+					loanRepaid = currentPrincipal;
+				 } else if(paidAmount > currentInterest){
+					 loanRepaid = paidAmount - currentInterest;
+				 }
+
+				 loanOsActual = loanOsActual.subtract(new BigInteger(loanRepaid.toString()));
 				 clfMemLoanScheduleEntity.setLoanOsActual(loanOsActual);
 				 clfMemLoanEntity.setPrincipalRepaid(clfMemLoanEntity.getAmount()-loanOsActual.intValue());
 
@@ -2993,9 +2999,16 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					clfGroupLoanScheduleEntity.setModePayment(clfFinTxnDetGrpEntity.getModePayment().intValue());
 					clfGroupLoanScheduleEntity.setUpdatedOn1(new Timestamp(txnDate.getTime()));
 					clfGroupLoanScheduleEntity.setInterestDemandActual(currentInterest);
-					Integer loanRepaid = paidAmount - currentInterest;
+					Integer loanRepaid = 0;
 
-					loanOsActual = loanOsActual.subtract(new BigInteger(currentPrincipal.toString()));
+					if(paidAmount >= totalCurDemand){
+						loanRepaid = currentPrincipal;
+					} else if(paidAmount > currentInterest){
+						loanRepaid = paidAmount - currentInterest;
+					}
+
+					loanOsActual = loanOsActual.subtract(new BigInteger(loanRepaid.toString()));
+
 					clfGroupLoanScheduleEntity.setLoanOsActual(loanOsActual);
 					clfGroupLoanEntity.setPrincipalRepaid(clfGroupLoanEntity.getAmount()-loanOsActual.intValue());
 
