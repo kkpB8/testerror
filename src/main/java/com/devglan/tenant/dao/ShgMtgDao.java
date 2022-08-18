@@ -45,5 +45,5 @@ public interface ShgMtgDao extends JpaRepository<ShgMtgEntity, BigInteger> {
 	@Modifying(clearAutomatically = true)
 	@Transactional
 	@Query("update ShgMtgEntity u set u.summaryFlag = :summaryFlag where u.uid =:uid")
-	void updateSummaryFlag(BigInteger uid, Boolean aTrue);
+	void updateSummaryFlag(@Param("uid") final BigInteger uid, @Param("summaryFlag") final Boolean summaryFlag);
 }
