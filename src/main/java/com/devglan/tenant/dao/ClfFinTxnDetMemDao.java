@@ -9,6 +9,6 @@ import java.util.List;
 
 
 public interface ClfFinTxnDetMemDao extends JpaRepository<ClfFinTxnDetMemEntity, Long>, JpaSpecificationExecutor<ClfFinTxnDetMemEntity> {
-    @Query("FROM ClfFinTxnDetMemEntity cfm WHERE cfm.loanNo is not null and cfm.loanNo > 0 and (cfm.isProcessed is null or cfm.isProcessed = 0)")
+    @Query("FROM ClfFinTxnDetMemEntity cfm WHERE cfm.loanNo is not null and cfm.loanNo > 0 and (cfm.isProcessed is null or cfm.isProcessed = 0) ORDER BY cfm.uid ASC")
     List<ClfFinTxnDetMemEntity> getUnProcessedPayments();
 }
