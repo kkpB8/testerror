@@ -10,6 +10,6 @@ import java.util.List;
 
 
 public interface ClfFinTxnDetGrpDao extends JpaRepository<ClfFinTxnDetGrpEntity, Long>, JpaSpecificationExecutor<ClfFinTxnDetGrpEntity> {
-    @Query("FROM ClfFinTxnDetGrpEntity cfm WHERE (cfm.isProcessed is null or cfm.isProcessed = 0)")
+    @Query("FROM ClfFinTxnDetGrpEntity cfm WHERE (cfm.isProcessed is null or cfm.isProcessed = 0) ORDER BY cfm.uid ASC")
     List<ClfFinTxnDetGrpEntity> getUnProcessedPayments();
 }
