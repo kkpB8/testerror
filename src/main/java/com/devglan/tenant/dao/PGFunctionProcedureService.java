@@ -24,9 +24,11 @@ public class PGFunctionProcedureService {
         try {
             con = DriverManager.getConnection(url_sp, user_sp, password_sp);
             System.out.println("Connected to the PostgreSQL server successfully.");
+            System.out.println("connection name"+ con.getSchema());
             pstmt = con.prepareStatement("call update_meeting_summary(?)");
             pstmt.setInt(1, id.intValueExact());
             pstmt.execute();
+            System.out.println("Query Execute Successfully");
             pstmt.close();
             con.close();
         } catch (SQLException e) {

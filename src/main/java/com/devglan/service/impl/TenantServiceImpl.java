@@ -2152,12 +2152,11 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 
 			}
-			try {
-				pgFunctionProcedureService.update_meeting_summary(mtg.getUid());
-				shgMtgDao.updateSummaryFlag(mtg.getUid(), Boolean.TRUE);
-			}catch (SQLException e){
-				System.out.println("Calculate summary failed!!");
-			}
+			/*
+			 * try { pgFunctionProcedureService.update_meeting_summary(mtg.getUid());
+			 * shgMtgDao.updateSummaryFlag(mtg.getUid(), Boolean.TRUE); }catch (SQLException
+			 * e){ System.out.println("Calculate summary failed!!"); }
+			 */
 		} catch (Exception e) {
 
 
@@ -2663,12 +2662,12 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 
 			}
-			try {
-				pgFunctionProcedureService.update_vo_meeting_summary(mtg.getUid());
-				voMtgDao.updateSummaryFlag(mtg.getUid(), Boolean.TRUE);
-			}catch (SQLException e){
-				System.out.println("Calculate summary failed!!");
-			}
+//			try {
+//				pgFunctionProcedureService.update_vo_meeting_summary(mtg.getUid());
+//				voMtgDao.updateSummaryFlag(mtg.getUid(), Boolean.TRUE);
+//			}catch (SQLException e){
+//				System.out.println("Calculate summary failed!!");
+//			}
 		} catch (Exception e) {
 
 
@@ -2725,15 +2724,15 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 	public Boolean createMeetingSummary() {
 		Boolean res = Boolean.TRUE;
 		try{
-			List<BigInteger> shgMtgIds = shgMtgDao.getMtgIdsForSummary(Boolean.TRUE);
+			List<BigInteger> shgMtgIds = shgMtgDao.getMtgIdsForSummary();
 			for (BigInteger uid : shgMtgIds){
 				pgFunctionProcedureService.update_meeting_summary(uid);
 				shgMtgDao.updateSummaryFlag(uid, Boolean.TRUE);
 			}
 
-			List<BigInteger> voMtgIds = voMtgDao.getMtgIdsForSummary(Boolean.TRUE);
+			List<BigInteger> voMtgIds = voMtgDao.getMtgIdsForSummary();
 			for (BigInteger uid : voMtgIds){
-				pgFunctionProcedureService.update_meeting_summary(uid);
+				pgFunctionProcedureService.update_vo_meeting_summary(uid);
 				voMtgDao.updateSummaryFlag(uid, Boolean.TRUE);
 			}
 		}catch (Exception e) {
@@ -3083,3 +3082,6 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 
 }
+
+
+
