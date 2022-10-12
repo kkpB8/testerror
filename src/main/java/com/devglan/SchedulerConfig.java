@@ -186,6 +186,7 @@ public class SchedulerConfig{
                   uploadVoMeeting.setUserId(processingJsonTemp.getUser_id());
                   returnStatus = tenantService.createVoMeetingProfileUpload(role,uploadVoMeeting);
                   if(returnStatus.equals("Success")) {
+                	  tenantService.createMeetingSummary();
                       TransactionStatusEntity transactionStatusEntity = tenantService.insertIntoTransaction(transactionId,processingJsonTemp.getId(),processingJsonTemp.getUser_id().toString(),role);
                       transactionStatusEntity.setStatus(TransactionStatusEntity.success);
                       //transactionStatusEntity.setRole(role);
@@ -226,6 +227,7 @@ public class SchedulerConfig{
         	  uploadShgMeeting.setUserId(processingJsonTemp.getUser_id());
         	  returnStatus = tenantService.createMeetingProfileUpload(role,uploadShgMeeting);
         	 if(returnStatus.equals("Success")) {
+        		 tenantService.createMeetingSummary();
             	  TransactionStatusEntity transactionStatusEntity = tenantService.insertIntoTransaction(transactionId,processingJsonTemp.getId(),processingJsonTemp.getUser_id().toString(),role);
                   transactionStatusEntity.setStatus(TransactionStatusEntity.success);
                   //transactionStatusEntity.setRole(role);
@@ -273,6 +275,7 @@ public void runLoanScheduler() {
         System.out.println("Running loan scheduler.....");
         this.tenantService.processLoanPaymentVouchers();
         this.tenantService.processGroupLoanPaymentVouchers();
+       
     }
 
    @Scheduled(cron = "0 0 0 * * *",zone = "Indian/Maldives")
@@ -285,6 +288,7 @@ public void runLoanScheduler() {
          System.out.println("update failed!!");
       }
    }
+
 }
 
 

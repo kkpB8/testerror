@@ -37,6 +37,5 @@ public interface TenantService {
 
 	public void processLoanPaymentVouchers();
 
-
 	public void processGroupLoanPaymentVouchers();
 }

@@ -39,8 +39,8 @@ public interface ShgMtgDao extends JpaRepository<ShgMtgEntity, BigInteger> {
 		@Query(nativeQuery = true, value = "Delete from shg_mtg where uid=?1")
 	 	void deleteShgMtg(BigInteger uid);
 
-	 	@Query(nativeQuery = true, value = "select uid from shg_mtg where summary_flag!=?1")
-	List<BigInteger> getMtgIdsForSummary(Boolean summaryFlag);
+	 	@Query(nativeQuery = true, value = "select uid from shg_mtg where summary_flag is Null or summary_flag = False")
+	List<BigInteger> getMtgIdsForSummary();
 
 	@Modifying(clearAutomatically = true)
 	@Transactional
