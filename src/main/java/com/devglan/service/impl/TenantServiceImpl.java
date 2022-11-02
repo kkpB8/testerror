@@ -2828,7 +2828,12 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				 } else {
 					 //if not installment paid then disbursed date of loan --> for first installment
 					 cal.setTime(clfMemLoanEntity.getDisbursementDate1());
-					 loanOsActual = BigInteger.valueOf(clfMemLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
+//					 loanOsActual = BigInteger.valueOf(clfMemLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
+					 /*
+					  * If there is no repayment calculating loanOs actual by adding principal demand and loanOs Scheadule
+					  * As for cutoff over due amount is added for the first installment prinicpal demand.
+					 */
+					 loanOsActual = clfMemLoanScheduleEntityList.get(0).getLoanOsSchedule().add(BigInteger.valueOf(clfMemLoanScheduleEntityList.get(0).getPrincipalDemand())); //clfMemLoanScheduleEntity.getLoanOsSchedule();
 				 }
 
 				 Date lastMonthInstlDate = cal.getTime();
@@ -2970,7 +2975,12 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					} else {
 						//if not installment paid then disbursed date of loan --> for first installment
 						cal.setTime(clfGroupLoanEntity.getDisbursementDate1());
-						loanOsActual = BigInteger.valueOf(clfGroupLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
+//						loanOsActual = BigInteger.valueOf(clfGroupLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
+						/*
+						* If there is no repayment calculating loanOs actual by adding principal demand and loanOs Scheadule
+						* As for cutoff over due amount is added for the first installment prinicpal demand.
+						*/
+						loanOsActual = clfGroupLoanScheduleEntityList.get(0).getLoanOsSchedule().add(BigInteger.valueOf(clfGroupLoanScheduleEntityList.get(0).getPrincipalDemand())); //clfMemLoanScheduleEntity.getLoanOsSchedule();
 					}
 
 					Date lastMonthInstlDate = cal.getTime();
