@@ -2152,12 +2152,11 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 
 			}
-			try {
-				pgFunctionProcedureService.update_meeting_summary(mtg.getUid());
-				shgMtgDao.updateSummaryFlag(mtg.getUid(), Boolean.TRUE);
-			}catch (SQLException e){
-				System.out.println("Calculate summary failed!!");
-			}
+			/*
+			 * try { pgFunctionProcedureService.update_meeting_summary(mtg.getUid());
+			 * shgMtgDao.updateSummaryFlag(mtg.getUid(), Boolean.TRUE); }catch (SQLException
+			 * e){ System.out.println("Calculate summary failed!!"); }
+			 */
 		} catch (Exception e) {
 
 
@@ -2663,12 +2662,12 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 
 			}
-			try {
-				pgFunctionProcedureService.update_vo_meeting_summary(mtg.getUid());
-				voMtgDao.updateSummaryFlag(mtg.getUid(), Boolean.TRUE);
-			}catch (SQLException e){
-				System.out.println("Calculate summary failed!!");
-			}
+//			try {
+//				pgFunctionProcedureService.update_vo_meeting_summary(mtg.getUid());
+//				voMtgDao.updateSummaryFlag(mtg.getUid(), Boolean.TRUE);
+//			}catch (SQLException e){
+//				System.out.println("Calculate summary failed!!");
+//			}
 		} catch (Exception e) {
 
 
@@ -2725,15 +2724,15 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 	public Boolean createMeetingSummary() {
 		Boolean res = Boolean.TRUE;
 		try{
-			List<BigInteger> shgMtgIds = shgMtgDao.getMtgIdsForSummary(Boolean.TRUE);
+			List<BigInteger> shgMtgIds = shgMtgDao.getMtgIdsForSummary();
 			for (BigInteger uid : shgMtgIds){
 				pgFunctionProcedureService.update_meeting_summary(uid);
 				shgMtgDao.updateSummaryFlag(uid, Boolean.TRUE);
 			}
 
-			List<BigInteger> voMtgIds = voMtgDao.getMtgIdsForSummary(Boolean.TRUE);
+			List<BigInteger> voMtgIds = voMtgDao.getMtgIdsForSummary();
 			for (BigInteger uid : voMtgIds){
-				pgFunctionProcedureService.update_meeting_summary(uid);
+				pgFunctionProcedureService.update_vo_meeting_summary(uid);
 				voMtgDao.updateSummaryFlag(uid, Boolean.TRUE);
 			}
 		}catch (Exception e) {
@@ -2829,7 +2828,12 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				 } else {
 					 //if not installment paid then disbursed date of loan --> for first installment
 					 cal.setTime(clfMemLoanEntity.getDisbursementDate1());
-					 loanOsActual = BigInteger.valueOf(clfMemLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
+//					 loanOsActual = BigInteger.valueOf(clfMemLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
+					 /*
+					  * If there is no repayment calculating loanOs actual by adding principal demand and loanOs Scheadule
+					  * As for cutoff over due amount is added for the first installment prinicpal demand.
+					 */
+					 loanOsActual = clfMemLoanScheduleEntityList.get(0).getLoanOsSchedule().add(BigInteger.valueOf(clfMemLoanScheduleEntityList.get(0).getPrincipalDemand())); //clfMemLoanScheduleEntity.getLoanOsSchedule();
 				 }
 
 				 Date lastMonthInstlDate = cal.getTime();
@@ -2971,7 +2975,12 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					} else {
 						//if not installment paid then disbursed date of loan --> for first installment
 						cal.setTime(clfGroupLoanEntity.getDisbursementDate1());
-						loanOsActual = BigInteger.valueOf(clfGroupLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
+//						loanOsActual = BigInteger.valueOf(clfGroupLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
+						/*
+						* If there is no repayment calculating loanOs actual by adding principal demand and loanOs Scheadule
+						* As for cutoff over due amount is added for the first installment prinicpal demand.
+						*/
+						loanOsActual = clfGroupLoanScheduleEntityList.get(0).getLoanOsSchedule().add(BigInteger.valueOf(clfGroupLoanScheduleEntityList.get(0).getPrincipalDemand())); //clfMemLoanScheduleEntity.getLoanOsSchedule();
 					}
 
 					Date lastMonthInstlDate = cal.getTime();
@@ -3083,3 +3092,6 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 
 }
+
+
+
