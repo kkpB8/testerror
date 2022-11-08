@@ -2828,6 +2828,11 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				 } else {
 					 //if not installment paid then disbursed date of loan --> for first installment
 					 cal.setTime(clfMemLoanEntity.getDisbursementDate1());
+
+					 // Checking if the PrincipalOverdue is not null, then it is setting the time to the createdOn1 this is done to handle cutoff active loan case.
+					 if(clfMemLoanEntity.getPrincipalOverdue() != null ){
+						 cal.setTime(clfMemLoanScheduleEntity.getCreatedOn1());
+					 }
 //					 loanOsActual = BigInteger.valueOf(clfMemLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
 					 /*
 					  * If there is no repayment calculating loanOs actual by adding principal demand and loanOs Scheadule
@@ -2982,6 +2987,10 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					} else {
 						//if not installment paid then disbursed date of loan --> for first installment
 						cal.setTime(clfGroupLoanEntity.getDisbursementDate1());
+						// Checking if the PrincipalOverdue is not null, then it is setting the time to the createdOn1 this is done to handle cutoff active loan case.
+						if(clfGroupLoanEntity.getPrincipalOverdue() != null ){
+							cal.setTime(clfGroupLoanScheduleEntity.getCreatedOn1());
+						}
 //						loanOsActual = BigInteger.valueOf(clfGroupLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
 						/*
 						* If there is no repayment calculating loanOs actual by adding principal demand and loanOs Scheadule
