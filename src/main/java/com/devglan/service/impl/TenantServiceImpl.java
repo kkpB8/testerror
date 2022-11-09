@@ -231,6 +231,10 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 	@Autowired
 	private ClfGroupLoanDao clfGroupLoanDao;
+
+
+	@Autowired
+	private ClfMtgDetailsDao clfMtgDetailsDao;
   
 
 	public TenantServiceImpl() {
@@ -2829,10 +2833,16 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					 //if not installment paid then disbursed date of loan --> for first installment
 					 cal.setTime(clfMemLoanEntity.getDisbursementDate1());
 
-					 // Checking if the PrincipalOverdue is not null, then it is setting the time to the createdOn1 this is done to handle cutoff active loan case.
+					 
 					 if(clfMemLoanEntity.getPrincipalOverdue() != null ){
-						 cal.setTime(clfMemLoanScheduleEntity.getCreatedOn1());
+						ClfMtgDetailsEntity mtgDetails  = clfMtgDetailsDao.findMtgDetailsByCboIdAndMtgNo(clfMemLoanEntity.getCboId(), clfMemLoanEntity.getMtgNo());
+						cal.setTime(mtgDetails.getMtgDate1());
+						System.out.println("***************************");
+						System.out.println("MtgDate ::::: " + mtgDetails.getMtgDate1());
+						System.out.println("***************************");
+
 					 }
+
 //					 loanOsActual = BigInteger.valueOf(clfMemLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
 					 /*
 					  * If there is no repayment calculating loanOs actual by adding principal demand and loanOs Scheadule
@@ -2989,7 +2999,8 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 						cal.setTime(clfGroupLoanEntity.getDisbursementDate1());
 						// Checking if the PrincipalOverdue is not null, then it is setting the time to the createdOn1 this is done to handle cutoff active loan case.
 						if(clfGroupLoanEntity.getPrincipalOverdue() != null ){
-							cal.setTime(clfGroupLoanScheduleEntity.getCreatedOn1());
+							ClfMtgDetailsEntity mtgDetails = clfMtgDetailsDao.findMtgDetailsByCboIdAndMtgNo(clfGroupLoanEntity.getCboId(), clfGroupLoanEntity.getMtgNo());
+							cal.setTime(mtgDetails.getMtgDate1());
 						}
 //						loanOsActual = BigInteger.valueOf(clfGroupLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
 						/*
