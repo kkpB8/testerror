@@ -231,6 +231,10 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 	@Autowired
 	private ClfGroupLoanDao clfGroupLoanDao;
+
+
+	@Autowired
+	private ClfMtgDetailsDao clfMtgDetailsDao;
   
 
 	public TenantServiceImpl() {
@@ -2828,6 +2832,13 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				 } else {
 					 //if not installment paid then disbursed date of loan --> for first installment
 					 cal.setTime(clfMemLoanEntity.getDisbursementDate1());
+
+					 ClfMtgDetailsEntity mtgDetails  = clfMtgDetailsDao.findMtgDetailsByCboIdAndMtgNo(clfMemLoanEntity.getCboId(), clfMemLoanEntity.getMtgNo());
+					 
+					 if(mtgDetails != null && mtgDetails.getMtgType() == ServiceConstants.cutOffMtgType){
+							cal.setTime(mtgDetails.getMtgDate1());
+					 }
+
 //					 loanOsActual = BigInteger.valueOf(clfMemLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
 					 /*
 					  * If there is no repayment calculating loanOs actual by adding principal demand and loanOs Scheadule
@@ -2848,6 +2859,9 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					 currentPrincipal = currentPrincipal - loanrepaid;
 				 }
 				 Integer currentInterest = Math.round(loanOsActual.intValue() * clfMemLoanEntity.getInterestRate() * (Float.valueOf(days) / 365) / 100) + osIntrest;
+				 if(lastPaidInstallment == null && clfMemLoanEntity.getInterestOverdue() != null){
+					 currentInterest += clfMemLoanEntity.getInterestOverdue();
+				 }
 				 Integer totalCurDemand = currentPrincipal + currentInterest;
 
 				 clfMemLoanScheduleEntity.setGapDaysActual(days.intValue());
@@ -2892,8 +2906,12 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 					// clfMemLoanEntity.setPrincipalRepaid(loanRepaid);
 					// clfMemLoanEntity.setPrincipalRepaid(clfMemLoanEntity.getAmount()-loanOsActual.intValue());
-					 clfMemLoanEntity.setPrincipalOverdue(clfMemLoanScheduleEntity.getLoanOsActual().intValue());
-					 if (clfMemLoanEntity.getPrincipalOverdue() <= 0) {
+					 /**
+					  * as principalOverDue is calculated in the get request while getting the data.
+					  * **/
+//					 clfMemLoanEntity.setPrincipalOverdue(clfMemLoanScheduleEntity.getLoanOsActual().intValue());
+
+					 if (clfMemLoanScheduleEntity.getLoanOsActual().intValue() <= 0) {
 						 clfMemLoanEntity.setCompletionFlag(1);
 					 }
 
@@ -2975,6 +2993,12 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					} else {
 						//if not installment paid then disbursed date of loan --> for first installment
 						cal.setTime(clfGroupLoanEntity.getDisbursementDate1());
+
+						ClfMtgDetailsEntity mtgDetails = clfMtgDetailsDao.findMtgDetailsByCboIdAndMtgNo(clfGroupLoanEntity.getCboId(), clfGroupLoanEntity.getMtgNo());
+						
+						if(mtgDetails != null && mtgDetails.getMtgType() == ServiceConstants.cutOffMtgType){
+							cal.setTime(mtgDetails.getMtgDate1());
+						}
 //						loanOsActual = BigInteger.valueOf(clfGroupLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
 						/*
 						* If there is no repayment calculating loanOs actual by adding principal demand and loanOs Scheadule
@@ -2995,6 +3019,9 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 						currentPrincipal = currentPrincipal - loanrepaid;
 					}
 					Integer currentInterest = Math.round(loanOsActual.intValue() * clfGroupLoanEntity.getInterestRate() * (Float.valueOf(days) / 365) / 100) + osIntrest;
+					if(lastPaidInstallment == null && clfGroupLoanEntity.getInterestOverdue() != null){
+						currentInterest += clfGroupLoanEntity.getInterestOverdue();
+					}
 					Integer totalCurDemand = currentPrincipal + currentInterest;
 
 					clfGroupLoanScheduleEntity.setGapDaysActual(days.intValue());
@@ -3036,11 +3063,13 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 						clfGroupLoanScheduleEntity.setRepaid(Short.valueOf("0"));
 
 						clfGroupLoanScheduleEntity.setLoanRepaid(loanRepaid);
-					//	clfGroupLoanScheduleEntity.setLoanOsActual(loanOsActual.subtract(new BigInteger(loanRepaid.toString())));
-
+						//	clfGroupLoanScheduleEntity.setLoanOsActual(loanOsActual.subtract(new BigInteger(loanRepaid.toString())));
 						//clfGroupLoanEntity.setPrincipalRepaid(loanRepaid);
-						clfGroupLoanEntity.setPrincipalOverdue(clfGroupLoanScheduleEntity.getLoanOsActual().intValue());
-						if (clfGroupLoanEntity.getPrincipalOverdue() <= 0) {
+						/**
+						* as principalOverDue is calculated in the get request while getting the data.
+						* **/
+						// clfGroupLoanEntity.setPrincipalOverdue(clfGroupLoanScheduleEntity.getLoanOsActual().intValue());
+						if (clfGroupLoanScheduleEntity.getLoanOsActual().intValue() <= 0) {
 							clfGroupLoanEntity.setCompletionFlag((short) 1);
 						}
 
