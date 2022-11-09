@@ -2835,7 +2835,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 					 ClfMtgDetailsEntity mtgDetails  = clfMtgDetailsDao.findMtgDetailsByCboIdAndMtgNo(clfMemLoanEntity.getCboId(), clfMemLoanEntity.getMtgNo());
 					 
-					 if(mtgDetails != null && mtgDetails.getMtgType() == 11){
+					 if(mtgDetails != null && mtgDetails.getMtgType() == ServiceConstants.cutOffMtgType){
 							cal.setTime(mtgDetails.getMtgDate1());
 					 }
 
@@ -2996,7 +2996,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 						ClfMtgDetailsEntity mtgDetails = clfMtgDetailsDao.findMtgDetailsByCboIdAndMtgNo(clfGroupLoanEntity.getCboId(), clfGroupLoanEntity.getMtgNo());
 						
-						if(mtgDetails != null && mtgDetails.getMtgType() == 11){
+						if(mtgDetails != null && mtgDetails.getMtgType() == ServiceConstants.cutOffMtgType){
 							cal.setTime(mtgDetails.getMtgDate1());
 						}
 //						loanOsActual = BigInteger.valueOf(clfGroupLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
