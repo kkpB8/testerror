@@ -2833,10 +2833,10 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					 //if not installment paid then disbursed date of loan --> for first installment
 					 cal.setTime(clfMemLoanEntity.getDisbursementDate1());
 
+					 ClfMtgDetailsEntity mtgDetails  = clfMtgDetailsDao.findMtgDetailsByCboIdAndMtgNo(clfMemLoanEntity.getCboId(), clfMemLoanEntity.getMtgNo());
 					 
-					 if(clfMemLoanEntity.getPrincipalOverdue() != null ){
-						ClfMtgDetailsEntity mtgDetails  = clfMtgDetailsDao.findMtgDetailsByCboIdAndMtgNo(clfMemLoanEntity.getCboId(), clfMemLoanEntity.getMtgNo());
-						cal.setTime(mtgDetails.getMtgDate1());
+					 if(mtgDetails != null && mtgDetails.getMtgType() == 11){
+							cal.setTime(mtgDetails.getMtgDate1());
 					 }
 
 //					 loanOsActual = BigInteger.valueOf(clfMemLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
@@ -2993,9 +2993,10 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					} else {
 						//if not installment paid then disbursed date of loan --> for first installment
 						cal.setTime(clfGroupLoanEntity.getDisbursementDate1());
-						// Checking if the PrincipalOverdue is not null, then it is setting the time to the createdOn1 this is done to handle cutoff active loan case.
-						if(clfGroupLoanEntity.getPrincipalOverdue() != null ){
-							ClfMtgDetailsEntity mtgDetails = clfMtgDetailsDao.findMtgDetailsByCboIdAndMtgNo(clfGroupLoanEntity.getCboId(), clfGroupLoanEntity.getMtgNo());
+
+						ClfMtgDetailsEntity mtgDetails = clfMtgDetailsDao.findMtgDetailsByCboIdAndMtgNo(clfGroupLoanEntity.getCboId(), clfGroupLoanEntity.getMtgNo());
+						
+						if(mtgDetails != null && mtgDetails.getMtgType() == 11){
 							cal.setTime(mtgDetails.getMtgDate1());
 						}
 //						loanOsActual = BigInteger.valueOf(clfGroupLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
