@@ -2837,10 +2837,6 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					 if(clfMemLoanEntity.getPrincipalOverdue() != null ){
 						ClfMtgDetailsEntity mtgDetails  = clfMtgDetailsDao.findMtgDetailsByCboIdAndMtgNo(clfMemLoanEntity.getCboId(), clfMemLoanEntity.getMtgNo());
 						cal.setTime(mtgDetails.getMtgDate1());
-						System.out.println("***************************");
-						System.out.println("MtgDate ::::: " + mtgDetails.getMtgDate1());
-						System.out.println("***************************");
-
 					 }
 
 //					 loanOsActual = BigInteger.valueOf(clfMemLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
