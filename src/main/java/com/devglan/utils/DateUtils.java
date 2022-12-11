@@ -64,7 +64,7 @@ public static Date secondsToDateConverterLong(Long seconds){
     //Timestamp
 	
 	  public static Timestamp secondsToTimestampConverter(Integer seconds) {
-	  if(seconds!=0) { long millis = seconds; LocalDateTime date1 =
+	  if(seconds != null && seconds!=0) { long millis = seconds; LocalDateTime date1 =
 	  LocalDateTime.ofEpochSecond(millis+19800, 0, ZoneOffset.UTC);
 	  
 	  Timestamp date = Timestamp.valueOf(date1); return date; } else return null; }

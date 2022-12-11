@@ -76,6 +76,7 @@ public class CboKYCDetailsEntity {
 
     public static Integer kycRegistrationNo = 1;
     public static Integer kycTANNo = 2;
+    public static Integer kycPANNo = 3;
 
 
     public CboKYCDetailsEntity() {
