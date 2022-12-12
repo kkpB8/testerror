@@ -1402,6 +1402,9 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 							} else if (fileMappingType.contains(ServiceConstants.cboKYCTANNoPhoto)) {
 								path = ServiceConstants.cboKYCTANNoPhoto;
 								modifiedName = ServiceConstants.cboKYCTANNoPhoto;
+							} else if (fileMappingType.contains(ServiceConstants.cboKYCPANNoPhoto)) {
+								path = ServiceConstants.cboKYCPANNoPhoto;
+								modifiedName = ServiceConstants.cboKYCPANNoPhoto;
 							} else if (fileMappingType.contains(ServiceConstants.federationoProfilePhoto)) {
 								path = ServiceConstants.federationoProfilePhoto;
 								modifiedName = ServiceConstants.federationoProfilePhoto;
@@ -1444,6 +1447,11 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 								cboKYCTANNoPhotoDocIdTemp.put(ServiceConstants.cboKYCTANNoPhoto,
 										documentDetailsEntityAfterSave.getDocumentId());
 								cboKYCPhotoDocId.add(cboKYCTANNoPhotoDocIdTemp);
+							} else if (fileMappingType.contains(ServiceConstants.cboKYCPANNoPhoto)) {
+								Map<String, BigInteger> cboKYCPANNoPhotoDocIdTemp = new HashMap<>();
+								cboKYCPANNoPhotoDocIdTemp.put(ServiceConstants.cboKYCPANNoPhoto,
+										documentDetailsEntityAfterSave.getDocumentId());
+								cboKYCPhotoDocId.add(cboKYCPANNoPhotoDocIdTemp);
 
 							} else if (fileMappingType.contains(ServiceConstants.federationoProfilePhoto)) {
 								federationProfilePhotoDocId.put(ServiceConstants.federationoProfilePhoto,
@@ -1608,6 +1616,15 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 								for (Map<String, BigInteger> cboKYCPhotoDocIdTemp : cboKYCPhotoDocId) {
 									for (String keys : cboKYCPhotoDocIdTemp.keySet()) {
 										if (keys.equals(ServiceConstants.cboKYCTANNoPhoto)) {
+											cboKYCDetailsEntity.setDocumentId(cboKYCPhotoDocIdTemp.get(keys));
+										}
+									}
+								}
+							}
+							if (cboKYCDetails.getKyc_type().equals(CboKYCDetailsEntity.kycPANNo)) {
+								for (Map<String, BigInteger> cboKYCPhotoDocIdTemp : cboKYCPhotoDocId) {
+									for (String keys : cboKYCPhotoDocIdTemp.keySet()) {
+										if (keys.equals(ServiceConstants.cboKYCPANNoPhoto)) {
 											cboKYCDetailsEntity.setDocumentId(cboKYCPhotoDocIdTemp.get(keys));
 										}
 									}
