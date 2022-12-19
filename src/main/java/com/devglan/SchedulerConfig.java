@@ -8,6 +8,8 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.devglan.model.ShgProfileEntity;
+import com.devglan.tenant.dao.SHGProfileDao;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,8 +35,10 @@ public class SchedulerConfig{
 	private static final Logger logger = LoggerFactory.getLogger(SchedulerConfig.class);
 	@Autowired
 	TenantService tenantService;
-	
-	  @Scheduled(initialDelay = 10000,fixedDelay = 120000) 
+   @Autowired
+   private SHGProfileDao shgProfileDao;
+
+   @Scheduled(initialDelay = 10000,fixedDelay = 120000)
 	  public void run() {
 	  logger.info("Scheduler started successfully");
 
@@ -106,6 +110,13 @@ public class SchedulerConfig{
                   //transactionStatusEntity.setRole(role);
                   transactionStatusEntity.setRemarks("Data inserted/updated successfully");
                   tenantService.saveTransactionStatus(transactionStatusEntity);
+                  try {
+                     ShgProfileEntity shgProfileEntity= shgProfileDao.fetchByGUID(shgProfile.getGuid(),Boolean.TRUE);
+                     jsonCreationAtInsertion(shgProfileEntity.getShgId());
+                  }catch (Exception e){
+                     System.out.println("Error in Json creation");
+                     e.printStackTrace();
+                  }
               }
               }
               catch(Exception e) {
@@ -288,6 +299,22 @@ public void runLoanScheduler() {
          System.out.println("update failed!!");
       }
    }
+
+  /* @Scheduled(initialDelay = 10000,fixedDelay = 999999999)
+   public void runJsonCreationAtInsertion() {
+      jsonCreationAtInsertion(BigInteger.valueOf(1200));
+
+   }*/
+   public void jsonCreationAtInsertion(BigInteger shgId){
+      Long t1 = System.currentTimeMillis();
+      System.out.println("Program  starting point. T1 -> "+ t1);
+      String res = tenantService.jsonCreationAtInsertion(shgId);
+      Long t2 = System.currentTimeMillis();
+      System.out.println("Program  ending point T2 -> "+ t2);
+      System.out.println("Total Time (T2 - T1) -> "+ (t2-t1));
+
+   }
+
 
 }
 

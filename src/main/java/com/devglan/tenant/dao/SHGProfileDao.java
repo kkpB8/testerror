@@ -36,6 +36,7 @@ public interface SHGProfileDao extends JpaRepository<ShgProfileEntity, BigIntege
     Integer getActiveShg(@Param("shgId") final BigInteger shgId,
                                          @Param("isActive") final Boolean isActive);
 
-    
-   
+
+    @Query(nativeQuery = true,value = "select MAX(mtg_no) from shg_mtg where cbo_id = ?1")
+    Long getMaxMtgNo(BigInteger shgId);
 }

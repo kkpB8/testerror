@@ -1,32 +1,24 @@
 package com.devglan.model;
 
-
 import javax.persistence.*;
 import java.math.BigInteger;
-import java.util.Date;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
-@Table(name = "cadre_non_members")
-public class CadreNonMembersEntity
+@Table(name = "profile_master_data")
+public class ProfileMasterDataEntity
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "uid", nullable = false)
-    private BigInteger uid;
-    @Column(name = "village_id", nullable = false)
-    private Integer villageId;
-    @Column(name = "member_name", nullable = false)
-    private String memberName;
-    @Column(name = "cadre_role_code", nullable = false)
-    private Integer cadreRoleCode;
-    @Column(name = "cadre_cat_code", nullable = false)
-    private Integer cadreCatCode;
-    @Column(name = "date_joining", nullable = false)
-    private Date dateJoining;
-    @Column(name = "date_leaving", nullable = false)
-    private Date dateLeaving;
+    @Column(name = "id", nullable = false)
+    private BigInteger id;
+    @Column(name = "cbo_id", nullable = false)
+    private BigInteger cboId;
+    @Column(name = "cbo_type", nullable = false)
+    private Short cboType;
+    @Column(name = "data")
+    private String data;
     @Column(name = "created_by")
     private String createdBy;
     @Column(name = "created_on")
@@ -36,97 +28,70 @@ public class CadreNonMembersEntity
     private String updatedBy;
     @Column(name = "updated_on")
     private Timestamp updatedOn;
-    @Column(name = "uploaded_by")
-    private String uploadedBy;
-    @Column(name = "uploaded_on")
-    private Timestamp uploadedOn;
-    
-    @Column(name = "cadre_guid")
-    private String cadreGuid;
-	public String getCadreGuid() {
-		return cadreGuid;
+
+	public BigInteger getId() {
+		return id;
 	}
-	public void setCadreGuid(String cadreGuid) {
-		this.cadreGuid = cadreGuid;
+
+	public void setId(BigInteger id) {
+		this.id = id;
 	}
-	public BigInteger getUid() {
-		return uid;
+
+	public BigInteger getCboId() {
+		return cboId;
 	}
-	public void setUid(BigInteger uid) {
-		this.uid = uid;
+
+	public void setCboId(BigInteger cboId) {
+		this.cboId = cboId;
 	}
-	public Integer getVillageId() {
-		return villageId;
+
+	public Short getCboType() {
+		return cboType;
 	}
-	public void setVillageId(Integer villageId) {
-		this.villageId = villageId;
+
+	public void setCboType(Short cboType) {
+		this.cboType = cboType;
 	}
-	public String getMemberName() {
-		return memberName;
+
+	public String getData() {
+		return data;
 	}
-	public void setMemberName(String memberName) {
-		this.memberName = memberName;
+
+	public void setData(String data) {
+		this.data = data;
 	}
-	public Integer getCadreRoleCode() {
-		return cadreRoleCode;
-	}
-	public void setCadreRoleCode(Integer cadreRoleCode) {
-		this.cadreRoleCode = cadreRoleCode;
-	}
-	public Integer getCadreCatCode() {
-		return cadreCatCode;
-	}
-	public void setCadreCatCode(Integer cadreCatCode) {
-		this.cadreCatCode = cadreCatCode;
-	}
-	public Date getDateJoining() {
-		return dateJoining;
-	}
-	public void setDateJoining(Date dateJoining) {
-		this.dateJoining = dateJoining;
-	}
-	public Date getDateLeaving() {
-		return dateLeaving;
-	}
-	public void setDateLeaving(Date dateLeaving) {
-		this.dateLeaving = dateLeaving;
-	}
+
 	public String getCreatedBy() {
 		return createdBy;
 	}
+
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
+
 	public Timestamp getCreatedOn() {
 		return createdOn;
 	}
+
 	public void setCreatedOn(Timestamp createdOn) {
 		this.createdOn = createdOn;
 	}
+
 	public String getUpdatedBy() {
 		return updatedBy;
 	}
+
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
 	}
+
 	public Timestamp getUpdatedOn() {
 		return updatedOn;
 	}
+
 	public void setUpdatedOn(Timestamp updatedOn) {
 		this.updatedOn = updatedOn;
 	}
-	public String getUploadedBy() {
-		return uploadedBy;
-	}
-	public void setUploadedBy(String uploadedBy) {
-		this.uploadedBy = uploadedBy;
-	}
-	public Timestamp getUploadedOn() {
-		return uploadedOn;
-	}
-	public void setUploadedOn(Timestamp uploadedOn) {
-		this.uploadedOn = uploadedOn;
-	}
 
-  
+
 }

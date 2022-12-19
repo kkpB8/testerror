@@ -428,8 +428,9 @@ public class MemberMapper {
                 memberBank.setIs_active(shortValZero.shortValue());
         }
         memberBank.setIs_default_account(memberBankDetailsEntity.getIsDefaultAccount());
-		
-		 memberBank.setIdentified_duplicates(memberBankDetailsEntity.getIdentifyDuplicate());
+
+        //02-04-21
+        // memberBank.setIdentify_duplicate(memberBankDetailsEntity.getIdentifyDuplicate());
         memberBank.setNpci_status(memberBankDetailsEntity.getNpciStatus());
         memberBank.setIs_verified(memberBankDetailsEntity.getIsVerified());
         memberBank.setIs_complete (memberBankDetailsEntity.getIsComplete());
@@ -668,8 +669,8 @@ public class MemberMapper {
         memberProfile.setBpl(memberProfileEntity.getBpl());
         memberProfile.setBpl_number(memberProfileEntity.getBplNumber());
         memberProfile.setPip_category(memberProfileEntity.getPipCategory());
-        memberProfile.setIs_insurance(memberProfileEntity.getIsInsurance());
         memberProfile.setConsent_form_image(memberProfileEntity.getConsentFormImage());
+        memberProfile.setIs_insurance(memberProfileEntity.getIsInsurance());
         memberProfile.setPip_date((memberProfileEntity.getPipDate() != null) ? DateUtils.dateToSecondsConverter(memberProfileEntity.getPipDate()) : null);
         memberProfile.setHighest_education_level(memberProfileEntity.getHighestEducationLevel());
         memberProfile.setDob_available((short) ((memberProfileEntity.getDobAvailable().equals(Boolean.FALSE)) ? 0 : 1));
@@ -677,7 +678,7 @@ public class MemberMapper {
         memberProfile.setAge(memberProfileEntity.getAge());
         memberProfile.setAge_as_on((memberProfileEntity.getAgeAsOn() != null) ? DateUtils.dateToSecondsConverter(memberProfileEntity.getAgeAsOn()) : null);
         memberProfile.setMinority(memberProfileEntity.getMinority());
-        memberProfile.setIs_disabled((short) ((memberProfileEntity.getIsDisabled().equals(Boolean.FALSE)) ? 0 : 1));
+        memberProfile.setIs_disabled(memberProfileEntity.getIsDisabled());
         memberProfile.setDisability_details(memberProfileEntity.getDisabilityDetails());
         memberProfile.setWellbeing_category(memberProfileEntity.getWellbeingCategory());
         memberProfile.setPrimary_occupation(memberProfileEntity.getPrimaryOccupation());
@@ -710,6 +711,8 @@ public class MemberMapper {
         memberProfile.setUpdated_date((memberProfileEntity.getUpdatedDate() !=null) ? DateUtils.TimestampToSecondsConverter(memberProfileEntity.getUpdatedDate()) : null);
         memberProfile.setCreated_date(memberProfileEntity.getCreatedDate()!=null ?
                 DateUtils.TimestampToSecondsConverter(memberProfileEntity.getCreatedDate()):null);
+        memberProfile.setUpdated_date(memberProfileEntity.getUpdatedDate()!=null ?
+                DateUtils.TimestampToSecondsConverter(memberProfileEntity.getUpdatedDate()):null);
         memberProfile.setUploaded_date(memberProfileEntity.getLastUploadedDate()!=null ?
                 DateUtils.TimestampToSecondsConverter(memberProfileEntity.getLastUploadedDate()):null);
         memberProfile.setChecker_remarks(memberProfileEntity.getCheckerRemark());
@@ -737,7 +740,8 @@ public class MemberMapper {
             }
         }
         memberProfile.setIs_verified(memberProfileEntity.getIsVerified());
-        memberProfile.setIs_complete (memberProfileEntity.getIsComplete());
+        memberProfile.setIs_complete(memberProfileEntity.getIsComplete());
+        memberProfile.setSettlement_status(memberProfileEntity.getSettlementStatus());
         return memberProfile;
     }
 
@@ -853,6 +857,40 @@ public class MemberMapper {
         }
         memberSystemTags.setIs_complete (memberSystemTagsEntity.getIsComplete());
         return memberSystemTags;
+    }
+
+    public static MemberInsurance map(final MemberInsuranceEntity memberInsuranceEntity) throws ParseException {
+        MemberInsurance memberInsurance = new MemberInsurance();
+        memberInsurance.setInsurance_id(memberInsuranceEntity.getInsuranceId());
+        memberInsurance.setCbo_id(memberInsuranceEntity.getCboId());
+        memberInsurance.setMember_guid(memberInsuranceEntity.getMemberGUID());
+        memberInsurance.setMember_code(memberInsuranceEntity.getMemberCode());
+        memberInsurance.setInsurance_type(memberInsuranceEntity.getInsuranceType());
+        memberInsurance.setEntry_source(memberInsuranceEntity.getEntrySource());
+        memberInsurance.setIs_edited(memberInsuranceEntity.getIsEdited());
+        memberInsurance.setCreated_by(memberInsuranceEntity.getCreatedBy());
+        memberInsurance.setUpdated_by(memberInsuranceEntity.getUpdatedBy());
+        memberInsurance.setUploaded_by(memberInsuranceEntity.getUploadedBy());
+        memberInsurance.setStatus(memberInsuranceEntity.getStatus());
+        memberInsurance.setUpdated_date((memberInsuranceEntity.getUpdatedDate() !=null) ?
+                DateUtils.TimestampToSecondsConverter(memberInsuranceEntity.getUpdatedDate()) : null);
+        memberInsurance.setCreated_date(memberInsuranceEntity.getCreatedDate()!=null ?
+                DateUtils.TimestampToSecondsConverter(memberInsuranceEntity.getCreatedDate()):null);
+        memberInsurance.setUploaded_date(memberInsuranceEntity.getLastUploadedDate()!=null ?
+                DateUtils.TimestampToSecondsConverter(memberInsuranceEntity.getLastUploadedDate()):null);
+        Integer shortVal = 1;
+        Integer shortValZero = 0;
+        if(memberInsuranceEntity.getActive()!=null) {
+            if(memberInsuranceEntity.getActive().equals(Boolean.TRUE))
+                memberInsurance.setIs_active(shortVal.shortValue());
+            else
+                memberInsurance.setIs_active(shortValZero.shortValue());
+        }
+        memberInsurance.setIs_complete(memberInsuranceEntity.getIsComplete());
+        memberInsurance.setValid_to((memberInsuranceEntity.getValidTo()!=null) ?
+                DateUtils.TimestampToSecondsConverter(memberInsuranceEntity.getValidTo()) : null);
+        memberInsurance.setInsurance_type(memberInsuranceEntity.getInsuranceType());
+        return memberInsurance;
     }
 
        /* public static MemberExecutiveMemberEntity map ( final MemberExecutiveMember memberExecutiveMember){

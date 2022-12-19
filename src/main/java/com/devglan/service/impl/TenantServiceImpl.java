@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -24,6 +25,9 @@ import com.devglan.domain.VoFinTxnVouchers;
 import com.devglan.model.*;
 import com.devglan.tenant.dao.PGFunctionProcedureService;
 import com.devglan.tenant.dao.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +35,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.util.SerializationUtils;
+import org.springframework.util.StopWatch;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -235,6 +240,12 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 	@Autowired
 	private ClfMtgDetailsDao clfMtgDetailsDao;
+
+	@Autowired
+	private ProfileMasterDataDao profileMasterDataDao;
+
+	@Autowired
+	private MemberProfileMasterDataDao memberProfileMasterDataDao;
   
 
 	public TenantServiceImpl() {
@@ -3137,7 +3148,410 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 	}
 
 
+	//Json creation code starting //
+	public String jsonCreationAtInsertion(BigInteger shgId){
+		String res = "processing failed!!";
+			System.out.println("Inside ShgApiService->fetchByShgId()");
+			SHGProfile shgProfile = new SHGProfile();
+			ShgProfileEntity shgProfileEntity = shgProfileDao.findOne(shgId);
+			if(shgProfileEntity.getActive().equals(Boolean.TRUE)) {
+			shgProfile = GroupMapper.map(shgProfileEntity);
+			//MAX MEETING NUMBER
+			shgProfile.setMaxMtgNo(shgProfileDao.getMaxMtgNo(shgProfileEntity.getShgId()));
+			if(shgProfileEntity.getParentCboId()!=null) {
+				FederationProfileEntity federationProfileEntity =
+						federationProfileDao.findOne(BigInteger.valueOf(shgProfileEntity.getParentCboId().intValue()));
+				if(federationProfileEntity!=null) {
+					shgProfile.setFederation_name(federationProfileEntity.getFederationName());
+					shgProfile.setFederation_code(federationProfileEntity.getFederation_code());
+					shgProfile.setFederation_name_local(federationProfileEntity.getFederationNameLocal());
+				}
+			}
+			List<CBOPhoneNoDetails> cboPhoneNoDetailsList = fetchPhoneNumberByCboId(shgProfileEntity.getShgId(),LookUpMasterEntity.shgLookupVal);
+			shgProfile.setCboPhoneNoDetailsList(cboPhoneNoDetailsList);
+			List<CBOAddresses> cboAddressesList = fetchAddressByCboId(shgProfileEntity.getShgId(),LookUpMasterEntity.shgLookupVal);
+			shgProfile.setCboAddressesList(cboAddressesList);
+			List<CBOBankDetails> cboBankDetailsList = fetchByBankDetailsByCboId(shgProfileEntity.getShgId(),LookUpMasterEntity.shgLookupVal);
+			shgProfile.setCboBankDetailsList(cboBankDetailsList);
+			List<SystemTags> cboSystemTagsList = fetchSystemTagsByCboId(shgProfileEntity.getShgId());
+			shgProfile.setCboSystemTagsList(cboSystemTagsList);
+            /*List<MemberInsurance> memberInsuranceList = fetchMemberInsuranceByCboId(shgProfileEntity.getShgId());
+            shgProfile.setMemberInsuranceList(memberInsuranceList);*/
+			List<SHGDesignation> shgDesignationList = fetchSHGDesignationByCboId(shgProfileEntity.getShgId());
+			shgProfile.setShgDesignationList(shgDesignationList);
+
+			try {
+				List<MemberProfile> memberProfileList = fetchMemberProfileByCboId(shgProfileEntity.getShgId()); //working on this line (Tushar)
+				shgProfile.setMemberProfileList(memberProfileList);
+
+					/*Long m2Started = System.currentTimeMillis();
+					List<MemberProfile> memberProfileListConsolidate = fetchMemberProfileByCboIdConsolidated(shgProfileEntity.getShgId());
+					Long m2Ended = System.currentTimeMillis();
+					System.out.println("fetchMemberProfileByCboIdConsolidated Total Time Taken ::: " + (m2Ended - m2Started));
+					shgProfile.setMemberProfileList(memberProfileListConsolidate);*/
+			} catch (Exception e) {
+				System.out.println("Exception is: " +e);
+				e.printStackTrace();
+			}
+		}
+		saveShgFullJson(shgId,shgProfile);
+		return shgProfile.toString();
+	}
+
+	public void saveShgFullJson(BigInteger shgId, SHGProfile shgProfile){
+		String json = null;
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String,SHGProfile> data = new HashMap<>();
+		data.put("shgProfile",shgProfile);
+		try {
+			 json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(data);
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
+		ProfileMasterDataEntity profileMasterDataEntity =  profileMasterDataDao.findByCboIdType(shgId,(short)0);
+
+		if(profileMasterDataEntity!=null){
+			profileMasterDataEntity.setData(json);
+			profileMasterDataEntity.setUpdatedBy("SYSTEM_QUEUE");
+			profileMasterDataEntity.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
+			profileMasterDataDao.saveAndFlush(profileMasterDataEntity);
+		}else {
+			ProfileMasterDataEntity profileMasterDataEntity1 = new ProfileMasterDataEntity();
+			profileMasterDataEntity1.setCboId(shgId);
+			profileMasterDataEntity1.setCboType((short)0);
+			profileMasterDataEntity1.setData(json);
+			profileMasterDataEntity1.setCreatedBy("SYSTEM_QUEUE");
+			profileMasterDataEntity1.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+			profileMasterDataDao.saveAndFlush(profileMasterDataEntity1);
+		}
+	}
+
+	public List<CBOAddresses> fetchAddressByCboId(BigInteger cboId,Short cboType){
+		List<CBOAddresses> cboAddressesList = new ArrayList<CBOAddresses>();
+		List<CboAddressesDetailsEntity> cboAddressesDetailsEntityList = cboAddressesDetailsDao.fetchByCboId(cboId,Boolean.TRUE,cboType);
+		for (CboAddressesDetailsEntity cboAddressesDetailsEntity : cboAddressesDetailsEntityList) {
+			CBOAddresses cboAddresses = GroupMapper.map(cboAddressesDetailsEntity);
+			cboAddressesList.add(cboAddresses);
+		}
+		return cboAddressesList;
+	}
+	public List<CBOPhoneNoDetails> fetchPhoneNumberByCboId(BigInteger cboCode,Short cboType){
+		List<CBOPhoneNoDetails> cboPhoneNoDetailsList = new ArrayList<CBOPhoneNoDetails>();
+		List<CboPhoneNoDetailsEntity> cboPhoneNoDetailsEntityList =
+				cboPhoneNoDetailsDao.fetchByCboId(cboCode,Boolean.TRUE,cboType);
+		for (CboPhoneNoDetailsEntity cboPhoneNoDetailsEntity : cboPhoneNoDetailsEntityList) {
+			CBOPhoneNoDetails cboPhoneNoDetails = GroupMapper.map(cboPhoneNoDetailsEntity);
+			if(cboPhoneNoDetailsEntity.getMemberGuid()!=null){
+				MemberProfileEntity memberProfileEntity =
+						memberProfileDao.fetchByGUID(cboPhoneNoDetailsEntity.getMemberGuid(),Boolean.TRUE);
+				if(memberProfileEntity!=null)
+					cboPhoneNoDetails.setMember_name(memberProfileEntity.getMemberName());
+			}
+			cboPhoneNoDetailsList.add(cboPhoneNoDetails);
+		}
+		return cboPhoneNoDetailsList;
+	}
+
+	public List<CBOBankDetails> fetchByBankDetailsByCboId(BigInteger cboId,Short cboType){
+		BigInteger bigInteger = new BigInteger("0");
+		List<CBOBankDetails> cboBankDetailsList = new ArrayList<CBOBankDetails>();
+		List<CboBankDetailsEntity> cboBankDetailsEntityList =
+				cboBankDetailsDao.fetchByCboId(cboId,Boolean.TRUE,cboType);
+		for (CboBankDetailsEntity cboBankDetailsEntity : cboBankDetailsEntityList) {
+			CBOBankDetails cboBankDetails = GroupMapper.map(cboBankDetailsEntity);
+			if(cboBankDetailsEntity.getBankDocumentId()!=null &&
+					cboBankDetailsEntity.getBankDocumentId()!=bigInteger){
+				DocumentDetailsEntity documentDetailsEntity =
+						documentDetailsDao.findOne(cboBankDetailsEntity.getBankDocumentId());
+				if(documentDetailsEntity!= null && documentDetailsEntity.getDocPath() !=null &&
+						!documentDetailsEntity.getDocPath().isEmpty() &&
+						documentDetailsEntity.getFrontDocModifiedName() != null &&
+						!documentDetailsEntity.getFrontDocModifiedName().isEmpty()) {
+					cboBankDetails.setBank_document(
+							documentDetailsEntity.getDocPath()+File.separator
+									+ documentDetailsEntity.getFrontDocModifiedName());
+				}
+
+			}
+			cboBankDetailsList.add(cboBankDetails);
+		}
+		return cboBankDetailsList;
+	}
+
+	public List<CboKYCDetails> fetchByKycDetailsByCboId(BigInteger cboId,Short cboType){
+		BigInteger bigInteger = new BigInteger("0");
+		List<CboKYCDetails> cboKycDetailsList = new ArrayList<CboKYCDetails>();
+		List<CboKYCDetailsEntity> cboKycDetailsEntityList =
+				cboKYCDetailsDao.fetchByCboId(cboId,Boolean.TRUE);
+		if(cboKycDetailsEntityList  != null){
+			for (CboKYCDetailsEntity cboKycDetailsEntity : cboKycDetailsEntityList) {
+				CboKYCDetails cboKYCDetails = GroupMapper.map(cboKycDetailsEntity);
+				if(cboKycDetailsEntity.getDocumentId()!=null &&
+						cboKycDetailsEntity.getDocumentId()!=bigInteger){
+					DocumentDetailsEntity documentDetailsEntity =
+							documentDetailsDao.findOne(cboKycDetailsEntity.getDocumentId());
+					if(documentDetailsEntity!= null && documentDetailsEntity.getDocPath() !=null &&
+							!documentDetailsEntity.getDocPath().isEmpty() &&
+							documentDetailsEntity.getFrontDocModifiedName() != null &&
+							!documentDetailsEntity.getFrontDocModifiedName().isEmpty()) {
+						cboKYCDetails.setKyc_document(
+								documentDetailsEntity.getDocPath()+File.separator
+										+ documentDetailsEntity.getFrontDocModifiedName());
+					}
+
+				}
+				cboKycDetailsList.add(cboKYCDetails);
+			}
+		}
+		return cboKycDetailsList;
+	}
+
+	public List<SystemTags> fetchSystemTagsByCboId(BigInteger cboId){
+		List<SystemTags> systemTagsList = new ArrayList<SystemTags>();
+		List<SystemTagsEntity> systemTagsEntityList =
+				systemTagsDao.fetchByCboId(cboId,Boolean.TRUE);
+		for (SystemTagsEntity systemTagsEntity : systemTagsEntityList) {
+			SystemTags systemTags = GroupMapper.map(systemTagsEntity);
+			systemTagsList.add(systemTags);
+		}
+		return systemTagsList;
+	}
+
+	public List<SHGDesignation> fetchSHGDesignationByCboId(BigInteger cboId){
+		List<SHGDesignation> shgDesignationList = new ArrayList<SHGDesignation>();
+		List<SHGDesignationEntity> shgDesignationEntityList =
+				shgDesignationDao.fetchByCboId(cboId,Boolean.TRUE);
+		for (SHGDesignationEntity shgDesignationEntity : shgDesignationEntityList) {
+			SHGDesignation shgDesignation = GroupMapper.map(shgDesignationEntity);
+
+			//30-3-2021 mohit
+			MemberProfileEntity memberProfileEntity = memberProfileDao.fetchByGUID(shgDesignation.getMember_guid(),Boolean.TRUE);
+			if(memberProfileEntity != null && memberProfileEntity.getMemberName() !=null){
+				shgDesignation.setMember_name(memberProfileEntity.getMemberName());
+				List<MemberPhoneNoDetailsEntity> memberPhoneNoDetailsEntityList =
+						memberPhoneNoDetailsDao.fetchPhoneNoByMemberCode(memberProfileEntity.getCboId(),memberProfileEntity.getMemberId(),
+								Boolean.TRUE);
+				if(memberPhoneNoDetailsEntityList != null && memberPhoneNoDetailsEntityList.size() > 0){
+					shgDesignation.setPhone_no(memberPhoneNoDetailsEntityList.get(0).getPhoneNo());
+				}
+			}
+			shgDesignationList.add(shgDesignation);
+		}
+		return shgDesignationList;
+	}
+
+	public List<MemberProfile> fetchMemberProfileByCboId(BigInteger cboId) throws ParseException {
+		System.out.println("Inside ShgApiService->fetchMemberProfileByCboId()");
+		List<MemberProfile> memberProfileList = new ArrayList<MemberProfile>();
+		Long q1Start = System.currentTimeMillis();
+		List<MemberProfileEntity> memberProfileEntityList = memberProfileDao.fetchByCboId(cboId,Boolean.TRUE);
+		Long q1Stop = System.currentTimeMillis();
+		System.out.println("## Total Time take by memberProfileRepository.fetchByCboId Query = " + (q1Stop - q1Start));
+//        System.out.println("memberProfileRepository.fetchByCboId Total Time Taken ::" + stopWatch.getTotalTimeMillis());
+		for (MemberProfileEntity memberProfileEntity :memberProfileEntityList) {
+			MemberProfile  memberProfile = null;
+			memberProfile = MemberMapper.map(memberProfileEntity);
+			BigInteger bigInteger = new BigInteger("0");
+			if(memberProfileEntity.getMemberProfileDocumentId()!=null
+					&& memberProfileEntity.getMemberProfileDocumentId()!=bigInteger) {
+				Long q2Start = System.currentTimeMillis();
+				DocumentDetailsEntity documentDetailsEntity =
+						documentDetailsDao.findOne(memberProfileEntity.getMemberProfileDocumentId());
+				Long q2Stop = System.currentTimeMillis();
+				System.out.println("## Total Time take by documentDetailsRepository.findOne(memberProfileEntity.getMemberProfileDocumentId()) Query = " + (q2Stop - q2Start));
+//                System.out.println("documentDetailsRepository.findOne(memberProfileEntity.getMemberProfileDocumentId()) Total Time Taken ::" + stopWatch.getTotalTimeMillis());
+				if (documentDetailsEntity != null && documentDetailsEntity.getDocPath() != null &&
+						!documentDetailsEntity.getDocPath().isEmpty() &&
+						documentDetailsEntity.getFrontDocModifiedName() != null &&
+						!documentDetailsEntity.getFrontDocModifiedName().isEmpty()) {
+					memberProfile.setMember_document(
+							documentDetailsEntity.getDocPath() + File.separator
+									+ documentDetailsEntity.getFrontDocModifiedName());
+				}
+			}
+			//consent form
+			if(memberProfileEntity.getConsentFormId()!=null
+					&& memberProfileEntity.getConsentFormId()!=bigInteger) {
+				Long q3Start = System.currentTimeMillis();
+				DocumentDetailsEntity documentDetailsEntity1 =
+						documentDetailsDao.findOne(memberProfileEntity.getConsentFormId());
+				Long q3Stop = System.currentTimeMillis();
+				System.out.println("## Total Time take by documentDetailsRepository.findOne(memberProfileEntity.getConsentFormId()) Query = " + (q3Stop - q3Start));
+//                System.out.println("documentDetailsRepository.findOne(memberProfileEntity.getConsentFormId()) Total Time Taken ::" + stopWatch.getTotalTimeMillis());
+				if (documentDetailsEntity1 != null && documentDetailsEntity1.getDocPath() != null &&
+						!documentDetailsEntity1.getDocPath().isEmpty() &&
+						documentDetailsEntity1.getFrontDocModifiedName() != null &&
+						!documentDetailsEntity1.getFrontDocModifiedName().isEmpty()) {
+					memberProfile.setConsent_form(
+							documentDetailsEntity1.getDocPath() + File.separator
+									+ documentDetailsEntity1.getFrontDocModifiedName());
+				}
+			}
+
+
+			Long q4Start = System.currentTimeMillis();
+			List<MemberAddressesDetailsEntity> memberAddressesDetailsEntityList =
+					memberAddressesDetailsDao.findListByMemberCodeCboId(memberProfile.getCbo_id(),memberProfile.getMember_id());
+			Long q4Stop = System.currentTimeMillis();
+			System.out.println("## Total Time take by memberAddressesDetailsRepository.findListByMemberCodeCboId Query = " + (q4Stop - q4Start));
+			if(memberAddressesDetailsEntityList != null) {
+				List<MemberAddresses> memberAddressesList = new ArrayList<>();
+				for(MemberAddressesDetailsEntity ma : memberAddressesDetailsEntityList) {
+					if (ma.getActive().equals(Boolean.TRUE)) {
+						memberAddressesList.add(MemberMapper.map(ma));
+					}
+				}
+				memberProfile.setMemberAddressesList(memberAddressesList);
+			}
+			//@adish 15092021
+			Long q5Start = System.currentTimeMillis();
+			List<CadreShgMembersEntity> cadreShgMembersEntityList =
+					cadreShgMembersDao.findListByMemberCodeCboId(memberProfile.getCbo_id(),memberProfile.getMember_id());
+			Long q5Stop = System.currentTimeMillis();
+			System.out.println("## Total Time take by cadreShgMembersRepository.findListByMemberCodeCboId Query = " + (q5Stop - q5Start));
+			if(cadreShgMembersEntityList != null) {
+				List<CadreShgMembersModel> cadreShgMembersModels = new ArrayList<>();
+				for(CadreShgMembersEntity ma : cadreShgMembersEntityList) {
+					if (ma.getIsActive().equals(Boolean.TRUE)) {
+						cadreShgMembersModels.add(MemberMapper.map(ma));
+					}
+
+				}
+				memberProfile.setCadreShgMembersModeslList(cadreShgMembersModels);
+			}
+            /*
+            CadreNonMembersEntity cadreNonMembers = null;
+            List<CadreNonMembersEntity> cadreNonMembersEntities = cadreNonMembersRepository.findListByCadreNonMemberUid(cadreNonMembers.getUid());
+            if(cadreNonMembersEntities != null) {
+                List<CadreNonMembersModel> cadreNonMembersModelList = new ArrayList<>();
+                for(CadreNonMembersEntity ma : cadreNonMembersEntities) {
+                    if (ma.getUid().equals(Boolean.TRUE)) {
+                        cadreNonMembersModelList.add(MemberMapper.map(ma));
+                    }
+                }
+                memberProfile.setCadreNonMembersModeslList(cadreNonMembersModelList);
+            }
+
+             */
+			//@adish
+
+			Long q6Start = System.currentTimeMillis();
+			List<MemberBankDetailsEntity> memberBankDetailsEntityList =
+					memberBankDetailsDao.findListByMemberCodeCboId(memberProfile.getMember_id(),memberProfile.getCbo_id());
+			Long q6Stop = System.currentTimeMillis();
+			System.out.println("## Total Time take by memberBankDetailsRepository.findListByMemberCodeCboId Query = " + (q6Stop - q6Start));
+			if(memberBankDetailsEntityList != null) {
+				List<MemberBank> memberBankList = new ArrayList<>();
+				for(MemberBankDetailsEntity ma : memberBankDetailsEntityList) {
+					if (ma.getActive().equals(Boolean.TRUE)) {
+						try {
+							memberBankList.add(MemberMapper.map(ma));
+						} catch (ParseException e) {
+							System.out.println("Exception is: " +e);
+							e.printStackTrace();
+						}
+					}
+				}
+				memberProfile.setMemberBankList(memberBankList);
+			}
+
+			Long q7Start = System.currentTimeMillis();
+			List<MemberKYCDetailsEntity> memberKYCDetailsEntityList =
+					memberKYCDetailsDao.findByMemberCodeCboId(memberProfile.getMember_id(),memberProfile.getCbo_id());
+			Long q7Stop = System.currentTimeMillis();
+			System.out.println("## Total Time take by memberKYCDetailsRepository.findByMemberCodeCboId Query = " + (q7Stop - q7Start));
+			if(memberKYCDetailsEntityList != null) {
+				List<MemberKYCDetails> memberKYCDetailsList = new ArrayList<>();
+				for(MemberKYCDetailsEntity ma : memberKYCDetailsEntityList) {
+					if (ma.getActive().equals(Boolean.TRUE)) {
+						memberKYCDetailsList.add(MemberMapper.map(ma));
+					}
+				}
+				memberProfile.setMemberKYCDetailsList(memberKYCDetailsList);
+			}
+
+			Long q8Start = System.currentTimeMillis();
+			List<MemberPhoneNoDetailsEntity> memberPhoneNoDetailsEntityList =
+					memberPhoneNoDetailsDao.findListByMemberCodeCboId(memberProfile.getMember_id(),memberProfile.getCbo_id());
+			Long q8Stop = System.currentTimeMillis();
+			System.out.println("## Total Time take by memberKYCDetailsRepository.findByMemberCodeCboId Query = " + (q8Stop - q8Start));
+			if(memberPhoneNoDetailsEntityList != null) {
+				List<MemberPhoneNoDetails> memberPhoneNoDetailsList = new ArrayList<>();
+				for(MemberPhoneNoDetailsEntity ma : memberPhoneNoDetailsEntityList) {
+					if (ma.getActive().equals(Boolean.TRUE)) {
+						try {
+							memberPhoneNoDetailsList.add(MemberMapper.map(ma));
+						} catch (ParseException e) {
+							System.out.println("Exception is: " +e);
+							e.printStackTrace();
+						}
+					}
+				}
+				memberProfile.setMemberPhoneNoDetailsList(memberPhoneNoDetailsList);
+			}
+
+			Long q9Start = System.currentTimeMillis();
+			List<MemberSystemTagsEntity> memberSystemTagsEntityList =
+					memberSystemTagsDao.findListByMemberCodeCboId(memberProfile.getMember_id(),memberProfile.getCbo_id());
+			Long q9Stop = System.currentTimeMillis();
+			System.out.println("## Total Time take by memberSystemTagsRepository.findListByMemberCodeCboId Query = " + (q9Stop - q9Start));
+			if(memberSystemTagsEntityList != null) {
+				List<MemberSystemTags> memberSystemTagsList = new ArrayList<>();
+				for(MemberSystemTagsEntity ma : memberSystemTagsEntityList) {
+					if (ma.getActive().equals(Boolean.TRUE)) {
+						memberSystemTagsList.add(MemberMapper.map(ma));
+					}
+				}
+				memberProfile.setMemberSystemTagsList(memberSystemTagsList);
+			}
+
+			Long q10Start = System.currentTimeMillis();
+			List<MemberInsuranceEntity> memberInsuranceEntityList =
+					memberInsuranceDao.findListByMemberCodeCboId(memberProfile.getMember_id(),memberProfile.getCbo_id());
+			Long q10Stop = System.currentTimeMillis();
+			System.out.println("## Total Time take by memberInsuranceRepository.findListByMemberCodeCboId Query = " + (q10Stop - q10Start));
+			System.out.println("** Total Time taken by all query = " + (q10Stop - q1Start));
+			if(memberInsuranceEntityList != null) {
+				List<MemberInsurance> memberInsuranceList = new ArrayList<>();
+				for(MemberInsuranceEntity mi : memberInsuranceEntityList) {
+					if (mi.getActive().equals(Boolean.TRUE)) {
+						memberInsuranceList.add(MemberMapper.map(mi));
+					}
+				}
+				memberProfile.setMemberInsuranceList(memberInsuranceList);
+			}
+			memberProfileList.add(memberProfile);
+			saveMemberFullJson(memberProfile);
+		}
+		return memberProfileList;
+	}
+	public void saveMemberFullJson(MemberProfile memberProfile){
+		String json = null;
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(memberProfile);
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
+		MemberProfileMasterDataEntity memberProfileMasterDataEntity =  memberProfileMasterDataDao.
+				findByCboIdMemberId(memberProfile.getCbo_id(),memberProfile.getMember_id());
+		if(memberProfileMasterDataEntity!=null){
+			memberProfileMasterDataEntity.setData(json);
+			memberProfileMasterDataEntity.setUpdatedBy("SYSTEM_QUEUE");
+			memberProfileMasterDataEntity.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
+			memberProfileMasterDataDao.saveAndFlush(memberProfileMasterDataEntity);
+		}else {
+			MemberProfileMasterDataEntity memberProfileMasterDataEntity1 = new MemberProfileMasterDataEntity();
+			memberProfileMasterDataEntity1.setCboId(memberProfile.getCbo_id());
+			memberProfileMasterDataEntity1.setMemberId(memberProfile.getMember_id());
+			memberProfileMasterDataEntity1.setData(json);
+			memberProfileMasterDataEntity1.setCreatedBy("SYSTEM_QUEUE");
+			memberProfileMasterDataEntity1.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+			memberProfileMasterDataDao.saveAndFlush(memberProfileMasterDataEntity1);
+		}
+	}
 }
+
 
 
 

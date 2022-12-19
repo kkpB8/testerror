@@ -30,6 +30,9 @@ public class SHGDesignation {
     //30-3-2021
     private String member_name;
 
+    private BigInteger phone_no;
+
+
     public BigInteger getMember_designation_id() {
         return member_designation_id;
     }
@@ -205,5 +208,13 @@ public class SHGDesignation {
 
     public void setMember_name(String member_name) {
         this.member_name = member_name;
+    }
+
+    public BigInteger getPhone_no() {
+        return phone_no;
+    }
+
+    public void setPhone_no(BigInteger phone_no) {
+        this.phone_no = phone_no;
     }
 }

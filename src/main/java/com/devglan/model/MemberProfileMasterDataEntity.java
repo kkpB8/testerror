@@ -3,40 +3,36 @@ package com.devglan.model;
 import javax.persistence.*;
 import java.math.BigInteger;
 import java.sql.Timestamp;
-import java.util.Date;
 
 @Entity
-@Table(name = "profile_master_data")
-public class ProfileMasterDataEntity
-{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private BigInteger uid;
-    @Column(name = "cbo_id", nullable = false)
-    private BigInteger cboId;
-    @Column(name = "cbo_type", nullable = false)
-    private Short cboType;
-    @Column(name = "data")
-    private String data;
-    @Column(name = "created_by")
-    private String createdBy;
-    @Column(name = "created_on")
+@Table(name = "member_profile_master_data")
+public class MemberProfileMasterDataEntity {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", nullable = false)
+	private BigInteger id;
+	@Column(name = "cbo_id", nullable = false)
+	private BigInteger cboId;
 
-    private Timestamp createdOn;
-    @Column(name = "updated_by")
-    private String updatedBy;
-    @Column(name = "updated_on")
-    private Timestamp updatedOn;
-    @Column(name = "uploaded_by")
-    private String uploadedBy;
+	@Column(name = "member_id", nullable = false)
+	private BigInteger memberId;
+	@Column(name = "data")
+	private String data;
+	@Column(name = "created_by")
+	private String createdBy;
+	@Column(name = "created_on")
+	private Timestamp createdOn;
+	@Column(name = "updated_by")
+	private String updatedBy;
+	@Column(name = "updated_on")
+	private Timestamp updatedOn;
 
-	public BigInteger getUid() {
-		return uid;
+	public BigInteger getId() {
+		return id;
 	}
 
-	public void setUid(BigInteger uid) {
-		this.uid = uid;
+	public void setId(BigInteger id) {
+		this.id = id;
 	}
 
 	public BigInteger getCboId() {
@@ -47,12 +43,12 @@ public class ProfileMasterDataEntity
 		this.cboId = cboId;
 	}
 
-	public Short getCboType() {
-		return cboType;
+	public BigInteger getMemberId() {
+		return memberId;
 	}
 
-	public void setCboType(Short cboType) {
-		this.cboType = cboType;
+	public void setMemberId(BigInteger memberId) {
+		this.memberId = memberId;
 	}
 
 	public String getData() {
@@ -93,13 +89,5 @@ public class ProfileMasterDataEntity
 
 	public void setUpdatedOn(Timestamp updatedOn) {
 		this.updatedOn = updatedOn;
-	}
-
-	public String getUploadedBy() {
-		return uploadedBy;
-	}
-
-	public void setUploadedBy(String uploadedBy) {
-		this.uploadedBy = uploadedBy;
 	}
 }
