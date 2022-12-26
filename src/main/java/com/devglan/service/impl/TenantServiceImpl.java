@@ -1402,6 +1402,9 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 							} else if (fileMappingType.contains(ServiceConstants.cboKYCTANNoPhoto)) {
 								path = ServiceConstants.cboKYCTANNoPhoto;
 								modifiedName = ServiceConstants.cboKYCTANNoPhoto;
+							} else if (fileMappingType.contains(ServiceConstants.cboKYCPANNoPhoto)) {
+								path = ServiceConstants.cboKYCPANNoPhoto;
+								modifiedName = ServiceConstants.cboKYCPANNoPhoto;
 							} else if (fileMappingType.contains(ServiceConstants.federationoProfilePhoto)) {
 								path = ServiceConstants.federationoProfilePhoto;
 								modifiedName = ServiceConstants.federationoProfilePhoto;
@@ -1444,6 +1447,11 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 								cboKYCTANNoPhotoDocIdTemp.put(ServiceConstants.cboKYCTANNoPhoto,
 										documentDetailsEntityAfterSave.getDocumentId());
 								cboKYCPhotoDocId.add(cboKYCTANNoPhotoDocIdTemp);
+							} else if (fileMappingType.contains(ServiceConstants.cboKYCPANNoPhoto)) {
+								Map<String, BigInteger> cboKYCPANNoPhotoDocIdTemp = new HashMap<>();
+								cboKYCPANNoPhotoDocIdTemp.put(ServiceConstants.cboKYCPANNoPhoto,
+										documentDetailsEntityAfterSave.getDocumentId());
+								cboKYCPhotoDocId.add(cboKYCPANNoPhotoDocIdTemp);
 
 							} else if (fileMappingType.contains(ServiceConstants.federationoProfilePhoto)) {
 								federationProfilePhotoDocId.put(ServiceConstants.federationoProfilePhoto,
@@ -1608,6 +1616,15 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 								for (Map<String, BigInteger> cboKYCPhotoDocIdTemp : cboKYCPhotoDocId) {
 									for (String keys : cboKYCPhotoDocIdTemp.keySet()) {
 										if (keys.equals(ServiceConstants.cboKYCTANNoPhoto)) {
+											cboKYCDetailsEntity.setDocumentId(cboKYCPhotoDocIdTemp.get(keys));
+										}
+									}
+								}
+							}
+							if (cboKYCDetails.getKyc_type().equals(CboKYCDetailsEntity.kycPANNo)) {
+								for (Map<String, BigInteger> cboKYCPhotoDocIdTemp : cboKYCPhotoDocId) {
+									for (String keys : cboKYCPhotoDocIdTemp.keySet()) {
+										if (keys.equals(ServiceConstants.cboKYCPANNoPhoto)) {
 											cboKYCDetailsEntity.setDocumentId(cboKYCPhotoDocIdTemp.get(keys));
 										}
 									}
@@ -2831,12 +2848,14 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					 }
 				 } else {
 					 //if not installment paid then disbursed date of loan --> for first installment
-					 cal.setTime(clfMemLoanEntity.getDisbursementDate1());
-
 					 ClfMtgDetailsEntity mtgDetails  = clfMtgDetailsDao.findMtgDetailsByCboIdAndMtgNo(clfMemLoanEntity.getCboId(), clfMemLoanEntity.getMtgNo());
 					 
 					 if(mtgDetails != null && mtgDetails.getMtgType() == ServiceConstants.cutOffMtgType){
 							cal.setTime(mtgDetails.getMtgDate1());
+					 }
+
+					 else{
+						 cal.setTime(clfMemLoanEntity.getDisbursementDate1());
 					 }
 
 //					 loanOsActual = BigInteger.valueOf(clfMemLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
@@ -2991,13 +3010,14 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 							osIntrest = lastPaidInstallment.getInterestDemandActual() - intrestRepaid;
 						}
 					} else {
-						//if not installment paid then disbursed date of loan --> for first installment
-						cal.setTime(clfGroupLoanEntity.getDisbursementDate1());
-
 						ClfMtgDetailsEntity mtgDetails = clfMtgDetailsDao.findMtgDetailsByCboIdAndMtgNo(clfGroupLoanEntity.getCboId(), clfGroupLoanEntity.getMtgNo());
 						
 						if(mtgDetails != null && mtgDetails.getMtgType() == ServiceConstants.cutOffMtgType){
 							cal.setTime(mtgDetails.getMtgDate1());
+						}
+
+						else{
+							cal.setTime(clfGroupLoanEntity.getDisbursementDate1());
 						}
 //						loanOsActual = BigInteger.valueOf(clfGroupLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
 						/*
