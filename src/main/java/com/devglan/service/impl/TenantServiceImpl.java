@@ -2859,12 +2859,14 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					 }
 				 } else {
 					 //if not installment paid then disbursed date of loan --> for first installment
-					 cal.setTime(clfMemLoanEntity.getDisbursementDate1());
-
 					 ClfMtgDetailsEntity mtgDetails  = clfMtgDetailsDao.findMtgDetailsByCboIdAndMtgNo(clfMemLoanEntity.getCboId(), clfMemLoanEntity.getMtgNo());
 					 
 					 if(mtgDetails != null && mtgDetails.getMtgType() == ServiceConstants.cutOffMtgType){
 							cal.setTime(mtgDetails.getMtgDate1());
+					 }
+
+					 else{
+						 cal.setTime(clfMemLoanEntity.getDisbursementDate1());
 					 }
 
 //					 loanOsActual = BigInteger.valueOf(clfMemLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
@@ -3019,13 +3021,14 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 							osIntrest = lastPaidInstallment.getInterestDemandActual() - intrestRepaid;
 						}
 					} else {
-						//if not installment paid then disbursed date of loan --> for first installment
-						cal.setTime(clfGroupLoanEntity.getDisbursementDate1());
-
 						ClfMtgDetailsEntity mtgDetails = clfMtgDetailsDao.findMtgDetailsByCboIdAndMtgNo(clfGroupLoanEntity.getCboId(), clfGroupLoanEntity.getMtgNo());
 						
 						if(mtgDetails != null && mtgDetails.getMtgType() == ServiceConstants.cutOffMtgType){
 							cal.setTime(mtgDetails.getMtgDate1());
+						}
+
+						else{
+							cal.setTime(clfGroupLoanEntity.getDisbursementDate1());
 						}
 //						loanOsActual = BigInteger.valueOf(clfGroupLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
 						/*
