@@ -40,4 +40,6 @@ public interface TenantService {
 	public void processGroupLoanPaymentVouchers();
 
 	public String jsonCreationAtInsertion(BigInteger shgId);
+
+	String decryptEncryptAadhaar(String kycNumber,String guid);
 }

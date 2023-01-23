@@ -74,7 +74,7 @@ public class SchedulerConfig{
                   File folder = new File(path);
                   File[] uploadFiles = folder.listFiles();
                   List<MultipartFile> uploadMultipartFiles = new ArrayList<>();
-              
+
                   for(File file : uploadFiles){
                       FileInputStream input = null;
                       try {
@@ -99,7 +99,7 @@ public class SchedulerConfig{
                           e.printStackTrace();
                       }
                   }
-                 
+
                   returnStatus =   tenantService.createSHGProfileUpload(role,shgProfile,uploadMultipartFiles);
               }
               else
@@ -111,8 +111,8 @@ public class SchedulerConfig{
                   transactionStatusEntity.setRemarks("Data inserted/updated successfully");
                   tenantService.saveTransactionStatus(transactionStatusEntity);
                   try {
-                     ShgProfileEntity shgProfileEntity= shgProfileDao.fetchByGUID(shgProfile.getGuid(),Boolean.TRUE);
-                     jsonCreationAtInsertion(shgProfileEntity.getShgId());
+                     //ShgProfileEntity shgProfileEntity= shgProfileDao.fetchByGUID(shgProfile.getGuid(),Boolean.TRUE);
+                     //jsonCreationAtInsertion(shgProfileEntity.getShgId());
                   }catch (Exception e){
                      System.out.println("Error in Json creation");
                      e.printStackTrace();
@@ -124,16 +124,16 @@ public class SchedulerConfig{
          			 TransactionStatusEntity transactionStatusEntity = tenantService.insertIntoTransaction(transactionId,processingJsonTemp.getId(),shgProfile.getUploaded_by(),role);
          	          transactionStatusEntity.setStatus(TransactionStatusEntity.failure);
          	        transactionStatusEntity.setRemarks(e.toString());
-         	        		 
+
          	          tenantService.saveTransactionStatus(transactionStatusEntity);
          		 }
             	  e.printStackTrace();
               }
-              
-              
-            
+
+
+
           }
-          
+
           else   if(processingJsonTemp.getCbo_type().equals(Processing_JsonEntity.federationLookupVal)){
         	  FederationProfile federationProfile = g.fromJson(json, FederationProfile.class);
         	federationProfile.setTransaction_id(federationProfile.getTransaction_id());
@@ -148,7 +148,7 @@ public class SchedulerConfig{
                   for(File file : uploadFiles){
                       FileInputStream input = null;
                       try {
-                    	 
+
                           input = new FileInputStream(file);
 
                       MultipartFile multipartFile = new MockMultipartFile("file",
@@ -182,7 +182,7 @@ public class SchedulerConfig{
                   tenantService.saveTransactionStatus(transactionStatusEntity);
               }
         	 }
-          
+
           else if(processingJsonTemp.getCbo_type().equals(Processing_JsonEntity.voMeetingLookupVal)){
               try {
 
@@ -220,20 +220,20 @@ public class SchedulerConfig{
                   e.printStackTrace();
               }
             tenantService.updateFlagAndTime(processingJsonTemp.getId(),Processing_JsonEntity.executedFlag,Processing_JsonEntity.EndTimeFlag);
-        	  
-   
+
+
           }
           //tenantService.updateFlagAndTime(processingJsonTemp.getId(),Processing_JsonEntity.executedFlag,Processing_JsonEntity.EndTimeFlag);
-	  
-	  
+
+
           else if(processingJsonTemp.getCbo_type().equals(Processing_JsonEntity.meetingLookupVal)){
         	  try {
-        		  
-        		
+
+
         	  String returnStatus="";
         	  UploadShgMeeting uploadShgMeeting = g.fromJson(json, UploadShgMeeting.class);
         	  transactionId = uploadShgMeeting.getTransactionId();
-        	  
+
         	  uploadShgMeeting.setProcessingId(processingJsonTemp.getId());
         	  uploadShgMeeting.setUserId(processingJsonTemp.getUser_id());
         	  returnStatus = tenantService.createMeetingProfileUpload(role,uploadShgMeeting);
@@ -244,10 +244,10 @@ public class SchedulerConfig{
                   //transactionStatusEntity.setRole(role);
                   transactionStatusEntity.setRemarks("Data inserted/updated successfully");
                   tenantService.saveTransactionStatus(transactionStatusEntity);
-              
+
               }
-        	 
-        	 
+
+
         	  }
               catch(Exception e) {
             	 // if(transactionId!=null && !transactionId.equals("")){
@@ -255,17 +255,17 @@ public class SchedulerConfig{
          	          transactionStatusEntity.setStatus(TransactionStatusEntity.failure);
          	         //transactionStatusEntity.setRole(role);
          	        transactionStatusEntity.setRemarks(e.toString());
-         	        		 
+
          	          tenantService.saveTransactionStatus(transactionStatusEntity);
          		 //}
             	  e.printStackTrace();
               }
           }
           tenantService.updateFlagAndTime(processingJsonTemp.getId(),Processing_JsonEntity.executedFlag,Processing_JsonEntity.EndTimeFlag);
-          
+
 	  }
 	  }
-	  
+
 	  catch(Exception e) {
 		 if(transactionId!=null && !transactionId.equals("")){
 			 TransactionStatusEntity transactionStatusEntity = tenantService.insertIntoTransaction(transactionId,new BigInteger("0"),"unknown","unknown");
@@ -286,7 +286,7 @@ public void runLoanScheduler() {
         System.out.println("Running loan scheduler.....");
         this.tenantService.processLoanPaymentVouchers();
         this.tenantService.processGroupLoanPaymentVouchers();
-       
+
     }
 
    @Scheduled(cron = "0 0 0 * * *",zone = "Indian/Maldives")
@@ -314,6 +314,14 @@ public void runLoanScheduler() {
       System.out.println("Total Time (T2 - T1) -> "+ (t2-t1));
 
    }
+
+   /*@Scheduled(initialDelay = 10000,fixedDelay = 999999999)
+   public void runJsonCreationAtInsertion() {
+      tenantService.decryptEncryptAadhaar("FMF770QA4SYxoRVBCqaGvZEGcjbsor0TNwmNFQ53Fsw=","W3sqaLepBNqt1vjyBnh9TVnZJQSM672022112312274755");
+
+   }*/
+
+
 
 
 }

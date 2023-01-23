@@ -10,10 +10,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.sql.SQLException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -25,8 +26,9 @@ import com.devglan.domain.VoFinTxnVouchers;
 import com.devglan.model.*;
 import com.devglan.tenant.dao.PGFunctionProcedureService;
 import com.devglan.tenant.dao.*;
+import com.devglan.utils.AESPasswordEncoder;
+import com.devglan.utils.EncryptionAadhaarNrlm;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.util.SerializationUtils;
-import org.springframework.util.StopWatch;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -46,6 +47,12 @@ import com.devglan.mapper.VoMeetingMapper;
 import com.devglan.service.TenantService;
 import com.devglan.seshat.dao.TenantsDao;
 import com.devglan.utils.ServiceConstants;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 
 @Service
 
@@ -1182,6 +1189,12 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 						if (memberKYCAdhaarRearPhotoDocId != null && !memberKYCAdhaarRearPhotoDocId.equals(BigInteger.ZERO)) {
 							memberKYCDetailsEntity.setKycRearDocId(memberKYCAdhaarRearPhotoDocId);
 						}
+						//decrypt then encrypt with other logic
+						if(memberKYCDetailsEntity.getKycNumber()!=null && !memberKYCDetailsEntity.getKycNumber().isEmpty()){
+							String encAadhaarNo = decryptEncryptAadhaar(memberKYCDetailsEntity.getKycNumber(),
+									memberKYCDetailsEntity.getMemberGUID());
+							memberKYCDetailsEntity.setEnc_aadhar_no(encAadhaarNo);
+						}
 					}
 					if (memberKYCDetailsTemp.getKyc_type().equals(MemberKYCDetailsEntity.kycElectionId)) {
 						if (memberKYCElectionFrontPhotoDocId != null && !memberKYCElectionFrontPhotoDocId.equals(BigInteger.ZERO)) {
@@ -1205,6 +1218,8 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 		return "Success";
 
 	}
+
+
 
 	// CREATE FEDERATION PROFILE
 	@Transactional
@@ -3552,6 +3567,35 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 			memberProfileMasterDataEntity1.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 			memberProfileMasterDataDao.saveAndFlush(memberProfileMasterDataEntity1);
 		}
+	}
+
+	public String decryptEncryptAadhaar(String kycNumber,String guid) {
+		System.out.println("starting of decryptEncryptAadhaar(String kycNumber,String guid)");
+		SecretKey secretKey = AESPasswordEncoder.secureKeyGeneration(guid);
+		IvParameterSpec iv = AESPasswordEncoder.generateIv();
+		String plainText = null;
+		String result = null;
+		try {
+			plainText = AESPasswordEncoder.decrypt("AES/CBC/PKCS5Padding", kycNumber, secretKey, iv);
+		} catch (NoSuchPaddingException e) {
+			throw new RuntimeException(e);
+		} catch (NoSuchAlgorithmException e) {
+			throw new RuntimeException(e);
+		} catch (InvalidAlgorithmParameterException e) {
+			throw new RuntimeException(e);
+		} catch (InvalidKeyException e) {
+			throw new RuntimeException(e);
+		} catch (BadPaddingException e) {
+			throw new RuntimeException(e);
+		} catch (IllegalBlockSizeException e) {
+			throw new RuntimeException(e);
+		}
+		String orgAadhaarNo =AESPasswordEncoder.removeSaltFromPlainText(plainText);
+		System.out.println("x : "+orgAadhaarNo);
+		result= EncryptionAadhaarNrlm.finalEncryption(orgAadhaarNo);
+		System.out.println("y : "+result);
+		System.out.println("ending of decryptEncryptAadhaar(String kycNumber,String guid)");
+		return result;
 	}
 }
 
