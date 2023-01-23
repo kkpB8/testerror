@@ -51,6 +51,15 @@ public class MemberKYCDetails {
     //@Satwant 06052021
     private Integer is_verified;
     private Integer is_complete;
+   /* private String enc_aadhar_no;
+
+    public String getEnc_aadhar_no() {
+        return enc_aadhar_no;
+    }
+
+    public void setEnc_aadhar_no(String enc_aadhar_no) {
+        this.enc_aadhar_no = enc_aadhar_no;
+    }*/
 
     public BigInteger getMember_kyc_details_id() {
         return member_kyc_details_id;

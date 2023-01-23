@@ -704,7 +704,7 @@ public class GroupMapper {
     public static SHGProfile map(final ShgProfileEntity shgProfileEntity) {
         SHGProfile shgProfile = new SHGProfile();
         try {
-
+            shgProfile.setShg_name_local(shgProfileEntity.getShgNameLocal());
             shgProfile.setShg_id(shgProfileEntity.getShgId());
             shgProfile.setState_id(shgProfileEntity.getStateId());
             shgProfile.setDistrict_id(shgProfileEntity.getDistrictId());
@@ -805,6 +805,11 @@ public class GroupMapper {
 
             //CREATED On
             shgProfile.setCreated_date(DateUtils.TimestampToSecondsConverter(shgProfileEntity.getCreatedDate()));
+            //UPDATED On
+            if(shgProfileEntity.getUpdatedDate()!=null) {
+                shgProfile.setUpdated_date(DateUtils.TimestampToSecondsConverter(shgProfileEntity.getUpdatedDate()));
+            }
+
 
             shgProfile.setLast_uploaded_date(shgProfileEntity.getLastUploadedDate()!=null ?
                     DateUtils.TimestampToSecondsConverter(shgProfileEntity.getLastUploadedDate()):null);
@@ -846,6 +851,7 @@ public class GroupMapper {
             shgProfile.setBookkeeper_mobile(shgProfileEntity.getBookkeeperMobile());
             shgProfile.setElection_tenure(shgProfileEntity.getElectionTenure());
             shgProfile.setStatus(shgProfileEntity.getStatus());
+
             shgProfile.setChecker_remark(shgProfileEntity.getCheckerRemark()!=null ? shgProfileEntity.getCheckerRemark() : null);
             shgProfile.setShg_cooption_date(shgProfileEntity.getShgCooptionDate()!=null ?
                     DateUtils.dateToSecondsConverter(shgProfileEntity.getShgCooptionDate()) : null);
@@ -874,13 +880,12 @@ public class GroupMapper {
             }
             shgProfile.setShg_resolution(shgProfileEntity.getShgResolution());
             shgProfile.setIs_voluntary_saving(shgProfileEntity.getIsVoluntarySaving());
-
-			 //30-3-2021
+            //30-3-2021
             shgProfile.setShg_type_other(shgProfileEntity.getShgTypeOther());
             shgProfile.setPromoter_code(shgProfileEntity.getPromoterCode());
-
             shgProfile.setIs_verified(shgProfileEntity.getIsVerified());
             shgProfile.setIs_complete (shgProfileEntity.getIsComplete());
+            shgProfile.setInactive_date((shgProfileEntity.getInactive_date() != null) ? DateUtils.dateToSecondsConverter(shgProfileEntity.getInactive_date()) : null);
         }
         catch (Exception e){
             e.printStackTrace();

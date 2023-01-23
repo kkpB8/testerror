@@ -182,6 +182,12 @@ public class SHGProfile {
     
     private Integer inactive_reason ;
 
+    private String user_number;
+    private Long maxMtgNo;
+    private Long txnCount;
+    private String recentStatus;
+    private Integer inactive_date;
+
     public SHGProfile() {
     }
 
@@ -1055,7 +1061,43 @@ public class SHGProfile {
 		this.is_locked = is_locked;
 	}
 
-	
-    
-    
+    public String getUser_number() {
+        return user_number;
+    }
+
+    public void setUser_number(String user_number) {
+        this.user_number = user_number;
+    }
+
+    public Long getMaxMtgNo() {
+        return maxMtgNo;
+    }
+
+    public void setMaxMtgNo(Long maxMtgNo) {
+        this.maxMtgNo = maxMtgNo;
+    }
+
+    public Long getTxnCount() {
+        return txnCount;
+    }
+
+    public void setTxnCount(Long txnCount) {
+        this.txnCount = txnCount;
+    }
+
+    public String getRecentStatus() {
+        return recentStatus;
+    }
+
+    public void setRecentStatus(String recentStatus) {
+        this.recentStatus = recentStatus;
+    }
+
+    public Integer getInactive_date() {
+        return inactive_date;
+    }
+
+    public void setInactive_date(Integer inactive_date) {
+        this.inactive_date = inactive_date;
+    }
 }

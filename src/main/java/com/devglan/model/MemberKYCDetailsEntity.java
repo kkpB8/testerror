@@ -78,6 +78,17 @@ public class MemberKYCDetailsEntity {
     @Column(name = "is_complete")
     private Integer isComplete;
 
+    @Column(name = "enc_aadhar_no")
+    private String enc_aadhar_no;
+
+    public String getEnc_aadhar_no() {
+        return enc_aadhar_no;
+    }
+
+    public void setEnc_aadhar_no(String enc_aadhar_no) {
+        this.enc_aadhar_no = enc_aadhar_no;
+    }
+
     public static Integer kycAdhaar = 2;
     public static Integer kycElectionId = 1;
     public static Integer kycAdhaarRear = 4;
