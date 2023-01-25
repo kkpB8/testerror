@@ -2029,7 +2029,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					for (ShgFinTxnDetGrp shgFinTxnDetGrp : shgFinTxnDetGrpList) {
 						ShgFinTxnDetGrpEntity shgFinTxnDetGrpEntity = MeetingMapper.map(shgFinTxnDetGrp);
 						shgFinTxnDetGrpEntity.setCboId(mtg.getCboId());
-						shgFinTxnDetGrpEntity.setLink_guid(shgFinTxnDetGrp.getLink_guid());
+						shgFinTxnDetGrpEntity.setLinkGuid(shgFinTxnDetGrp.getLinkGuid());
 						shgFinTxnDetGrpEntity.setShgMtgUid(mtg.getUid());
 						shgFinTxnDetGrpEntity.setMtgNo(mtg.getMtgNo());
 						shgFinTxnDetGrpEntity.setMtgGuid(mtg.getMtgGuid());

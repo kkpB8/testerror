@@ -65,7 +65,7 @@ public class MeetingMapper {
         ModelMapper modelMapper = new ModelMapper();
         ShgFinTxnDetGrpEntity shgFinTxnDetGrpEntity  =
                 modelMapper.map(shgFinTxn,ShgFinTxnDetGrpEntity.class);
-        shgFinTxnDetGrpEntity.setLink_guid(shgFinTxn.getLink_guid());
+        shgFinTxnDetGrpEntity.setLinkGuid(shgFinTxn.getLinkGuid());
         shgFinTxnDetGrpEntity.setTransDate1(shgFinTxn.getTransDate()!=null ? 
         		DateUtils.secondsToTimestampConverter(shgFinTxn.getTransDate()) : null);
         shgFinTxnDetGrpEntity.setDateRealisation1(shgFinTxn.getDateRealisation()!=null ? 
