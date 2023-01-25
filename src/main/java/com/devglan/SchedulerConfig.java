@@ -55,7 +55,7 @@ public class SchedulerConfig{
            transactionId = processingJsonTemp.getTransaction_id();
            String role = processingJsonTemp.getRole();
            String userId = processingJsonTemp.getUser_id();
-           logger.info(g.toJson(processingJsonTemp.getJson()));
+
            //if(true) {
 	           TransactionStatusEntity transactionStatusEntity1 = tenantService.insertIntoTransaction(transactionId,processingJsonTemp.getId(),userId,role);
 	           transactionStatusEntity1.setStatus(TransactionStatusEntity.pending);
