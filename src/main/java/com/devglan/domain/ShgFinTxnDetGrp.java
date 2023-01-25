@@ -23,6 +23,9 @@ public class ShgFinTxnDetGrp {
 	private Integer systGenerated;
 	private Long effectiveDate;
 	private String guid;
+
+
+    private String link_guid;
    
     public Integer getAuid() {
         return auid;
@@ -160,7 +163,13 @@ public class ShgFinTxnDetGrp {
 	public void setGuid(String guid) {
 		this.guid = guid;
 	}
-    
-    
+
+    public String getLink_guid() {
+        return link_guid;
+    }
+
+    public void setLink_guid(String link_guid) {
+        this.link_guid = link_guid;
+    }
 }
 

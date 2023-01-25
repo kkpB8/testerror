@@ -17,6 +17,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -60,6 +61,8 @@ import javax.crypto.spec.IvParameterSpec;
 public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, VoGroupLoanScheduleDao, VoMtgDao, VoMemLoanTxnDao, VoFinTxnDetMemDao, VoFinTxnDao, VoFinTxnDetGrpDao, VoGroupLoanTxnDao, VoLoanApplicationDao> implements TenantService {
 
 	public String uploadDir = File.separator + "opt" + File.separator + "svn" + File.separator + "dynamic";;
+
+
 
 	@Autowired
 	private TransactionTemplate txTemplate;
@@ -2026,15 +2029,13 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					for (ShgFinTxnDetGrp shgFinTxnDetGrp : shgFinTxnDetGrpList) {
 						ShgFinTxnDetGrpEntity shgFinTxnDetGrpEntity = MeetingMapper.map(shgFinTxnDetGrp);
 						shgFinTxnDetGrpEntity.setCboId(mtg.getCboId());
+						shgFinTxnDetGrpEntity.setLink_guid(shgFinTxnDetGrp.getLink_guid());
 						shgFinTxnDetGrpEntity.setShgMtgUid(mtg.getUid());
 						shgFinTxnDetGrpEntity.setMtgNo(mtg.getMtgNo());
 						shgFinTxnDetGrpEntity.setMtgGuid(mtg.getMtgGuid());
 						shgFinTxnDetGrpDao.save(shgFinTxnDetGrpEntity);
 					}
 				}
-
-
-
 				// shg group loan transaction
 				List<ShgGroupLoanTxn> shgGroupLoanTxnList = shgMeeting.getShgGroupLoanTransactionList();
 				if (shgGroupLoanTxnList != null && shgGroupLoanTxnList.size() > 0) {
