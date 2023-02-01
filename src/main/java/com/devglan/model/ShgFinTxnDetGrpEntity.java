@@ -94,6 +94,9 @@ public class ShgFinTxnDetGrpEntity implements Serializable {
 	@Column(name = "guid")
 	private String guid;
 
+	@Column(name = "link_guid")
+	private String linkGuid;
+
 	@Override
 	public String toString() {
 		return "ShgFinTxnDetGrpEntity{" +
@@ -105,6 +108,7 @@ public class ShgFinTxnDetGrpEntity implements Serializable {
 				"fundType=" + fundType + '\'' +
 				"amountToFrom=" + amountToFrom + '\'' +
 				"type=" + type + '\'' +
+				"linkGuid=" + linkGuid + '\'' +
 				"amount=" + amount + '\'' +
 				"transDate=" + transDate1 + '\'' +
 				"dateRealisation=" + dateRealisation1 + '\'' +
@@ -311,7 +315,13 @@ public class ShgFinTxnDetGrpEntity implements Serializable {
 	public void setGuid(String guid) {
 		this.guid = guid;
 	}
-	
-	
-	
+
+
+	public String getLinkGuid() {
+		return linkGuid;
+	}
+
+	public void setLinkGuid(String linkGuid) {
+		this.linkGuid = linkGuid;
+	}
 }
