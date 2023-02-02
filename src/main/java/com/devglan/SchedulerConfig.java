@@ -112,8 +112,8 @@ public class SchedulerConfig{
                   transactionStatusEntity.setRemarks("Data inserted/updated successfully");
                   tenantService.saveTransactionStatus(transactionStatusEntity);
                   try {
-                     //ShgProfileEntity shgProfileEntity= shgProfileDao.fetchByGUID(shgProfile.getGuid(),Boolean.TRUE);
-                     //jsonCreationAtInsertion(shgProfileEntity.getShgId());
+                     ShgProfileEntity shgProfileEntity= shgProfileDao.fetchByGUID(shgProfile.getGuid(),Boolean.TRUE);
+                     jsonCreationAtInsertion(shgProfileEntity.getShgId());
                   }catch (Exception e){
                      System.out.println("Error in Json creation");
                      e.printStackTrace();

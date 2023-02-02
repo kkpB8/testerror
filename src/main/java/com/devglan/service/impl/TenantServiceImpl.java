@@ -1193,7 +1193,9 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 							memberKYCDetailsEntity.setKycRearDocId(memberKYCAdhaarRearPhotoDocId);
 						}
 						//decrypt then encrypt with other logic
-						if(memberKYCDetailsEntity.getKycNumber()!=null && !memberKYCDetailsEntity.getKycNumber().isEmpty()){
+						if(memberKYCDetailsEntity.getKycNumber()!=null
+								&& !memberKYCDetailsEntity.getKycNumber().isEmpty()
+								&& !memberKYCDetailsEntity.getKycNumber().equals("-") ){
 							String encAadhaarNo = decryptEncryptAadhaar(memberKYCDetailsEntity.getKycNumber(),
 									memberKYCDetailsEntity.getMemberGUID());
 							memberKYCDetailsEntity.setEnc_aadhar_no(encAadhaarNo);

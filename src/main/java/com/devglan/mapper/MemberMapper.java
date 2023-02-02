@@ -442,6 +442,8 @@ public class MemberMapper {
     public static MemberKYCDetailsEntity map(final MemberKYCDetails memberKYCDetails) {
         MemberKYCDetailsEntity memberKYCDetailsEntity = new MemberKYCDetailsEntity();
         try {
+            memberKYCDetailsEntity.setIsVerified(memberKYCDetails.getIs_verified());
+            memberKYCDetailsEntity.setIsComplete(memberKYCDetails.getIs_complete());
             memberKYCDetailsEntity.setMemberKycDetailsId(memberKYCDetails.getMember_kyc_details_id());
             memberKYCDetailsEntity.setKycGUID(memberKYCDetails.getKyc_guid());
              memberKYCDetailsEntity.setActivationStatus(memberKYCDetails.getActivation_status());
@@ -485,8 +487,7 @@ public class MemberMapper {
                     memberKYCDetails.getKyc_rear_doc_orig_name()  : null);
             memberKYCDetailsEntity.setDeduplStatus(memberKYCDetails.getDedupl_status());
             memberKYCDetailsEntity.setActivationStatus(memberKYCDetails.getActivation_status());
-            memberKYCDetailsEntity.setIsVerified(memberKYCDetails.getIs_verified());
-            memberKYCDetailsEntity.setIsComplete(memberKYCDetails.getIs_complete());
+
         }
         catch(Exception e){
             e.printStackTrace();
