@@ -1438,6 +1438,10 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 								path = ServiceConstants.federationoProfilePhoto;
 								modifiedName = ServiceConstants.federationoProfilePhoto;
 							}
+							else if (fileMappingType.contains(ServiceConstants.registrationImage)) {
+								path = ServiceConstants.registrationImage;
+								modifiedName = ServiceConstants.registrationImage;
+							}
 
 							modifiedName += "_" + new Timestamp(System.currentTimeMillis()) + "."
 									+ FilenameUtils.getExtension(uploadFile.getOriginalFilename());
@@ -1488,6 +1492,12 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 								//federationProfilePhotoDocId.add()
 
 							}
+							else if (fileMappingType.contains(ServiceConstants.registrationImage)) {
+								federationProfilePhotoDocId.put(ServiceConstants.registrationImage,
+										documentDetailsEntityAfterSave.getDocumentId());
+								federationProfileEntity.setRegistration_image(fileMappingTypeWithExtension);
+
+							}
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -1496,9 +1506,13 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				}
 
 				// Images End
-				if (federationProfilePhotoDocId != null && federationProfilePhotoDocId.size()>0) {
+				if (federationProfilePhotoDocId != null && federationProfilePhotoDocId.size()>0&&!federationProfile.getIs_registered().equals(9)) {
 					federationProfileEntityAfterSave.setFederationProfileDocId(
 							federationProfilePhotoDocId.get(ServiceConstants.federationoProfilePhoto));
+				}
+				else if(federationProfile.getIs_registered().equals(9)){
+					federationProfileEntityAfterSave.setFederationProfileDocId(
+							federationProfilePhotoDocId.get(ServiceConstants.registrationImage));
 				}
 
 				if ((federationProfile.getFederation_id() != null || federationProfileEntity != null))

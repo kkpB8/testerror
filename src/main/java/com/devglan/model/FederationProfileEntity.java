@@ -177,6 +177,11 @@ FederationProfileEntity {
     @Column(name = "registration_date")
     private Date registrationDate;
 
+
+    @Column(name = "registration_image")
+    private  String registration_image;
+
+
     public String getApprover() {
 		return approver;
 	}
@@ -778,4 +783,11 @@ FederationProfileEntity {
     }
 
 
+    public String getRegistration_image() {
+        return registration_image;
+    }
+
+    public void setRegistration_image(String registration_image) {
+        this.registration_image = registration_image;
+    }
 }

@@ -188,6 +188,8 @@ public class SHGProfile {
     private String recentStatus;
     private Integer inactive_date;
 
+
+    private String registration_image;
     public SHGProfile() {
     }
 
@@ -1099,5 +1101,14 @@ public class SHGProfile {
 
     public void setInactive_date(Integer inactive_date) {
         this.inactive_date = inactive_date;
+    }
+
+
+    public String getRegistration_image() {
+        return registration_image;
+    }
+
+    public void setRegistration_image(String registration_image) {
+        this.registration_image = registration_image;
     }
 }

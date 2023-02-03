@@ -122,6 +122,9 @@ public class FederationProfile {
 	private String registration_no;
 	private Integer registration_date;
 
+	private  String registration_image;
+
+
 	public String getView_status() {
 		return view_status;
 	}
@@ -808,5 +811,14 @@ public class FederationProfile {
 
 	public void setRegistration_date(Integer registration_date) {
 		this.registration_date = registration_date;
+	}
+
+
+	public String getRegistration_image() {
+		return registration_image;
+	}
+
+	public void setRegistration_image(String registration_image) {
+		this.registration_image = registration_image;
 	}
 }
