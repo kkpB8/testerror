@@ -2855,7 +2855,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					 }
 
 					 else{
-						 cal.setTime(clfMemLoanEntity.getDisbursementDate1());
+						 cal.setTime(clfMemLoanEntity.getEffectiveDate());
 					 }
 
 //					 loanOsActual = BigInteger.valueOf(clfMemLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
