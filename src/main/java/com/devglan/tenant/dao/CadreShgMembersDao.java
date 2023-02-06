@@ -20,6 +20,8 @@ public interface CadreShgMembersDao extends JpaRepository<CadreShgMembersEntity,
     @Query("FROM CadreShgMembersEntity c WHERE c.cadreGuid = :cadreGuid")
     CadreShgMembersEntity fetchByGUID(@Param("cadreGuid") final String cadreGuid);
 
+    @Query("FROM CadreShgMembersEntity c WHERE c.cboId = :cboId and c.memberId = :memberId")
+    List<CadreShgMembersEntity> findListByMemberCodeCboId(@Param("cboId") final BigInteger cboId,@Param("memberId") final BigInteger memberId);
 
 
 }

@@ -204,10 +204,12 @@ public class ShgProfileEntity {
     //Anshul250921
     @Column(name = "inactive_reason")
     private Integer inactiveReason;
-    
-   
 
-	public static Integer stateType = 1;
+    @Column(name = "inactive_date")
+    private Date inactive_date;
+
+
+    public static Integer stateType = 1;
     public static Integer districtType = 2;
     public static Integer blockType = 3;
     public static Integer panchayateType = 4;
@@ -942,4 +944,12 @@ public class ShgProfileEntity {
 		public void setInactiveReason(Integer inactiveReason) {
 			this.inactiveReason = inactiveReason;
 		}
+
+    public Date getInactive_date() {
+        return inactive_date;
+    }
+
+    public void setInactive_date(Date inactive_date) {
+        this.inactive_date = inactive_date;
+    }
 }

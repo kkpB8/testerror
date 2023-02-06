@@ -101,4 +101,8 @@ public interface MemberPhoneNoDetailsDao extends JpaRepository<MemberPhoneNoDeta
 
 
 
+    @Query("FROM MemberPhoneNoDetailsEntity c WHERE c.cboId= :cboId and c.memberCode= :memberCode AND c.isActive= :isActive")
+    List<MemberPhoneNoDetailsEntity> fetchPhoneNoByMemberCode(@Param("cboId") final BigInteger cboId,
+                                                              @Param("memberCode") final BigInteger memberCode,
+                                                              @Param("isActive") final Boolean isActive);
 }
