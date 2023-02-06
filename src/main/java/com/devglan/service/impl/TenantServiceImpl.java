@@ -2867,8 +2867,11 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				 }
 
 				 Date lastMonthInstlDate = cal.getTime();
+				 Long days = 0L;
 				 Long diffInMillies2 = Math.abs(txnDate.getTime() - lastMonthInstlDate.getTime());
-				 Long days = TimeUnit.DAYS.convert(diffInMillies2, TimeUnit.MILLISECONDS);
+				 if(diffInMillies2 > 0){
+					 days = TimeUnit.DAYS.convert(diffInMillies2, TimeUnit.MILLISECONDS);
+				 }
 
 				 Integer currentPrincipal = clfMemLoanScheduleEntity.getPrincipalDemand();
 
