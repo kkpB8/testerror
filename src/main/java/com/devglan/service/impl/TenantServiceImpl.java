@@ -17,10 +17,10 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.devglan.SchedulerConfig;
 import com.devglan.domain.*;
 import com.devglan.domain.UploadVoMeeting;
 import com.devglan.domain.VoFinTxnVouchers;
@@ -31,7 +31,10 @@ import com.devglan.utils.AESPasswordEncoder;
 import com.devglan.utils.EncryptionAadhaarNrlm;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import org.apache.commons.io.FilenameUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -62,6 +65,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 	public String uploadDir = File.separator + "opt" + File.separator + "svn" + File.separator + "dynamic";;
 
+	private static final Logger logger = LoggerFactory.getLogger(TenantServiceImpl.class);
 
 
 	@Autowired
@@ -1915,7 +1919,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 			if(deleteFlag) {
 				deleteMeeting(lastMtgUid);
 			}
-
+            logger.info("ShgMtgEntity started");
 			// shg meeting
 			ShgMtgEntity mtg = new ShgMtgEntity();
 			if(dataToBeInserted.equals(Boolean.TRUE)) {
@@ -1924,7 +1928,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				mtg =  shgMtgDao.save(shgMtgEntity);
 
 			}
-
+			logger.info("ShgMtgEntity ={}",mtg);
 			// shg Finance Transation Voucher @anshul
 			List<ShgFinTxnVouchers> shgFintxnVouchersList = shgMeeting.getShgFinanceTransactionVouchersList();
 			if (shgFintxnVouchersList != null && shgFintxnVouchersList.size() > 0) {
@@ -1939,8 +1943,13 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 			// shg meeting details
 			List<ShgMtgDet> shgMeetingDetailsList = shgMeeting.getShgMeetingDetailsList();
+
+
 			if(shgMeetingDetailsList!=null && shgMeetingDetailsList.size()>0) {
 				for (ShgMtgDet shgMtgDet : shgMeetingDetailsList) {
+					logger.info("shgMtgDet ={}",shgMtgDet);
+					logger.info("shgMtgDet ={}",new Gson().toJson(shgMtgDet));
+
 					BigInteger memberId = new BigInteger(shgMtgDet.getMemId().toString());
 					Integer memberActivated = memberProfileDao.getAcivatedMember(memberId, Boolean.TRUE);
 					if(memberActivated.equals(0)) {
@@ -1987,7 +1996,9 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 						// shg member settlement @mohit
 						List<ShgMemSettlement> shgMemSettlementList = shgMtgDet.getShgMemberSettlementList();
+
 						if (shgMemSettlementList != null && shgMemSettlementList.size() > 0) {
+							logger.info("shgMemSettlementList ={}",shgMemSettlementList.size());
 							for (ShgMemSettlement shgMemSettlement : shgMemSettlementList) {
 								ShgMemSettlementEntity shgMemSettlementEntity = MeetingMapper.map(shgMemSettlement);
 								shgMemSettlementEntity.setCboId(shgMeeting.getCboId());

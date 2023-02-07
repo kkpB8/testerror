@@ -51,7 +51,7 @@ public class ShgMemSettlementEntity implements Serializable  {
     private Integer other;
 
     @Column(name = "other_specify")
-    private Integer other_specify;
+    private Integer otherSpecify;
 
     @Column(name = "available_amt")
     private Integer availableAmt;
@@ -78,7 +78,7 @@ public class ShgMemSettlementEntity implements Serializable  {
     private Integer modePayment;
 
     @Column(name = "bank_code")
-    private String bank_code;
+    private String bankCode;
 
     @Column(name = "transaction_no")
     private String transactionNo;
@@ -216,13 +216,7 @@ public class ShgMemSettlementEntity implements Serializable  {
         this.other = other;
     }
 
-    public Integer getOther_specify() {
-        return other_specify;
-    }
 
-    public void setOther_specify(Integer other_specify) {
-        this.other_specify = other_specify;
-    }
 
     public Integer getAvailableAmt() {
         return availableAmt;
@@ -288,13 +282,7 @@ public class ShgMemSettlementEntity implements Serializable  {
         this.modePayment = modePayment;
     }
 
-    public String getBank_code() {
-        return bank_code;
-    }
 
-    public void setBank_code(String bank_code) {
-        this.bank_code = bank_code;
-    }
 
     public String getTransactionNo() {
         return transactionNo;
@@ -374,5 +362,22 @@ public class ShgMemSettlementEntity implements Serializable  {
 
     public void setShgMtgUid(BigInteger shgMtgUid) {
         this.shgMtgUid = shgMtgUid;
+    }
+
+
+    public Integer getOtherSpecify() {
+        return otherSpecify;
+    }
+
+    public void setOtherSpecify(Integer otherSpecify) {
+        this.otherSpecify = otherSpecify;
+    }
+
+    public String getBankCode() {
+        return bankCode;
+    }
+
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
     }
 }
