@@ -42,7 +42,7 @@ public class MemberKYCDetails {
     private Integer created_date;
     private Integer uploaded_date;
     private Integer updated_date;
-    @NotEmpty(message = "Document must be uploaded")
+   // @NotEmpty(message = "Document must be uploaded")
     private DocumentDetails documentDetails;
     private String kyc_front_doc_orig_name;
     private String kyc_rear_doc_orig_name;

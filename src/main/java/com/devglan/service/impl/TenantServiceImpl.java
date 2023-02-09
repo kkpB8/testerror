@@ -1197,7 +1197,9 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 							memberKYCDetailsEntity.setKycRearDocId(memberKYCAdhaarRearPhotoDocId);
 						}
 						//decrypt then encrypt with other logic
-						if(memberKYCDetailsEntity.getKycNumber()!=null && !memberKYCDetailsEntity.getKycNumber().isEmpty()){
+						if(memberKYCDetailsEntity.getKycNumber()!=null
+								&& !memberKYCDetailsEntity.getKycNumber().isEmpty()
+								&& !memberKYCDetailsEntity.getKycNumber().equals("-") ){
 							String encAadhaarNo = decryptEncryptAadhaar(memberKYCDetailsEntity.getKycNumber(),
 									memberKYCDetailsEntity.getMemberGUID());
 							memberKYCDetailsEntity.setEnc_aadhar_no(encAadhaarNo);
@@ -2907,7 +2909,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					 }
 
 					 else{
-						 cal.setTime(clfMemLoanEntity.getDisbursementDate1());
+						 cal.setTime(clfMemLoanEntity.getEffectiveDate());
 					 }
 
 //					 loanOsActual = BigInteger.valueOf(clfMemLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
@@ -2919,8 +2921,11 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				 }
 
 				 Date lastMonthInstlDate = cal.getTime();
+				 Long days = 0L;
 				 Long diffInMillies2 = Math.abs(txnDate.getTime() - lastMonthInstlDate.getTime());
-				 Long days = TimeUnit.DAYS.convert(diffInMillies2, TimeUnit.MILLISECONDS);
+				 if(diffInMillies2 > 0){
+					 days = TimeUnit.DAYS.convert(diffInMillies2, TimeUnit.MILLISECONDS);
+				 }
 
 				 Integer currentPrincipal = clfMemLoanScheduleEntity.getPrincipalDemand();
 

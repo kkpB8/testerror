@@ -17,8 +17,8 @@ public interface MemberAddressesDetailsDao extends JpaRepository<MemberAddresses
     @Query("FROM MemberAddressesDetailsEntity c WHERE c.memberCode = :memberCode and c.cboId = :cboId")
     MemberAddressesDetailsEntity findByMemberCodeCboId(@Param("memberCode") final BigInteger memberCode, @Param("cboId") final BigInteger cboId);
 
-    @Query("FROM MemberAddressesDetailsEntity c WHERE c.memberCode = :memberCode and c.cboId = :cboId")
-    List<MemberAddressesDetailsEntity> findListByMemberCodeCboId(@Param("memberCode") final BigInteger memberCode, @Param("cboId") final BigInteger cboId);
+    @Query("FROM MemberAddressesDetailsEntity c WHERE c.cboId = :cboId and c.memberCode = :memberCode")
+    List<MemberAddressesDetailsEntity> findListByMemberCodeCboId(@Param("cboId") final BigInteger cboId,@Param("memberCode") final BigInteger memberCode);
 
     @Query("FROM MemberAddressesDetailsEntity c WHERE c.cboId = :cboId AND c.isActive= :isActive")
     List<MemberAddressesDetailsEntity> fetchByCboId(@Param("cboId") final BigInteger cboId,@Param("isActive") final Boolean isActive);
