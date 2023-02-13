@@ -3059,9 +3059,12 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 						loanOsActual = clfGroupLoanScheduleEntityList.get(0).getLoanOsSchedule().add(BigInteger.valueOf(clfGroupLoanScheduleEntityList.get(0).getPrincipalDemand())); //clfMemLoanScheduleEntity.getLoanOsSchedule();
 					}
 
+					Long days = 0L;
 					Date lastMonthInstlDate = cal.getTime();
 					Long diffInMillies2 = Math.abs(txnDate.getTime() - lastMonthInstlDate.getTime());
-					Long days = TimeUnit.DAYS.convert(diffInMillies2, TimeUnit.MILLISECONDS);
+					if(diffInMillies2 > 0){
+						days = TimeUnit.DAYS.convert(diffInMillies2, TimeUnit.MILLISECONDS);
+					}
 
 					Integer currentPrincipal = clfGroupLoanScheduleEntity.getPrincipalDemand();
 
