@@ -150,6 +150,9 @@ FederationProfileEntity {
 	
     @Column(name = "federation_profile_doc_id")
     private BigInteger federationProfileDocId;
+
+    @Column(name = "regestration_doc_id")
+    private BigInteger regestrationDocId;
     @Column(name = "federation_resolution")
     private String federationResolution;
     //@Satwant 06052021
@@ -789,5 +792,14 @@ FederationProfileEntity {
 
     public void setRegistration_image(String registration_image) {
         this.registration_image = registration_image;
+    }
+
+
+    public BigInteger getRegestrationDocId() {
+        return regestrationDocId;
+    }
+
+    public void setRegestrationDocId(BigInteger regestrationDocId) {
+        this.regestrationDocId = regestrationDocId;
     }
 }

@@ -1410,6 +1410,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				List<Map<String, BigInteger>> cboKYCPhotoDocId = new ArrayList<>();
 				Map<String, BigInteger> cboKYCTANNoPhotoDocId = new HashMap<String, BigInteger>();
 				Map<String, BigInteger> federationProfilePhotoDocId = new HashMap<>();
+				Map<String, BigInteger> regestrationPhotoDocId = new HashMap<>();
 
 				if (uploadFiles != null) {
 					for (MultipartFile uploadFile : uploadFiles) {
@@ -1467,6 +1468,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 							DocumentDetailsEntity documentDetailsEntity = GroupMapper.map(documentDetails);
 							DocumentDetailsEntity documentDetailsEntityAfterSave = documentDetailsDao
 									.saveAndFlush(documentDetailsEntity);
+
 							// new code
 							if (fileMappingType.equals(ServiceConstants.cboBankPhoto)) {
 								Map<String, BigInteger> cboBankPhotoDocIdTemp = new HashMap<>();
@@ -1499,10 +1501,9 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 							}
 							else if (fileMappingType.contains(ServiceConstants.registrationImage)) {
-								federationProfilePhotoDocId.put(ServiceConstants.registrationImage,
+								regestrationPhotoDocId.put(ServiceConstants.registrationImage,
 										documentDetailsEntityAfterSave.getDocumentId());
-								federationProfileEntity.setRegistration_image(fileMappingTypeWithExtension);
-
+								federationProfileEntityAfterSave.setRegistration_image(fileName);
 							}
 						} catch (IOException e) {
 							e.printStackTrace();
@@ -1516,11 +1517,10 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					federationProfileEntityAfterSave.setFederationProfileDocId(
 							federationProfilePhotoDocId.get(ServiceConstants.federationoProfilePhoto));
 				}
-				else if(federationProfile.getIs_registered().equals(9)){
-					federationProfileEntityAfterSave.setFederationProfileDocId(
-							federationProfilePhotoDocId.get(ServiceConstants.registrationImage));
+				if(regestrationPhotoDocId!=null&&federationProfile.getIs_registered().equals(1)){
+					federationProfileEntityAfterSave.setRegestrationDocId(
+							regestrationPhotoDocId.get(ServiceConstants.registrationImage));
 				}
-
 				if ((federationProfile.getFederation_id() != null || federationProfileEntity != null))
 					federationProfileDao.save(federationProfileEntityAfterSave);
 				else
@@ -1945,13 +1945,8 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 			// shg meeting details
 			List<ShgMtgDet> shgMeetingDetailsList = shgMeeting.getShgMeetingDetailsList();
-
-
 			if(shgMeetingDetailsList!=null && shgMeetingDetailsList.size()>0) {
 				for (ShgMtgDet shgMtgDet : shgMeetingDetailsList) {
-					logger.info("shgMtgDet ={}",shgMtgDet);
-					logger.info("shgMtgDet ={}",new Gson().toJson(shgMtgDet));
-
 					BigInteger memberId = new BigInteger(shgMtgDet.getMemId().toString());
 					Integer memberActivated = memberProfileDao.getAcivatedMember(memberId, Boolean.TRUE);
 					if(memberActivated.equals(0)) {
@@ -1998,9 +1993,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 						// shg member settlement @mohit
 						List<ShgMemSettlement> shgMemSettlementList = shgMtgDet.getShgMemberSettlementList();
-
 						if (shgMemSettlementList != null && shgMemSettlementList.size() > 0) {
-							logger.info("shgMemSettlementList ={}",shgMemSettlementList.size());
 							for (ShgMemSettlement shgMemSettlement : shgMemSettlementList) {
 								ShgMemSettlementEntity shgMemSettlementEntity = MeetingMapper.map(shgMemSettlement);
 								shgMemSettlementEntity.setCboId(shgMeeting.getCboId());
