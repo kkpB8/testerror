@@ -118,6 +118,13 @@ public class ClfMemLoanEntity implements Serializable {
     @Column(name = "narration")
     private String narration;
 
+    @Column(name= "effective_date")
+    private Date effectiveDate;
+
+    @Column(name = "reschedule_date")
+    private Date rescheduleDate;
+
+
     public BigInteger getUid() {
         return uid;
     }
@@ -396,5 +403,21 @@ public class ClfMemLoanEntity implements Serializable {
 
     public void setOrganizationId(BigInteger organizationId) {
         this.organizationId = organizationId;
+    }
+
+    public Date getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
+    public Date getRescheduleDate() {
+        return rescheduleDate;
+    }
+
+    public void setRescheduleDate(Date rescheduleDate) {
+        this.rescheduleDate = rescheduleDate;
     }
 }
