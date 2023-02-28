@@ -81,6 +81,9 @@ public class MemberKYCDetailsEntity {
     @Column(name = "enc_aadhar_no")
     private String enc_aadhar_no;
 
+    @Column(name = "aes_enc_aadhar")
+    private String aes_enc_aadhar;
+
     public String getEnc_aadhar_no() {
         return enc_aadhar_no;
     }
@@ -321,5 +324,13 @@ public class MemberKYCDetailsEntity {
 
     public void setIsComplete(Integer isComplete) {
         this.isComplete = isComplete;
+    }
+
+    public String getAes_enc_aadhar() {
+        return aes_enc_aadhar;
+    }
+
+    public void setAes_enc_aadhar(String aes_enc_aadhar) {
+        this.aes_enc_aadhar = aes_enc_aadhar;
     }
 }

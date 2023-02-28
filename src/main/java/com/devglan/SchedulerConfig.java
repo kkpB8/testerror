@@ -1,15 +1,14 @@
 package com.devglan;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.devglan.model.ShgProfileEntity;
+import com.devglan.domain.FederationProfile;
+import com.devglan.domain.SHGProfile;
+import com.devglan.domain.UploadShgMeeting;
+import com.devglan.domain.UploadVoMeeting;
+import com.devglan.model.Processing_JsonEntity;
+import com.devglan.model.TransactionStatusEntity;
+import com.devglan.service.TenantService;
 import com.devglan.tenant.dao.SHGProfileDao;
+import com.google.gson.Gson;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,14 +18,13 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.devglan.domain.FederationProfile;
-import com.devglan.domain.SHGProfile;
-import com.devglan.domain.UploadShgMeeting;
-import com.devglan.domain.UploadVoMeeting;
-import com.devglan.model.Processing_JsonEntity;
-import com.devglan.model.TransactionStatusEntity;
-import com.devglan.service.TenantService;
-import com.google.gson.Gson;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -111,13 +109,13 @@ public class SchedulerConfig{
                   //transactionStatusEntity.setRole(role);
                   transactionStatusEntity.setRemarks("Data inserted/updated successfully");
                   tenantService.saveTransactionStatus(transactionStatusEntity);
-                  try {
+                  /*try {
                      ShgProfileEntity shgProfileEntity= shgProfileDao.fetchByGUID(shgProfile.getGuid(),Boolean.TRUE);
                      jsonCreationAtInsertion(shgProfileEntity.getShgId());
                   }catch (Exception e){
                      System.out.println("Error in Json creation");
                      e.printStackTrace();
-                  }
+                  }*/
               }
               }
               catch(Exception e) {
