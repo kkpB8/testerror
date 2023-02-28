@@ -3,17 +3,16 @@
  */
 package com.devglan.service;
 
-import java.math.BigInteger;
-import java.util.List;
-
-import org.springframework.web.multipart.MultipartFile;
-
 import com.devglan.domain.FederationProfile;
 import com.devglan.domain.SHGProfile;
 import com.devglan.domain.UploadShgMeeting;
 import com.devglan.domain.UploadVoMeeting;
 import com.devglan.model.Processing_JsonEntity;
 import com.devglan.model.TransactionStatusEntity;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.math.BigInteger;
+import java.util.List;
 
 public interface TenantService {
 
@@ -41,5 +40,5 @@ public interface TenantService {
 
 	public String jsonCreationAtInsertion(BigInteger shgId);
 
-	String decryptEncryptAadhaar(String kycNumber,String guid);
+	String decryptEncryptAadhaar(String kycNumber,String guid,Integer flag);
 }
