@@ -2886,7 +2886,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					  */
 					 loanOsActual = clfMemLoanScheduleEntityList.get(0).getLoanOsSchedule().add(BigInteger.valueOf(clfMemLoanScheduleEntityList.get(0).getPrincipalDemand())); //clfMemLoanScheduleEntity.getLoanOsSchedule();
 
-					 if(mtgDetails != null && mtgDetails.getMtgType() == ServiceConstants.cutOffMtgType){
+					 if(mtgDetails != null && mtgDetails.getMtgType() == ServiceConstants.cutOffMtgType && clfMemLoanEntity.getRescheduleDate() == null){
 							cal.setTime(mtgDetails.getMtgDate1());
 					 }
 
@@ -3051,7 +3051,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					} else {
 						ClfMtgDetailsEntity mtgDetails = clfMtgDetailsDao.findMtgDetailsByCboIdAndMtgNo(clfGroupLoanEntity.getCboId(), clfGroupLoanEntity.getMtgNo());
 						
-						if(mtgDetails != null && mtgDetails.getMtgType() == ServiceConstants.cutOffMtgType){
+						if(mtgDetails != null && mtgDetails.getMtgType() == ServiceConstants.cutOffMtgType && clfGroupLoanEntity.getRescheduleDate() == null){
 							cal.setTime(mtgDetails.getMtgDate1());
 						}
 

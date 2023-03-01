@@ -12,7 +12,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 public interface ClfGroupLoanScheduleDao extends JpaRepository<ClfGroupLoanScheduleEntity, Long>, JpaSpecificationExecutor<ClfGroupLoanScheduleEntity> {
-    @Query("from ClfGroupLoanScheduleEntity cms where cms.loanNo = ?1 and cms.cboId = ?2 order by cms.installmentDate1,cms.subInstallmentNo")
+    @Query("from ClfGroupLoanScheduleEntity cms where cms.loanNo = ?1 and cms.cboId = ?2 order by cms.createdOn1, cms.installmentDate1,cms.subInstallmentNo")
     List<ClfGroupLoanScheduleEntity> findByLoanNo(Integer loanNo, BigInteger cboId);
 
 
