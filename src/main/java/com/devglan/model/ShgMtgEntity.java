@@ -231,6 +231,10 @@ public class ShgMtgEntity implements Serializable {
     @Column(name = "summary_flag")
     private Boolean summaryFlag;
 
+
+    @Column(name = "json_report")
+    private String jsonReport;
+
     public static Integer zeroMeeting = 0;
     public static Integer cutOffMeeting1 = 11;
     public static Integer cutOffMeeting2 = 12;
@@ -795,5 +799,38 @@ public class ShgMtgEntity implements Serializable {
 
     public void setSummaryFlag(Boolean summaryFlag) {
         this.summaryFlag = summaryFlag;
+    }
+
+
+    public String getJsonReport() {
+        return jsonReport;
+    }
+
+    public void setJsonReport(String jsonReport) {
+        this.jsonReport = jsonReport;
+    }
+
+    public static Integer getZeroMeeting() {
+        return zeroMeeting;
+    }
+
+    public static void setZeroMeeting(Integer zeroMeeting) {
+        ShgMtgEntity.zeroMeeting = zeroMeeting;
+    }
+
+    public static Integer getCutOffMeeting1() {
+        return cutOffMeeting1;
+    }
+
+    public static void setCutOffMeeting1(Integer cutOffMeeting1) {
+        ShgMtgEntity.cutOffMeeting1 = cutOffMeeting1;
+    }
+
+    public static Integer getCutOffMeeting2() {
+        return cutOffMeeting2;
+    }
+
+    public static void setCutOffMeeting2(Integer cutOffMeeting2) {
+        ShgMtgEntity.cutOffMeeting2 = cutOffMeeting2;
     }
 }

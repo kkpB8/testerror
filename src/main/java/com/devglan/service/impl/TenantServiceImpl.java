@@ -1391,6 +1391,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				List<Map<String, BigInteger>> cboKYCPhotoDocId = new ArrayList<>();
 				Map<String, BigInteger> cboKYCTANNoPhotoDocId = new HashMap<String, BigInteger>();
 				Map<String, BigInteger> federationProfilePhotoDocId = new HashMap<>();
+				Map<String, BigInteger> regestrationPhotoDocId = new HashMap<>();
 
 				if (uploadFiles != null) {
 					for (MultipartFile uploadFile : uploadFiles) {
@@ -1444,6 +1445,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 							DocumentDetailsEntity documentDetailsEntity = GroupMapper.map(documentDetails);
 							DocumentDetailsEntity documentDetailsEntityAfterSave = documentDetailsDao
 									.saveAndFlush(documentDetailsEntity);
+
 							// new code
 							if (fileMappingType.equals(ServiceConstants.cboBankPhoto)) {
 								Map<String, BigInteger> cboBankPhotoDocIdTemp = new HashMap<>();
@@ -1476,10 +1478,9 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 							}
 							else if (fileMappingType.contains(ServiceConstants.registrationImage)) {
-								federationProfilePhotoDocId.put(ServiceConstants.registrationImage,
+								regestrationPhotoDocId.put(ServiceConstants.registrationImage,
 										documentDetailsEntityAfterSave.getDocumentId());
-								federationProfileEntity.setRegistration_image(fileMappingTypeWithExtension);
-
+								federationProfileEntityAfterSave.setRegistration_image(fileName);
 							}
 						} catch (IOException e) {
 							e.printStackTrace();
@@ -1493,11 +1494,10 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					federationProfileEntityAfterSave.setFederationProfileDocId(
 							federationProfilePhotoDocId.get(ServiceConstants.federationoProfilePhoto));
 				}
-				else if(federationProfile.getIs_registered().equals(9)){
-					federationProfileEntityAfterSave.setFederationProfileDocId(
-							federationProfilePhotoDocId.get(ServiceConstants.registrationImage));
+				if(regestrationPhotoDocId!=null&&federationProfile.getIs_registered().equals(1)){
+					federationProfileEntityAfterSave.setRegestrationDocId(
+							regestrationPhotoDocId.get(ServiceConstants.registrationImage));
 				}
-
 				if ((federationProfile.getFederation_id() != null || federationProfileEntity != null))
 					federationProfileDao.save(federationProfileEntityAfterSave);
 				else

@@ -77,6 +77,8 @@ public class ShgMtg {
     private Integer zeroMtgCashInHand;
     private Integer zeroMtgCashInTransit;
 
+
+    private String jsonReport;
     private List<ShgMtgDet> shgMeetingDetailsList;
     private List<ShgFinTxn> shgFinanceTransactionList;
     private List<ShgFinTxnDetGrp> shgFinanceTransactionDetailGroupList;
@@ -641,5 +643,14 @@ public class ShgMtg {
 
     public void setShgFinanceTransactionVouchersList(List<ShgFinTxnVouchers> shgFinanceTransactionVouchersList) {
         this.shgFinanceTransactionVouchersList = shgFinanceTransactionVouchersList;
+    }
+
+
+    public String getJsonReport() {
+        return jsonReport;
+    }
+
+    public void setJsonReport(String jsonReport) {
+        this.jsonReport = jsonReport;
     }
 }
