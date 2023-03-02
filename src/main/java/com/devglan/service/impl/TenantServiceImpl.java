@@ -3,32 +3,19 @@
  */
 package com.devglan.service.impl;
 
-import java.io.File;
-import java.io.IOException;
-import java.math.BigInteger;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import com.devglan.SchedulerConfig;
-import com.devglan.domain.*;
 import com.devglan.domain.UploadVoMeeting;
-import com.devglan.domain.VoFinTxnVouchers;
+import com.devglan.domain.*;
+import com.devglan.mapper.GroupMapper;
+import com.devglan.mapper.MeetingMapper;
+import com.devglan.mapper.MemberMapper;
+import com.devglan.mapper.VoMeetingMapper;
 import com.devglan.model.*;
-import com.devglan.tenant.dao.PGFunctionProcedureService;
+import com.devglan.service.TenantService;
+import com.devglan.seshat.dao.TenantsDao;
 import com.devglan.tenant.dao.*;
 import com.devglan.utils.AESPasswordEncoder;
 import com.devglan.utils.EncryptionAadhaarNrlm;
+import com.devglan.utils.ServiceConstants;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -44,14 +31,6 @@ import org.springframework.util.SerializationUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.devglan.mapper.GroupMapper;
-import com.devglan.mapper.MeetingMapper;
-import com.devglan.mapper.MemberMapper;
-import com.devglan.mapper.VoMeetingMapper;
-import com.devglan.service.TenantService;
-import com.devglan.seshat.dao.TenantsDao;
-import com.devglan.utils.ServiceConstants;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
@@ -65,7 +44,6 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 	public String uploadDir = File.separator + "opt" + File.separator + "svn" + File.separator + "dynamic";;
 
-	private static final Logger logger = LoggerFactory.getLogger(TenantServiceImpl.class);
 
 
 	@Autowired
@@ -1201,8 +1179,11 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 								&& !memberKYCDetailsEntity.getKycNumber().isEmpty()
 								&& !memberKYCDetailsEntity.getKycNumber().equals("-") ){
 							String encAadhaarNo = decryptEncryptAadhaar(memberKYCDetailsEntity.getKycNumber(),
-									memberKYCDetailsEntity.getMemberGUID());
+									memberKYCDetailsEntity.getMemberGUID(),1);
 							memberKYCDetailsEntity.setEnc_aadhar_no(encAadhaarNo);
+							String aesAadhaarNo = decryptEncryptAadhaar(memberKYCDetailsEntity.getKycNumber(),
+									memberKYCDetailsEntity.getMemberGUID(),2);
+							memberKYCDetailsEntity.setAes_enc_aadhar(aesAadhaarNo);
 						}
 					}
 					if (memberKYCDetailsTemp.getKyc_type().equals(MemberKYCDetailsEntity.kycElectionId)) {
@@ -1443,10 +1424,6 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 							} else if (fileMappingType.contains(ServiceConstants.federationoProfilePhoto)) {
 								path = ServiceConstants.federationoProfilePhoto;
 								modifiedName = ServiceConstants.federationoProfilePhoto;
-							}
-							else if (fileMappingType.contains(ServiceConstants.registrationImage)) {
-								path = ServiceConstants.registrationImage;
-								modifiedName = ServiceConstants.registrationImage;
 							}
 
 							modifiedName += "_" + new Timestamp(System.currentTimeMillis()) + "."
@@ -1921,7 +1898,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 			if(deleteFlag) {
 				deleteMeeting(lastMtgUid);
 			}
-            logger.info("ShgMtgEntity started");
+
 			// shg meeting
 			ShgMtgEntity mtg = new ShgMtgEntity();
 			if(dataToBeInserted.equals(Boolean.TRUE)) {
@@ -1930,7 +1907,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				mtg =  shgMtgDao.save(shgMtgEntity);
 
 			}
-			logger.info("ShgMtgEntity ={}",mtg);
+
 			// shg Finance Transation Voucher @anshul
 			List<ShgFinTxnVouchers> shgFintxnVouchersList = shgMeeting.getShgFinanceTransactionVouchersList();
 			if (shgFintxnVouchersList != null && shgFintxnVouchersList.size() > 0) {
@@ -1945,13 +1922,8 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 			// shg meeting details
 			List<ShgMtgDet> shgMeetingDetailsList = shgMeeting.getShgMeetingDetailsList();
-
-
 			if(shgMeetingDetailsList!=null && shgMeetingDetailsList.size()>0) {
 				for (ShgMtgDet shgMtgDet : shgMeetingDetailsList) {
-					logger.info("shgMtgDet ={}",shgMtgDet);
-					logger.info("shgMtgDet ={}",new Gson().toJson(shgMtgDet));
-
 					BigInteger memberId = new BigInteger(shgMtgDet.getMemId().toString());
 					Integer memberActivated = memberProfileDao.getAcivatedMember(memberId, Boolean.TRUE);
 					if(memberActivated.equals(0)) {
@@ -1998,9 +1970,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 						// shg member settlement @mohit
 						List<ShgMemSettlement> shgMemSettlementList = shgMtgDet.getShgMemberSettlementList();
-
 						if (shgMemSettlementList != null && shgMemSettlementList.size() > 0) {
-							logger.info("shgMemSettlementList ={}",shgMemSettlementList.size());
 							for (ShgMemSettlement shgMemSettlement : shgMemSettlementList) {
 								ShgMemSettlementEntity shgMemSettlementEntity = MeetingMapper.map(shgMemSettlement);
 								shgMemSettlementEntity.setCboId(shgMeeting.getCboId());
@@ -2851,9 +2821,9 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 		return  loanRepaid;
 	}
 
-	private ClfMemLoanScheduleEntity getLastPaidInstallment(List<ClfMemLoanScheduleEntity> scheduleList){
+	private ClfMemLoanScheduleEntity getLastPaidInstallment(List<ClfMemLoanScheduleEntity> scheduleList, ClfMemLoanEntity clfMemLoan){
 		List<ClfMemLoanScheduleEntity> onlyPaidInstls = scheduleList.stream().filter((item)->{
-			return  item.getLastPaidDate1()!= null;
+			return  item.getLastPaidDate1()!= null && (clfMemLoan.getRescheduleDate() == null || item.getInstallmentDate1().compareTo(clfMemLoan.getRescheduleDate()) >= 0);
 		}).collect(Collectors.toList());
 		if(onlyPaidInstls.size()>0){
 			return onlyPaidInstls.get(onlyPaidInstls.size()-1);
@@ -2861,7 +2831,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 		return  null;
 	}
 
-	private ClfGroupLoanScheduleEntity getLastPaidGrpInstallment(List<ClfGroupLoanScheduleEntity> scheduleList){
+	private ClfGroupLoanScheduleEntity getLastPaidGrpInstallment(List<ClfGroupLoanScheduleEntity> scheduleList, ClfGroupLoanEntity clfGroupLoan){
 		List<ClfGroupLoanScheduleEntity> onlyPaidInstls = scheduleList.stream().filter((item)->{
 			return  item.getLastPaidDate1()!= null;
 		}).collect(Collectors.toList());
@@ -2903,21 +2873,28 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				 } else {
 					 //if not installment paid then disbursed date of loan --> for first installment
 					 ClfMtgDetailsEntity mtgDetails  = clfMtgDetailsDao.findMtgDetailsByCboIdAndMtgNo(clfMemLoanEntity.getCboId(), clfMemLoanEntity.getMtgNo());
-					 
-					 if(mtgDetails != null && mtgDetails.getMtgType() == ServiceConstants.cutOffMtgType){
-							cal.setTime(mtgDetails.getMtgDate1());
-					 }
 
-					 else{
-						 cal.setTime(clfMemLoanEntity.getEffectiveDate());
-					 }
-
-//					 loanOsActual = BigInteger.valueOf(clfMemLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
+					 loanOsActual = BigInteger.valueOf(clfMemLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
 					 /*
 					  * If there is no repayment calculating loanOs actual by adding principal demand and loanOs Scheadule
 					  * As for cutoff over due amount is added for the first installment prinicpal demand.
-					 */
+					  */
 					 loanOsActual = clfMemLoanScheduleEntityList.get(0).getLoanOsSchedule().add(BigInteger.valueOf(clfMemLoanScheduleEntityList.get(0).getPrincipalDemand())); //clfMemLoanScheduleEntity.getLoanOsSchedule();
+
+					 if(mtgDetails != null && mtgDetails.getMtgType() == ServiceConstants.cutOffMtgType && clfMemLoanEntity.getRescheduleDate() == null){
+							cal.setTime(mtgDetails.getMtgDate1());
+					 }
+
+					 else if(clfMemLoanEntity.getRescheduleDate() == null){
+						 cal.setTime(clfMemLoanEntity.getEffectiveDate());
+					 }else{
+						 cal.setTime(clfMemLoanEntity.getRescheduleDate());
+						 ClfMemLoanScheduleEntity scheduleEntity = clfMemLoanScheduleEntityList.stream().filter((el) -> {
+							 return el.getLastPaidDate1() == null;
+						 }).collect(Collectors.toList()).get(0);
+
+						 loanOsActual = scheduleEntity.getLoanOsSchedule().add(BigInteger.valueOf(scheduleEntity.getPrincipalDemand())); //clfMemLoanScheduleEntity.getLoanOsSchedule();
+					 }
 				 }
 
 				 Date lastMonthInstlDate = cal.getTime();
@@ -3074,19 +3051,30 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 						}
 
 						else{
-							cal.setTime(clfGroupLoanEntity.getDisbursementDate1());
+							if(clfGroupLoanEntity.getRescheduleDate() == null){
+								cal.setTime(clfGroupLoanEntity.getEffectiveDate());
+							}else{
+								cal.setTime(clfGroupLoanEntity.getRescheduleDate());
+								ClfGroupLoanScheduleEntity scheduleEntity = clfGroupLoanScheduleEntityList.stream().filter(el -> {
+									return el.getLastPaidDate1() == null;
+								}).collect(Collectors.toList()).get(0);
+								//						loanOsActual = BigInteger.valueOf(clfGroupLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
+								/*
+								 * If there is no repayment calculating loanOs actual by adding principal demand and loanOs Scheadule
+								 * As for cutoff over due amount is added for the first installment prinicpal demand.
+								 */
+								loanOsActual = scheduleEntity.getLoanOsSchedule().add(BigInteger.valueOf(scheduleEntity.getPrincipalDemand())); //clfMemLoanScheduleEntity.getLoanOsSchedule();
+							}
 						}
-//						loanOsActual = BigInteger.valueOf(clfGroupLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
-						/*
-						* If there is no repayment calculating loanOs actual by adding principal demand and loanOs Scheadule
-						* As for cutoff over due amount is added for the first installment prinicpal demand.
-						*/
 						loanOsActual = clfGroupLoanScheduleEntityList.get(0).getLoanOsSchedule().add(BigInteger.valueOf(clfGroupLoanScheduleEntityList.get(0).getPrincipalDemand())); //clfMemLoanScheduleEntity.getLoanOsSchedule();
 					}
 
+					Long days = 0L;
 					Date lastMonthInstlDate = cal.getTime();
 					Long diffInMillies2 = Math.abs(txnDate.getTime() - lastMonthInstlDate.getTime());
-					Long days = TimeUnit.DAYS.convert(diffInMillies2, TimeUnit.MILLISECONDS);
+					if(diffInMillies2 > 0){
+						days = TimeUnit.DAYS.convert(diffInMillies2, TimeUnit.MILLISECONDS);
+					}
 
 					Integer currentPrincipal = clfGroupLoanScheduleEntity.getPrincipalDemand();
 
@@ -3096,7 +3084,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 						currentPrincipal = currentPrincipal - loanrepaid;
 					}
 					Integer currentInterest = Math.round(loanOsActual.intValue() * clfGroupLoanEntity.getInterestRate() * (Float.valueOf(days) / 365) / 100) + osIntrest;
-					if(lastPaidInstallment == null && clfGroupLoanEntity.getInterestOverdue() != null){
+					if(lastPaidInstallment == null && (clfGroupLoanEntity.getInterestOverdue() != null || clfGroupLoanEntity.getRescheduleDate() != null) ){
 						currentInterest += clfGroupLoanEntity.getInterestOverdue();
 					}
 					Integer totalCurDemand = currentPrincipal + currentInterest;
@@ -3623,7 +3611,15 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 		}
 		String orgAadhaarNo =AESPasswordEncoder.removeSaltFromPlainText(plainText);
 		System.out.println("x : "+orgAadhaarNo);
-		result= EncryptionAadhaarNrlm.finalEncryption(orgAadhaarNo);
+		if(flag==1) {
+			result = EncryptionAadhaarNrlm.finalEncryption(orgAadhaarNo);
+		}else if (flag==2){
+			try {
+				result = EncryptionAadhaarNrlm.encryptSaltValue(orgAadhaarNo);
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
 		System.out.println("y : "+result);
 		System.out.println("ending of decryptEncryptAadhaar(String kycNumber,String guid)");
 		return result;
