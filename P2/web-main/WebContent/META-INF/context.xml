@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context antiJARLocking="true" path="/hdms">
+     <Resource
+        name="jdbc/auth"
+        description="Creche MIS, Odisha"
+        type="javax.sql.DataSource"
+        auth="Container"
+        driverClassName="com.mysql.jdbc.Driver"
+        url="jdbc:mysql://localhost:3306/odisha-creche-20aug?characterEncoding=utf8"
+        username="root"
+        password="root"
+        maxActive="10"
+        maxIdle="3"
+        maxWait="10000"
+        validationQuery="select 1"/>
+    <Realm className="org.apache.catalina.realm.DataSourceRealm"
+           userTable="users_web"
+           userNameCol="user_name"
+           userCredCol="user_pass"
+           userRoleTable="users_info_web"
+           roleNameCol="role_name"
+           localDataSource="true"
+           dataSourceName="jdbc/auth"/>
+</Context>

@@ -1,0 +1,287 @@
+@media all and (min-width: 480px) and (max-width: 800px) {
+/**** Header ======================================****/
+#col_left{width: 26%; display: inline-block}
+#col_right{width: 26%; display: inline-block}
+#col_left img{position: relative; top: 2px;}
+#col_right img{position: relative; top: 3px;}
+/* #col_left img{width: 36px; height: auto;} */
+#col_middle{width: 44.2%; display: inline-block; text-align: center; position: relative; bottom: 5px;}
+#title{font-size: 22px;	color: #fff; display: block;}
+#subTitle{font-size: 12px; display: block;}=========****/
+
+/**** Row below header ======================================****/
+/** default & login **/
+.cont {
+    min-height:0;
+}
+.left_content{
+	width:100%
+}
+.middle_content{
+	width:99%;
+	margin:10px 0 0;
+	border:2px solid #36B377;
+	background-color: white;
+	display: none;
+}
+
+.map_img{
+	text-align:center;
+	padding:10px 5px;
+	min-height: 370px;
+	display: none;
+}
+.map_img img{
+	margin-top: 20px;
+}
+#chart_home{
+	width:99%;
+	position: relative;
+	top: 0px;
+}
+#chart_home2{
+	width:99%;
+	position: relative;
+	top: 0px;
+}
+/** default & login **/
+
+#elmnt_left{width: 98%; margin: 1%; display: inline-block; color: #fff; text-align: center;}
+#elmnt_middle{width: 98%; margin: 1%; display: inline-block; color: #fff; text-align: center;}
+/* #elmnt_right{width: 18%; margin: 0 1% 0 0; display: inline-block; color: #fff;} */
+
+#elmnt_left label{font-size: 10px; font-weight: bold; position: relative; top: -3px;}
+#elmnt_middle label{font-size: 12px; font-weight: bold; position: relative; top: -3px; text-decoration: underline;}
+/**** Row below header ======================================****/
+
+/**** Content ======================================****/
+
+/** default & login **/
+
+/** image slider **/
+#contain_slider{display: none;} 
+#slider2_container{display: none;}
+#slider3_container{display: none;}
+#slider_container{display: none;}
+#write_up{display: none;} 
+/** image slider **/
+#contain_login2{display: none;}
+#contain_login{width: 100%; float: none; margin: 0; display: block; position: relative; bottom: 0px;}
+#login{ border: 2px #36B377 solid; background-color: #ffffff; text-align: left; font-size: 9pt; margin: 0 auto;}
+.mob_login{
+	display: block;
+}
+#content{height: auto;}
+
+/** default & login **/
+
+#divAwc_noCat div{display: inline-block;}
+
+/** nutrition status **/
+#divLeft{width: 98%; display: block; margin: 1%;}
+#divMiddle{width: 98%; display: block; margin: 1%;}
+#divRight{width: 98%; display: block; margin: 1%;}
+
+#tdLeft{height: 200px;}
+#nutri{height: 180px;}
+#tdInfo{height: auto;}
+#info{height: auto;}
+#tblChart{height: 300px; border: 1px solid black;}
+/** nutrition status **/
+
+/** convergence dashboard **/
+.divIndiChart{width: 98%;}
+#chart_nutri, #chart_illness, #chart_toilet{border-bottom: 1px grey solid;}
+/** convergence dashboard **/
+
+.chart_div{width: 369px; height: 234px; background-color: transparent;}
+/**** Content ======================================****/
+
+
+/**** Menu ======================================****/
+#menu_action {display:none;}
+ #menu {display:none;}
+.slicknav_menu {display:block;}
+#myslidemenu{display:none;}
+
+/***********=======****************/
+/*#####################*/
+/* for responsive */
+/***********=======****************/
+/*#####################*/
+
+.span_1_of_1{
+	width: 100%;
+	text-align: center;
+}
+.span_1_of_2{
+	width: 100%;
+	text-align: center;
+}
+
+.span_1_of_5{
+	width: 100%;
+	overflow: auto;
+}
+ .span_1_of_6{
+	width: 99%;
+	height: 300px;
+	border: 1px solid black;
+	float: left;
+	margin-top: 1%;
+}
+
+#WFA_total, #WFA_curMonth{
+	margin: 0 auto;
+}
+.sec_report_btn{
+	width: 100px;
+}
+ .span_1_of_7{
+	width: 100%;
+	text-align: center;
+}
+ .span_1_of_8{
+	width: 100%;
+	text-align: center;
+}
+ .span_1_of_9{
+	width: 100%;
+	text-align: center;
+}
+ .span_1_of_10{
+	width: 100%;
+	text-align: center;
+}
+/*AWC Report*/
+.span_1_of_11{
+	width: 100%;
+	text-align: center;
+}
+ .span_1_of_12{
+	width: 100%;
+	text-align: center;
+}
+.span_1_of_13{
+	width: 100%;
+	text-align: center;
+}
+.span_1_of_14{
+	width: 100%;
+	text-align: center;
+}
+
+.AWC_report_btn{
+	position: relative;
+	top: 0px;
+	text-align: center;
+}
+
+.awc_rprt_lbl{
+	position: relative;
+	top: 0px;
+	width: 100%;
+	text-align: center;
+}
+/*AWC Report*/
+#divSect{width: 98%; margin: 1%; display: block; text-align: center;}
+#divAwc{width: 98%; margin: 1%; display: block; text-align: center;}
+#divAwc_noCat{width: 98%; margin: 1%; display: block; text-align: center;}
+#divCat{width: 98%; margin: 1%; display: block; text-align: center;}
+
+#divSect label{width: 100%; display: block;}
+#divAwc label{width: 100%; display: block;}
+#divAwc_noCat label,#divAwc_noCat div{width: 100%; display: inline-block;}
+#divCat input[type="button"], #divAwc_noCat input[type="button"]{margin-top: 5px;}
+#divCat label{width: 100%; display: block;}
+.growth_chrt_btn{
+	position: relative;
+	top: 0px;
+	text-align: center;
+	width: 80px;
+}
+.span_1_of_15{
+	width: 100%;
+}
+
+.AWC_Stat_div{ 
+	min-height: 300px; 
+	height: 300px; 
+	overflow: auto;
+}
+
+ .span_1_of_16{
+	width: 100%;
+	float: left;
+}
+ .span_1_of_17{
+	width: 100%;
+	float: left;
+}
+ .span_1_of_16{
+	width: 100%;
+	float: left;
+}
+ .span_1_of_17{
+	width: 100%;
+	float: left;
+}
+ .span_1_of_18{
+	width: 100%;
+	float: left;
+}
+ .span_1_of_19{
+	width: 100%;
+	float: left;
+}
+#save{
+	width: 100px;
+	display:none; 
+	position: relative; 
+	left: 60px;
+}
+#cancel{
+	width: 100px; 
+	display:none; 
+	padding-left: 15px; 
+	position: relative; 
+	right: 60px;
+}
+
+/**** Exception Report ======================================****/
+#outer_div{
+	font-size:14px;
+	margin:40px auto;
+	border:2px solid #36B377;
+	width:99%;
+	margin-right: 3px;
+	min-height:320px;
+}
+#select_re{
+	width:80%;
+	padding:10px;
+	border:1px solid #000;
+	margin:20px auto;
+}
+
+.select_re_table{
+	 width: 60%; margin:0 auto;
+}
+
+#speci_month{
+	width:80%;
+	padding:10px;
+	border:1px solid #000;
+	margin:0 auto;
+}
+#conse_month{
+	width:80%;
+	padding:10px;
+	border:1px solid #000;
+	margin:0 auto;
+	display:none;
+	margin-bottom: 20px;
+}
+.label_text{font-size: 9pt;}
+/**** Exception Report ======================================****/
+}

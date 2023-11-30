@@ -1,0 +1,22 @@
+*{
+	margin: 0px;
+	padding: 0px;
+}
+#print_formf_btn{
+	width:80px;
+	border-radius:7px;
+	border:#eee #666;
+	height:28px;
+	background-color: #183666;
+	color:white;
+}
+legend{
+	border:none;
+}
+#radio_tbl_print td{
+	padding: 5px;
+}
+.legendLabel{
+	color: #000;
+	font-weight: normal;
+}

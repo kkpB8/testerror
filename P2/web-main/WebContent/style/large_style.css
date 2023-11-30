@@ -1,0 +1,29 @@
+@charset "utf-8";
+@media (max-width: 1101px) {
+	 .divtitle{
+		margin-top:14%;
+	} 
+	.contentmain{
+		margin-top:14%;
+	}
+	.divMiddleInner p{
+		font-size: 16px;
+	}
+	.divLeftInner img{
+		height: 288px;
+	}
+	.div_hm_cntnt{
+		margin-top:36%;
+	}
+	.head h3{
+		font-size: 23px !important;
+	}
+	.head_inner h3{
+		font-size: 23px !important;
+	}
+}
+@media (min-width: 320px) and (max-width: 480px) {
+	.divtitle{
+  	margin-top: 73%;
+  }
+}

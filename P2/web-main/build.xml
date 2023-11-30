@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="Application2">
+    <property environment="env"/>
+    <!--<property name="ECLIPSE_HOME" value="../../../sts-4.17.1.RELEASE/"/>-->
+    <property name="ECLIPSE_HOME" value="/home/ganesh/IED/idea-IU-223.8617.56/"/>
+    <property name="ant.library.dir" value="/home/ganesh/mocroWare/P2/web-main/lib/"/>
+    <property name="JAVA_HOME" value="/home/ganesh/mocroWare/jdk1.8.0_202"/>
+
+    <property name="debug-level" value="source,lines,vars"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
+    <path id="Web App Libraries.libraryclasspath">
+        <pathelement location="WebContent/WEB-INF/lib/SX.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-beanutils-1.7.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-collections.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-dbcp-1.4.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-fileupload-1.2.2.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-io-2.1.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-lang.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-logging-1.1.1.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-map.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-pool-1.4.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/ezmorph.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/json-lib-2.2.2-jdk15.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/json-simple-1.1.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/json-simple-2.1.2.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/log4j-1.2.16.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/mysql-connector-java-5.1.6-bin.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/standard.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/sun.misc.base64decoder.jar"/>
+        <pathelement location="WebContent/WEB-INF/classes"/>
+    </path>
+    <path id="EAR Libraries.libraryclasspath"/>
+    <path id="Server Runtime [Apache Tomcat v8.5].libraryclasspath">
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/annotations-api.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/catalina-ant.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/catalina-ha.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/catalina-storeconfig.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/catalina-tribes.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/catalina.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/ecj-4.6.3.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/el-api.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/jasper-el.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/jasper.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/jaspic-api.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/jsp-api.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/servlet-api.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/tomcat-api.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/tomcat-coyote.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/tomcat-dbcp.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/tomcat-i18n-de.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/tomcat-i18n-es.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/tomcat-i18n-fr.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/tomcat-i18n-ja.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/tomcat-i18n-ko.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/tomcat-i18n-ru.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/tomcat-i18n-zh-CN.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/tomcat-jdbc.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/tomcat-jni.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/tomcat-util-scan.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/tomcat-util.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/tomcat-websocket.jar"/>
+        <pathelement location="/home/ganesh/apache-tomcat-10.1.15/lib/websocket-api.jar"/>
+    </path>
+    <path id="Application2.classpath">
+        <pathelement location="build/classes"/>
+        <path refid="Web App Libraries.libraryclasspath"/>
+        <path refid="EAR Libraries.libraryclasspath"/>
+        <path refid="Server Runtime [Apache Tomcat v8.5].libraryclasspath"/>
+    </path>
+    <target name="init">
+        <mkdir dir="build/classes"/>
+        <copy includeemptydirs="false" todir="build/classes">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="build/classes"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debug-level}" destdir="build/classes" includeantruntime="false" source="${source}" target="${target}" executable="${JAVA_HOME}/bin/javac">
+            <src path="src"/>
+            <classpath refid="Application2.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+</project>

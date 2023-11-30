@@ -1,0 +1,9 @@
+<html><head><title>Thanks</title>
+</head>
+<body>
+	<% 
+		request.getSession().invalidate();  
+		response.sendRedirect("../index.jsp"); 
+	%>
+</body>
+</html>

@@ -1,0 +1,686 @@
+@charset "utf-8";
+*{
+    font-family: Trebuchet MS;
+	font-size: 12px;
+}
+html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+.alt1 {
+	width:20%;
+	position: absolute;
+	/* height:95%; */
+	top:31px;	
+	bottom:0;
+}
+      .page-element{
+      	height:100%;
+      	overflow:auto;
+      	background-color: #fdf6e2;
+      }
+      #selMenu{
+      /* height:5% */
+      }
+      .page-element table{
+      	width:98%;
+      }
+      /* .page-element div{
+      	padding:2px 5px;
+      } */
+.alt2{
+	width:79%;	
+	position: absolute;
+	top:35px;	
+	bottom:0;
+	left:20%;
+	padding: 0;
+}
+#mapName{
+	width: 100%;
+	/*height:5%; */ 
+	padding: 0px; 
+	/* border:1px solid white; */
+	display: table;
+	background-color: #4171B9;
+}
+
+#col_left{
+	width: 48%;
+	margin: 0 0.5% 0 0;
+	font-size: 12px;
+	display: inline-block;
+}
+#col_mid{
+	width: 48%;
+	margin: 0 0.5%;
+	display: inline-block;
+	text-align: left;
+	position: relative;
+	top: 3px;
+}
+      #searchLayer,#searchObject {
+      width: 190px;
+      }
+      /* #searchLayer:active{
+      width: 300px;
+      position: relative;
+      }
+      #searchObject:hover {
+      width: auto;
+      } */
+      #mapName div{
+      	/* float:left; */
+      	font-size: 20px;
+		color: #fff;
+      }
+      #map {
+      	width:100%;
+        height: 100%;
+        overflow: hidden;
+        margin: 0 6px;
+      }
+      /*     Navigation Menu    */
+      #menu{ margin: 0; }
+      
+      /* #selLyr{
+      	cursor:pointer; font-size: 16px; text-align:center; background-color: #2259ad; color: #ffffff; font-family: Frankenfont, sans-serif; padding:7px; margin-top:-2px;
+      }
+      
+      #selLyr:hover {
+      	background-color: #4B2D73;
+      }
+      #selSrch{
+      width:17%; font-size: 15px; border-right:1px solid white; text-align:center; background-color: #2259ad; color: #ffffff; font-family: Frankenfont, sans-serif; padding:6px; cursor:pointer;
+      }
+      #zmExnt{
+      width:17%; font-size: 15px; border-right:1px solid white; text-align:center; background-color: #2259ad; color: #ffffff; font-family: Frankenfont, sans-serif; padding:6px; cursor:pointer;
+      }
+      #refresh{
+      width:17%; font-size: 15px; border-right:1px solid white; text-align:center; background-color: #2259ad; color: #ffffff; font-family: Frankenfont, sans-serif; padding:6px; cursor:pointer;
+      }
+      #selQuery{
+      width:17%; font-size: 15px; border-right:1px solid white; text-align:center; background-color: #2259ad; color: #ffffff; font-family: Frankenfont, sans-serif; padding:6px; cursor:pointer;
+      }
+      #selDist{
+      width:17%; font-size: 15px; border-right:1px solid white; text-align:center; background-color: #2259ad; color: #ffffff; font-family: Frankenfont, sans-serif; padding:6px; cursor:pointer;
+      }
+      
+      #selQuery:hover, #zmExnt:hover, #refresh:hover, #selSrch:hover, #selDist:hover {
+       background-color: #4B2D73;
+      }
+      #selLyr:visited, #selQuery:visited, #zmExnt:visited, #refresh:visited, #selSrch:visited, #selDist:visited {
+      background-color: pink;
+      } */   
+      /*   Navigation Menu ends    */
+      
+#queryLayer, #queryGroup, #queryCategory, #queryIndicator, #queryPeriod{
+	width: 195px;
+}
+     /* #queryDataOper,#btnBrowse,#queryDataVal{
+      margin-left: -12px;
+      }  */
+     /*  #btnBrowse{
+      border: 2px solid pink;
+      } */
+      /* #btnQueryDisplay{
+      margin-left: 34px; */
+      }
+      #searchMap{
+      margin-left:35px; width: 120px; margin-top: 5px; border-radius: 2px;
+      }
+      #queryInfoDiv {
+      display: none; height: 200px; overflow: scroll;
+      }
+
+#distanceTab tr td{ text-align: center; }
+#distanceViewer { width: 50px; }
+#tableDistance #fldSet2{ margin: 20px 5px 15px 5px; padding: 5px; }
+
+
+      /* #selName{
+      width:25%; font-size: 15px; font-family: Frankenfont, sans-serif; text-align:right; background-color: #2259ad; color: #ffffff; padding:6px; font-weight:bold;
+      } */
+      /* td{
+      font-size: 12px; padding:4px; margin: 2px;
+      } */
+     /*  #tex_t{
+      font-size: 12px;
+      margin-top: 100px;
+      } */
+      #indicatorDataSelector{
+     /*  border: 2px solid blue; */ 
+      /* margin-right: 80px; 
+      margin-top: 5px;
+      float: right;  */
+      position: relative;
+      left: 0px;
+      } 
+      #btnSelectData{
+      /* margin-bottom: 50px;
+      margin-left: 80px; */
+      position: relative;
+      left: 35px;
+      }
+      #sampleDataViewer{
+      position: relative;
+      /* margin-right: 25px;
+      float: left;
+      width:200px;
+      margin-left: -15px; */
+      left: 5px;
+      }
+      #divQueryDataViewer{
+    /*   border: 2px solid red; */
+      width:150px;
+      }
+ fieldset{
+  	margin: 5px 2px 0px 2px;
+  	padding: 0px;
+ }
+/*   .tbl_basic_amen_stat, .tbl_land_avail_stat{
+	float: none;
+	padding:0;
+}
+.tbl_basic_amen_stat table, .tbl_land_avail_stat table{
+	margin-bottom:0;
+	border: none;
+}
+#tbl_basic_amen_stat th, #tbl_basic_amen_stat td, #tbl_land_avail_stat th, #tbl_land_avail_stat td{
+	border:1px solid gray;
+} */
+/* .tbl_basic_amen_stat th, .tbl_land_avail_stat th{
+	background-color: #4171B9; 
+	color: #ffffff;
+	text-align: center;
+} */
+.tbl_basic_amen_stat td, .tbl_land_avail_stat td{
+	background-color: #fdf6e2;
+	text-align: left;
+} 
+
+/* section {
+    position: relative;
+    border: 1px solid #591D41;
+    padding-top: 37px;
+    background: #4171B9;
+}
+section.positioned {
+    position: absolute;
+    top:100px;
+    left:100px;
+     width:800px;  
+     box-shadow: 0 0 15px #eee; 
+}
+.tbl_basic_amenities_stat {
+    overflow-y: auto;
+    height: 594px;
+}
+
+ .basic_amne_tabl {
+    border-spacing: 0;
+    width:100%;
+}  
+.basic_amne_tabl td + td {
+    border-left:1px solid #eee;
+}
+.basic_amne_tabl td, th {
+    border-bottom:1px solid #989797; 
+    background: #fdf6e2;
+    color: #000;
+    padding: 10px 25px;
+    border:1px solid #6d715e;
+}
+.basic_amne_tabl td{
+	border:1px solid #664d00; 
+}
+.basic_amne_tabl th {
+    height: 0;
+    line-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    color: transparent;
+    border: none;
+    white-space: nowrap;
+    text-align:center;  
+}
+.basic_amne_tabl th div{
+    position: absolute;
+    background: transparent;
+    color: #fff;
+    padding: 9px 25px;
+    top: 0;
+    margin-left: -25px;
+    line-height: normal;
+     border-left: 1px solid #3f4430;
+}
+.basic_amne_tabl td{
+	border:1px solid #591D41;
+}
+.basic_amne_tabl th:first-child div{
+    border: none;
+}
+.tbl_land_avail_stat {
+    overflow-y: auto;
+    height: 594px;
+}
+.land_avai_tabl{
+	border-spacing: 0;
+    width:100%;
+}
+.land_avai_tabl td, th {
+    border-bottom:1px solid #989797; 
+    background: #fdf6e2;
+    color: #000;
+    padding: 10px 25px;
+    border:1px solid #6d715e;
+}
+.land_avai_tabl th {
+    height: 0;
+    line-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    color: transparent;
+    border: none;
+    white-space: nowrap; 
+    
+}
+.land_avai_tabl td{
+	text-align:left;
+}
+.land_avai_tabl th div{
+    position: absolute;
+    background: transparent;
+    color: #fff;
+    padding: 9px 25px;
+    top: 0;
+    margin-left: -25px;
+    line-height: normal;
+     border-left: 1px solid #3f4430;
+}
+.land_avai_tabl th:first-child div{
+    border: none;
+} */
+.land_avai_tabl_hdr th{
+	font-family:'Roboto',sans-serif;
+}
+.land_avai_tabl_hdr thead th:nth-child(1){
+	width:266px;
+	border:1px solid black;
+}
+.land_avai_tabl_hdr thead th:nth-child(2){
+	width:266px;
+	border:1px solid black;
+}
+.land_avai_tabl_hdr thead th:nth-child(3){
+	width:266px;
+	border:1px solid black;
+}
+.land_avai_tabl_hdr thead th:nth-child(4){
+	border:1px solid black;
+	width:266px;
+}
+.land_avai_tabl_hdr thead th:nth-child(5){
+	border:1px solid black;
+	/* width:250px; */
+}
+#land_avai_tabl_body tbody {
+	font-family:'Roboto',sans-serif;
+}
+#land_avai_tabl_body tbody td:nth-child(1){
+	width:266px;
+	border:1px solid black;
+}
+#land_avai_tabl_body tbody td:nth-child(2){
+	width:266px;
+	border:1px solid black;
+}
+#land_avai_tabl_body tbody td:nth-child(3){
+	width:266px;
+	border:1px solid black;
+}
+#land_avai_tabl_body tbody td:nth-child(4){
+	width:266px;
+	border:1px solid black;
+}
+#land_avai_tabl_body tbody td:nth-child(5){
+	width:249px;
+	border:1px solid black;
+}
+#basic_amne_tabl_hdr th{
+	font-family:'Roboto',sans-serif;
+}
+	
+#basic_amne_tabl_hdr thead th:nth-child(1){
+	width:156px;
+	border:1px solid black;
+}
+#basic_amne_tabl_hdr thead th:nth-child(2){
+	width:156px;
+	border:1px solid black;
+}
+#basic_amne_tabl_hdr thead th:nth-child(3){
+	width:156px;
+	border:1px solid black;
+}
+#basic_amne_tabl_hdr thead th:nth-child(4){
+	border:1px solid black;
+	width:156px;
+}
+#basic_amne_tabl_hdr thead th:nth-child(5){
+	border:1px solid black;
+	width:156px; 
+}
+#basic_amne_tabl_hdr thead th:nth-child(6){
+	width:156px; 
+	border:1px solid black;
+}
+#basic_amne_tabl_hdr thead th:nth-child(7){
+	width:156px; 
+	border:1px solid black;
+}
+#basic_amne_tabl_hdr thead th:nth-child(8){
+	border:1px solid black;
+}
+#basic_amne_tabl_body tbody{
+	font-family:'Roboto',sans-serif;
+}
+#basic_amne_tabl_body tbody td:nth-child(1){
+	width:156px;
+	border:1px solid black;
+}
+#basic_amne_tabl_body tbody td:nth-child(2){
+	width:156px;
+	border:1px solid black;
+}
+#basic_amne_tabl_body tbody td:nth-child(3){
+	width:156px;
+	border:1px solid black;
+}
+#basic_amne_tabl_body tbody td:nth-child(4){
+	width:156px;
+	border:1px solid black;
+}
+#basic_amne_tabl_body tbody td:nth-child(5){
+	width:156px;
+	border:1px solid black;
+}
+#basic_amne_tabl_body tbody td:nth-child(6){
+	width:156px;
+	border:1px solid black;
+}
+#basic_amne_tabl_body tbody td:nth-child(7){
+	width:156px;
+	border:1px solid black;
+}
+#basic_amne_tabl_body tbody td:nth-child(8){
+	 width:205px; 
+	border:1px solid black;
+}
+@media all and (min-width: 768px) and (max-width: 1024px){
+	#queryLayer, #queryGroup, #queryCategory, #queryIndicator, #queryPeriod{
+		width: 135px;
+	}
+/* 	.basic_amne_tabl th {
+	white-space: normal;
+}
+.basic_amne_tabl th div{
+	 padding: 11px 3px; 
+	font-size: 11px;
+} */
+#basic_amen_tbl {
+	font-size: 11px;
+}
+.land_avai_tabl_hdr thead th:nth-child(1){
+	width:195px;
+	border:1px solid black;
+}
+.land_avai_tabl_hdr thead th:nth-child(2){
+	width:195px;
+	border:1px solid black;
+}
+.land_avai_tabl_hdr thead th:nth-child(3){
+	width:195px;
+	border:1px solid black;
+}
+.land_avai_tabl_hdr thead th:nth-child(4){
+	border:1px solid black;
+	width:195px;
+}
+.land_avai_tabl_hdr thead th:nth-child(5){
+	border:1px solid black;
+	/* width:250px; */
+}
+#land_avai_tabl_body tbody td:nth-child(1){
+	width:195px;
+	border:1px solid black;
+}
+#land_avai_tabl_body tbody td:nth-child(2){
+	width:195px;
+	border:1px solid black;
+}
+#land_avai_tabl_body tbody td:nth-child(3){
+	width:195px;
+	border:1px solid black;
+}
+#land_avai_tabl_body tbody td:nth-child(4){
+	width:195px;
+	border:1px solid black;
+}
+#land_avai_tabl_body tbody td:nth-child(5){
+	width:195px;
+	border:1px solid black;
+}
+
+#basic_amne_tabl_hdr thead th:nth-child(1){
+	width:117px;
+	border:1px solid black;
+}
+#basic_amne_tabl_hdr thead th:nth-child(2){
+	width:117px;
+	border:1px solid black;
+}
+#basic_amne_tabl_hdr thead th:nth-child(3){
+	width:117px;
+	border:1px solid black;
+}
+#basic_amne_tabl_hdr thead th:nth-child(4){
+	border:1px solid black;
+	width:117px;
+}
+#basic_amne_tabl_hdr thead th:nth-child(5){
+	border:1px solid black;
+	width:117px; 
+}
+#basic_amne_tabl_hdr thead th:nth-child(6){
+	width:118px; 
+	border:1px solid black;
+}
+#basic_amne_tabl_hdr thead th:nth-child(7){
+	width:117px; 
+	border:1px solid black;
+}
+#basic_amne_tabl_hdr thead th:nth-child(8){
+	border:1px solid black;
+}
+#basic_amne_tabl_body tbody td:nth-child(1){
+	width:117px;
+	border:1px solid black;
+}
+#basic_amne_tabl_body tbody td:nth-child(2){
+	width:117px;
+	border:1px solid black;
+}
+#basic_amne_tabl_body tbody td:nth-child(3){
+	width:117px;
+	border:1px solid black;
+}
+#basic_amne_tabl_body tbody td:nth-child(4){
+	width:117px;
+	border:1px solid black;
+}
+#basic_amne_tabl_body tbody td:nth-child(5){
+	width:117px;
+	border:1px solid black;
+}
+#basic_amne_tabl_body tbody td:nth-child(6){
+	width:117px;
+	border:1px solid black;
+}
+#basic_amne_tabl_body tbody td:nth-child(7){
+	width:117px;
+	border:1px solid black;
+}
+#basic_amne_tabl_body tbody td:nth-child(8){
+	 width:120px; 
+	border:1px solid black;
+}
+}
+@media screen and (max-width: 480px){
+/* 	.alt{
+		width:100%;
+		display:block;
+	}
+	.alt2{
+		width:100%;
+		display:block;
+	} */
+ #basic_amne_tabl_hdr thead th:nth-child(1){
+	width:40px;
+	border:1px solid black;
+}
+#basic_amne_tabl_hdr thead th:nth-child(2){
+	width:40px;
+	border:1px solid black;
+}
+#basic_amne_tabl_hdr thead th:nth-child(3){
+	width:40px;
+	border:1px solid black;
+}
+#basic_amne_tabl_hdr thead th:nth-child(4){
+	border:1px solid black;
+	width:40px;
+}
+#basic_amne_tabl_hdr thead th:nth-child(5){
+	border:1px solid black;
+	width:40px; 
+}
+#basic_amne_tabl_hdr thead th:nth-child(6){
+	width:40px; 
+	border:1px solid black;
+}
+#basic_amne_tabl_hdr thead th:nth-child(7){
+	width:40px; 
+	border:1px solid black;
+}
+#basic_amne_tabl_hdr thead th:nth-child(8){
+	border:1px solid black;
+}
+#basic_amne_tabl_body tbody td:nth-child(1){
+	width:40px;
+	border:1px solid black;
+}
+#basic_amne_tabl_body tbody td:nth-child(2){
+	width:40px;
+	border:1px solid black;
+}
+#basic_amne_tabl_body tbody td:nth-child(3){
+	width:40px;
+	border:1px solid black;
+}
+#basic_amne_tabl_body tbody td:nth-child(4){
+	width:40px;
+	border:1px solid black;
+}
+#basic_amne_tabl_body tbody td:nth-child(5){
+	width:40px;
+	border:1px solid black;
+}
+#basic_amne_tabl_body tbody td:nth-child(6){
+	width:40px;
+	border:1px solid black;
+}
+#basic_amne_tabl_body tbody td:nth-child(7){
+	width:40px;
+	border:1px solid black;
+}
+#basic_amne_tabl_body tbody td:nth-child(8){
+	 width:40px; 
+	border:1px solid black;
+} 
+	.land_avai_tabl_hdr thead th:nth-child(1){
+	width:90px;
+	border:1px solid black;
+	}
+	.land_avai_tabl_hdr thead th:nth-child(2){
+		width:90px;
+		border:1px solid black;
+	}
+	.land_avai_tabl_hdr thead th:nth-child(3){
+		width:90px;
+		border:1px solid black;
+	}
+	.land_avai_tabl_hdr thead th:nth-child(4){
+		border:1px solid black;
+		 width:90px; 
+	}
+	.land_avai_tabl_hdr thead th:nth-child(5){
+		border:1px solid black;
+		/* width:250px; */
+	 	  
+	}
+	#land_avai_tabl_body tbody td:nth-child(1){
+		width:90px;
+		border:1px solid black;
+	}
+	#land_avai_tabl_body tbody td:nth-child(2){
+		width:90px;
+		border:1px solid black;
+	}
+	#land_avai_tabl_body tbody td:nth-child(3){
+		width:90px;
+		border:1px solid black;
+	}
+	#land_avai_tabl_body tbody td:nth-child(4){
+		width:90px;
+		border:1px solid black;
+	}
+	#land_avai_tabl_body tbody td:nth-child(5){
+		  width:75px;  
+		border:1px solid black;
+	}
+	
+}
+
+.mrklabels {
+     color: red;
+     background-color: white;
+     font-family: "Lucida Grande", "Arial", sans-serif;
+     font-size: 10px;
+     font-weight: bold;
+     text-align: center;
+     width: 40px;     
+     border: 2px solid black;
+     white-space: nowrap;
+   }
+
+.map-icon {
+	background-color: red;
+	border:5px solid #346FF7;
+  	height: 20px;
+  	width: 20px;
+    /* box-sizing:border-box;
+	box-shadow: 2px 2px 4px #333;
+	border:5px solid #346FF7;
+	height: 20px;
+	width: 20px;
+	border-radius: 10px; */
+}
+
+#markerLayer img {
+  	border: 2px solid red !important;
+ 	width: 85% !important;
+  	height: 90% !important;
+ 	border-radius: 5px;
+}

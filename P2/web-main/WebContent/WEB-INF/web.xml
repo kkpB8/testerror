@@ -1,0 +1,1510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>Application2</display-name>
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <!-- Application Paramaters Start -->
+  <context-param>
+  	<description>Image Folder Path</description>
+  	<param-name>FilePath</param-name>
+	<param-value>/var/app_file/od_creche</param-value>
+    <!-- <param-value>/var/app_file/od_cr_test</param-value> -->
+    <!-- <param-value>E:\\app_file\\odisha_creche</param-value> -->
+  </context-param>  
+  <!-- Application Paramaters End -->
+  
+  <!-- Login Security Start-->  
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>odcreche</web-resource-name>
+      <url-pattern>/secured/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>super_user</role-name>
+      <!-- <role-name>other_user</role-name> -->
+      <role-name>st_user</role-name>
+      <role-name>dt_user</role-name>
+      <role-name>bk_user</role-name>
+      <role-name>gp_user</role-name>
+      <role-name>mp_user</role-name>
+    </auth-constraint>
+  </security-constraint>
+  <login-config>
+    <auth-method>FORM</auth-method>
+    <form-login-config>
+      <form-login-page>/login.jsp</form-login-page>
+      <form-error-page>/messages.jsp?type=Login.Failed</form-error-page>
+    </form-login-config>
+  </login-config>
+  <security-role>
+    <role-name>super_user</role-name>
+  </security-role>
+  <!-- <security-role>
+    <role-name>other_user</role-name>
+  </security-role> -->
+  <security-role>
+    <role-name>st_user</role-name>
+  </security-role>
+  <security-role>
+    <role-name>dt_user</role-name>
+  </security-role>
+  <security-role>
+    <role-name>bk_user</role-name>
+  </security-role>
+  <security-role>
+    <role-name>gp_user</role-name>
+  </security-role>
+  <security-role>
+    <role-name>mp_user</role-name>
+  </security-role>
+   <error-page>
+    <error-code>403</error-code>
+    <location>/messages.jsp?type=Login.Failed</location>
+  </error-page>
+  <error-page>
+    <error-code>404</error-code>
+    <location>/messages.jsp?type=Not.Found</location>
+  </error-page>
+  <error-page>
+    <error-code>408</error-code>
+    <location>/messages.jsp?type=Connection.Timedout</location>
+  </error-page>
+  <error-page>
+    <error-code>500</error-code>
+    <location>/messages.jsp?type=Server.Error</location>
+  </error-page>
+  
+  <session-config>
+  	<session-timeout>-1</session-timeout>
+  </session-config>
+  
+  <!-- Mobile Start -->
+  
+  <!-- Servlet mapping for Mobile Login -->
+  <servlet>
+  	<description>Servlet mapping for Mobile Login</description>
+  	<display-name>Servlet mapping for Mobile Login</display-name>
+  	<servlet-name>LoginInformation</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.login.LoginInformation</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>LoginInformation</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.Login</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping for Mobile Logout -->
+  <servlet>
+  	<description>Servlet mapping for Mobile Logout</description>
+  	<display-name>Servlet mapping for Mobile Logout</display-name>
+  	<servlet-name>LogoutInformation</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.login.LogoutInformation</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>LogoutInformation</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.Logout</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping for HH Listing Upload -->
+  <servlet>
+  	<description>Servlet mapping for HH Listing Upload</description>
+  	<display-name>Servlet mapping for HH Listing Upload</display-name>
+  	<servlet-name>HHListing</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.dataentry.HHListing</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>HHListing</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.hhListing</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping for Child Details Upload -->
+  <servlet>
+  	<description>Servlet mapping for Child Details Upload</description>
+  	<display-name>Servlet mapping for Child Details Upload</display-name>
+  	<servlet-name>ChildDetails</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.dataentry.ChildDetails</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ChildDetails</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.childDetails</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping for Monthly Anthropometry Upload -->
+  <servlet>
+  	<description>Servlet mapping for Monthly Anthropometry Upload</description>
+  	<display-name>Servlet mapping for Monthly Anthropometry Upload</display-name>
+  	<servlet-name>MonthlyAnthropometry</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.dataentry.MonthlyAnthropometry</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>MonthlyAnthropometry</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.monthlyAnthropometry</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping for Monthly Attendance Upload -->
+  <servlet>
+  	<description>Servlet mapping for Monthly Attendance Upload</description>
+  	<display-name>Servlet mapping for Monthly Attendance Upload</display-name>
+  	<servlet-name>MonthlyAttendance</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.dataentry.MonthlyAttendance</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>MonthlyAttendance</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.monthlyAttendance</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping for Red Flag Follow-Up Upload -->
+  <servlet>
+  	<description>Servlet mapping for Red Flag Follow-Up Upload</description>
+  	<display-name>Servlet mapping for Red Flag Follow-Up Upload</display-name>
+  	<servlet-name>RedFlagFollowUp</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.dataentry.RedFlagFollowUp</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>RedFlagFollowUp</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.redFlagFollowUp</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping for Creche Monitoring Checklist Upload -->
+  <servlet>
+  	<description>Servlet mapping for Creche Monitoring Checklist Upload</description>
+  	<display-name>Servlet mapping for Creche Monitoring Checklist Upload</display-name>
+  	<servlet-name>CrecheMonitoringChecklist</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.dataentry.CrecheMonitoringChecklist</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>CrecheMonitoringChecklist</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.crMonitoringChecklist</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping for NRC Register Upload -->
+  <servlet>
+  	<description>Servlet mapping for NRC Register Upload</description>
+  	<display-name>Servlet mapping for NRC Register Upload</display-name>
+  	<servlet-name>NRCRegister</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.dataentry.NRCRegister</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>NRCRegister</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.nrcRegister</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping for Quality Check Monitoring Upload -->
+  <servlet>
+  	<description>Servlet mapping for Quality Check Monitoring Upload</description>
+  	<display-name>Servlet mapping for Quality Check Monitoring Upload</display-name>
+  	<servlet-name>QualityCheckMonitoring</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.dataentry.QualityCheckMonitoring</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>QualityCheckMonitoring</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.qcMonitoring</url-pattern>
+  </servlet-mapping>
+   
+  <!-- Servlet mapping for NRC Follow Up Upload -->
+  <servlet>
+ 	<description>Servlet mapping for NRC Follow Up Upload</description>
+ 	<display-name>Servlet mapping for NRC Follow Up Upload</display-name>
+ 	<servlet-name>NRCFollowUp</servlet-name>
+ 	<servlet-class>com.rmspl.odisha.creche.mobile.dataentry.NRCFollowUp</servlet-class>
+  </servlet>
+	<servlet-mapping>
+	<servlet-name>NRCFollowUp</servlet-name>
+	<url-pattern>/od_creche/mobile/mobile.nrcFollowUp</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping for Creche Committee Meeting Upload -->
+  <servlet>
+  	<description>Servlet mapping for Creche Committee Meeting Upload</description>
+  	<display-name>Servlet mapping for Creche Committee Meeting Upload</display-name>
+  	<servlet-name>CrecheCommitteeMeeting</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.dataentry.CrecheCommitteeMeeting</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>CrecheCommitteeMeeting</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.crCommitteeMeeting</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping for Creche Worker Attendance Upload -->
+  <servlet>
+  	<description>Servlet mapping for Creche Worker Attendance Upload</description>
+  	<display-name>Servlet mapping for Creche Worker Attendance Upload</display-name>
+  	<servlet-name>CrecheWorkerAttendance</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.dataentry.CrecheWorkerAttendance</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>CrecheWorkerAttendance</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.crWorkerAttendance</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping for Geography Details Populator -->
+  <servlet>
+  	<description>Servlet mapping for Geography Details Populator</description>
+  	<display-name>Servlet mapping for Geography Details Populator</display-name>
+  	<servlet-name>GeographyDetailsPopulator</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.populator.GeographyDetailsPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>GeographyDetailsPopulator</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.geoDetailsPop</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping for Creche Worker Details Populator -->
+	<servlet>
+		<description>Servlet mapping for Creche Worker Details Populator</description>
+		<display-name>Servlet mapping for Creche Worker Details Populator</display-name>
+		<servlet-name>CrecheWorkerDetailsPopulator</servlet-name>
+		<servlet-class>com.rmspl.odisha.creche.mobile.populator.CrecheWorkerDetailsPopulator</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CrecheWorkerDetailsPopulator</servlet-name>
+		<url-pattern>/od_creche/mobile/mobile.crecheWorkerDetailsPop</url-pattern>
+	</servlet-mapping>
+  
+  <!-- Servlet mapping for HH Listing Sync Upload -->
+  <servlet>
+  	<description>Servlet mapping for HH Listing Sync Upload</description>
+  	<display-name>Servlet mapping for HH Listing Sync Upload</display-name>
+  	<servlet-name>HHListingSync</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.dataentry.HHListingSync</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>HHListingSync</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.hhListingSync</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping for Change Password -->
+  <servlet>
+	<description>Change Password for Mobile</description>
+	<display-name>Change Password for Mobile</display-name>
+	<servlet-name>ChangePassword</servlet-name>
+	<servlet-class>com.rmspl.odisha.creche.mobile.login.PasswordChange</servlet-class>
+  </servlet>
+  <servlet-mapping>
+	<servlet-name>ChangePassword</servlet-name>
+	<url-pattern>/od_creche/mobile/change.Pwd</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping for Data Sync Upload -->
+  <servlet>
+  	<description>Servlet mapping for Data Sync for Mobile</description>
+  	<display-name>Servlet mapping for Data Sync for Mobile</display-name>
+  	<servlet-name>DataSync</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.sync.DataSync</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>DataSync</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.DataSync</url-pattern>
+  </servlet-mapping>  
+  
+  <!-- Servlet mapping for HH Sync -->
+  <servlet>
+  	<description>Servlet mapping for HH Sync for Mobile</description>
+  	<display-name>Servlet mapping for HH Sync for Mobile</display-name>
+  	<servlet-name>HHSync</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.sync.HHSync</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>HHSync</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.HHSync</url-pattern>
+  </servlet-mapping>  
+  
+  <!-- Servlet mapping for Child Sync -->
+  <servlet>
+  	<description>Servlet mapping for Child Sync for Mobile</description>
+  	<display-name>Servlet mapping for Child Sync for Mobile</display-name>
+  	<servlet-name>ChildSync</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.sync.ChildSync</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ChildSync</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.ChildSync</url-pattern>
+  </servlet-mapping> 
+  
+  <!-- Servlet mapping for Monthly Anthropometry Sync -->
+  <servlet>
+  	<description>Servlet mapping for Anthro Sync for Mobile</description>
+  	<display-name>Servlet mapping for Anthro Sync for Mobile</display-name>
+  	<servlet-name>AnthroSync</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.sync.AnthroSync</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>AnthroSync</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.AnthroSync</url-pattern>
+  </servlet-mapping> 
+  
+  <!-- Servlet mapping for Monthly Attendance Sync -->
+  <servlet>
+  	<description>Servlet mapping for Attendance Sync for Mobile</description>
+  	<display-name>Servlet mapping for Attendance Sync for Mobile</display-name>
+  	<servlet-name>AttendanceSync</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.sync.AttendanceSync</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>AttendanceSync</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.AttendanceSync</url-pattern>
+  </servlet-mapping>  
+  
+  <!-- Servlet mapping for Red Flag Sync -->
+  <servlet>
+  	<description>Servlet mapping for Red Flag Sync for Mobile</description>
+  	<display-name>Servlet mapping for Red Flag Sync for Mobile</display-name>
+  	<servlet-name>RedFlagSync</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.sync.RedFlagSync</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>RedFlagSync</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.RedFlagSync</url-pattern>
+  </servlet-mapping> 
+  
+  <!-- Servlet mapping for Creche Monitoring Checklist Sync -->
+  <servlet>
+  	<description>Servlet mapping for Creche Monitoring Checklist Sync for Mobile</description>
+  	<display-name>Servlet mapping for Creche Monitoring Checklist Sync for Mobile</display-name>
+  	<servlet-name>CrecheMonitoringChecklistSync</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.sync.CrecheMonitoringChecklistSync</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>CrecheMonitoringChecklistSync</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.CrMonitoringChecklistSync</url-pattern>
+  </servlet-mapping> 
+  
+  <!-- Servlet mapping for NRC Register Sync -->
+  <servlet>
+  	<description>Servlet mapping for NRC Register Sync for Mobile</description>
+  	<display-name>Servlet mapping for NRC Register Sync for Mobile</display-name>
+  	<servlet-name>NRCRegisterSync</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.sync.NRCRegisterSync</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>NRCRegisterSync</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.NrcRegisterSync</url-pattern>
+  </servlet-mapping> 
+  
+  <!-- Servlet mapping for Quality Check Monitoring Sync -->
+  <servlet>
+  	<description>Servlet mapping for Quality Check Monitoring Sync for Mobile</description>
+  	<display-name>Servlet mapping for Quality Check Monitoring Sync for Mobile</display-name>
+  	<servlet-name>QualityCheckMonitoringSync</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.sync.QualityCheckMonitoringSync</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>QualityCheckMonitoringSync</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.QcMonitoringSync</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping for NRC Follow Up Sync -->
+ <servlet>
+  <description>Servlet mapping for NRC Follow Up Sync for Mobile</description>
+  <display-name>Servlet mapping for NRC Follow Up Sync for Mobile</display-name>
+  <servlet-name>NRCFollowUpSync</servlet-name>
+  <servlet-class>com.rmspl.odisha.creche.mobile.sync.NRCFollowUpSync</servlet-class>
+ </servlet>
+ <servlet-mapping>
+  <servlet-name>NRCFollowUpSync</servlet-name>
+  <url-pattern>/od_creche/mobile/mobile.NRCFollowUpSync</url-pattern>
+ </servlet-mapping>    
+  
+  <!-- Servlet mapping for Creche Committee Meeting Sync -->
+  <servlet>
+  	<description>Servlet mapping for Creche Committee Meeting Sync for Mobile</description>
+  	<display-name>Servlet mapping for Creche Committee Meeting Sync for Mobile</display-name>
+  	<servlet-name>CrecheCommitteeMeetingSync</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.sync.CrecheCommitteeMeetingSync</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>CrecheCommitteeMeetingSync</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.CrCommitteeMeetingSync</url-pattern>
+  </servlet-mapping> 
+  
+  <!-- Servlet mapping for HH Listing Edit -->
+  <servlet>
+  	<description>Servlet mapping for HH Listing Edit</description>
+  	<display-name>Servlet mapping for HH Listing Edit</display-name>
+  	<servlet-name>HHListingEdit</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.dataedit.HHListingEdit</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>HHListingEdit</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.hhListingEdit</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping for Child Details Edit -->
+  <servlet>
+  	<description>Servlet mapping for Child Details Edit</description>
+  	<display-name>Servlet mapping for Child Details Edit</display-name>
+  	<servlet-name>ChildDetailsEdit</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.dataedit.ChildDetailsEdit</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ChildDetailsEdit</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.childDetailsEdit</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping for Monthly Anthropometry Edit -->
+  <servlet>
+  	<description>Servlet mapping for Monthly Anthropometry Edit</description>
+  	<display-name>Servlet mapping for Monthly Anthropometry Edit</display-name>
+  	<servlet-name>MonthlyAnthropometryEdit</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.dataedit.MonthlyAnthropometryEdit</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>MonthlyAnthropometryEdit</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.monthlyAnthropometryEdit</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping for Monthly Attendance Edit -->
+  <servlet>
+  	<description>Servlet mapping for Monthly Attendance Edit</description>
+  	<display-name>Servlet mapping for Monthly Attendance Edit</display-name>
+  	<servlet-name>MonthlyAttendanceEdit</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.dataedit.MonthlyAttendanceEdit</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>MonthlyAttendanceEdit</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.monthlyAttendanceEdit</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping for Red Flag Follow-Up Edit -->
+  <servlet>
+  	<description>Servlet mapping for Red Flag Follow-Up Edit</description>
+  	<display-name>Servlet mapping for Red Flag Follow-Up Edit</display-name>
+  	<servlet-name>RedFlagFollowUpEdit</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.dataedit.RedFlagFollowUpEdit</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>RedFlagFollowUpEdit</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.redFlagFollowUpEdit</url-pattern>
+  </servlet-mapping> 
+  
+  <!-- Servlet mapping for Creche Monitoring Checklist Edit -->
+  <servlet>
+  	<description>Servlet mapping for Creche Monitoring Checklist Edit</description>
+  	<display-name>Servlet mapping for Creche Monitoring Checklist Edit</display-name>
+  	<servlet-name>CrecheMonitoringChecklistEdit</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.dataedit.CrecheMonitoringChecklistEdit</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>CrecheMonitoringChecklistEdit</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.crMonitoringChecklistEdit</url-pattern>
+  </servlet-mapping> 
+  
+  <!-- Servlet mapping for NRC Register Edit -->
+  <servlet>
+  	<description>Servlet mapping for NRC Register Edit</description>
+  	<display-name>Servlet mapping for NRC Register Edit</display-name>
+  	<servlet-name>NRCRegisterEdit</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.dataedit.NRCRegisterEdit</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>NRCRegisterEdit</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.nrcRegisterEdit</url-pattern>
+  </servlet-mapping> 
+  
+  <!-- Servlet mapping for Quality Check Monitoring Edit -->
+  <servlet>
+  	<description>Servlet mapping for Quality Check Monitoring Edit</description>
+  	<display-name>Servlet mapping for Quality Check Monitoring Edit</display-name>
+  	<servlet-name>QualityCheckMonitoringEdit</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.dataedit.QualityCheckMonitoringEdit</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>QualityCheckMonitoringEdit</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.qcMonitoringEdit</url-pattern>
+  </servlet-mapping> 
+  
+  <!-- Servlet mapping for NRC Follow Up Edit -->
+  <servlet>
+  	<description>Servlet mapping for NRC Follow Up Edit</description>
+  	<display-name>Servlet mapping for NRC Follow Up Edit</display-name>
+  	<servlet-name>NRCFollowUpEdit</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.dataedit.NRCFollowUpEdit</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>NRCFollowUpEdit</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.nrcFollowUpEdit</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping for Creche Committee Meeting Edit -->
+  <servlet>
+  	<description>Servlet mapping for Creche Committee Meeting Edit</description>
+  	<display-name>Servlet mapping for Creche Committee Meeting Edit</display-name>
+  	<servlet-name>CrecheCommitteeMeetingEdit</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.dataedit.CrecheCommitteeMeetingEdit</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>CrecheCommitteeMeetingEdit</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.crCommitteeMeetingEdit</url-pattern>
+  </servlet-mapping> 
+  
+  <!-- Mobile End -->
+  
+  
+  <!-- Web Start -->
+  
+  <!-- Servlet mapping to get combo data -->
+  <servlet>
+  	<description>Servlet mapping to get combo data</description>
+  	<display-name>Servlet mapping to get combo data</display-name>
+  	<servlet-name>GetComboData</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.user.populator.ComboDataPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>GetComboData</servlet-name>
+  	<url-pattern>/pop.combo.data</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to Tablet Create User save-->
+  <servlet>
+  	<description>Servlet mapping to Tablet Create User</description>
+  	<display-name>Servlet mapping to Tablet Create User</display-name>
+  	<servlet-name>SaveNewTabletUser</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.user.SaveNewTabletUser</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>SaveNewTabletUser</servlet-name>
+  	<url-pattern>/insert.SaveNewTabletUser</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to check availability of Tablet User-->
+  <servlet>
+  	<description>Servlet mapping to check availability of Tablet User</description>
+  	<display-name>Servlet mapping to check availability of Tablet User</display-name>
+  	<servlet-name>TabletUserNameAvailability</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.user.TabletUserNameAvailability</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>TabletUserNameAvailability</servlet-name>
+  	<url-pattern>/check.TabletUserName</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to populate Tablet User for delete-->
+  <servlet>
+  	<description>Servlet mapping to populate Tablet User for Delete</description>
+  	<display-name>Servlet mapping to populate Tablet User for Delete</display-name>
+  	<servlet-name>TabletUserPopulatorForDelete</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.user.populator.TabletUserPopulatorForDelete</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>TabletUserPopulatorForDelete</servlet-name>
+  	<url-pattern>/popUser.Delete</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to delete Tablet User-->
+  <servlet>
+  	<description>Servlet mapping to delete Tablet User</description>
+  	<display-name>Servlet mapping to delete Tablet User</display-name>
+  	<servlet-name>DeleteTabletUser</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.user.DeleteTabletUser</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>DeleteTabletUser</servlet-name>
+  	<url-pattern>/delete.TabletUser</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to populate Tablet User for modify-->
+  <servlet>
+  	<description>Servlet mapping to populate Tablet User for Modify</description>
+  	<display-name>Servlet mapping to populate Tablet User for Modify</display-name>
+  	<servlet-name>TabletUserPopulatorForModify</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.user.populator.TabletUserPopulatorForModify</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>TabletUserPopulatorForModify</servlet-name>
+  	<url-pattern>/popUser.Modify</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to populate Assigned Block of Tablet User for modify-->
+  <servlet>
+  	<description>Servlet mapping to populate Assigned Block of Tablet User for Modify</description>
+  	<display-name>Servlet mapping to populate Assigned Block of Tablet User for Modify</display-name>
+  	<servlet-name>AssignedBlockPopulatorForModify</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.user.populator.AssignedBlockPopulatorForModify</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>AssignedBlockPopulatorForModify</servlet-name>
+  	<url-pattern>/popAssignedBlock.Modify</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to add Block for Tablet User-->
+  <servlet>
+  	<description>Servlet mapping to add Block for Tablet User</description>
+  	<display-name>Servlet mapping to add Block for Tablet User</display-name>
+  	<servlet-name>AddBlockTabletUser</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.user.AddBlockTabletUser</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>AddBlockTabletUser</servlet-name>
+  	<url-pattern>/addBlock.TabletUser</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to delete Block for Tablet User-->
+  <servlet>
+  	<description>Servlet mapping to delete Block for Tablet User</description>
+  	<display-name>Servlet mapping to delete Block for Tablet User</display-name>
+  	<servlet-name>DeleteBlockTabletUser</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.user.DeleteBlockTabletUser</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>DeleteBlockTabletUser</servlet-name>
+  	<url-pattern>/delBlock.TabletUser</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to populate State District Block GP Village Creche-->
+  <servlet>
+  	<description>Servlet mapping to populate State District Block GP Village Creche for Overview</description>
+  	<display-name>Servlet mapping to populate State District Block GP Village Creche for Overview</display-name>
+  	<servlet-name>StDtBkGpVlCrPopulator</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.populator.StDtBkGpVlCrPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>StDtBkGpVlCrPopulator</servlet-name>
+  	<url-pattern>/pop.StDtBkGpVlCr</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to populate Sub Group for Overview Menu-->
+  <servlet>
+  	<description>Servlet mapping to populate Sub Group for Overview</description>
+  	<display-name>Servlet mapping to populate Sub Group for Overview</display-name>
+  	<servlet-name>OverviewSubGroupPopulator</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.overview.OverviewSubGroupPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>OverviewSubGroupPopulator</servlet-name>
+  	<url-pattern>/pop.OverviewSubGroup</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to populate Indicator for Overview-->
+  <servlet>
+  	<description>Servlet mapping to populate Indicator for Overview</description>
+  	<display-name>Servlet mapping to populate Indicator for Overview</display-name>
+  	<servlet-name>OverviewIndicatorPopulator</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.overview.OverviewIndicatorPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>OverviewIndicatorPopulator</servlet-name>
+  	<url-pattern>/pop.OverviewIndicator</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to populate Chart for Overview-->
+  <servlet>
+  	<description>Servlet mapping to populate Chart for Overview</description>
+  	<display-name>Servlet mapping to populate Chart for Overview</display-name>
+  	<servlet-name>PopChartOverview</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.overview.PopChartOverview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>PopChartOverview</servlet-name>
+  	<url-pattern>/pop.ChartOverview</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to populate Group for Monitoring Indicator Menu-->
+  <servlet>
+  	<description>Servlet mapping to populate Group for Monitoring Indicator</description>
+  	<display-name>Servlet mapping to populate Group for Monitoring Indicator</display-name>
+  	<servlet-name>MonitoringGroupPopulator</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.monitoring.MonitoringGroupPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>MonitoringGroupPopulator</servlet-name>
+  	<url-pattern>/pop.MonitoringGroup</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to populate Sub Group for Monitoring Indicator Menu-->
+  <servlet>
+  	<description>Servlet mapping to populate Sub Group for Monitoring Indicator</description>
+  	<display-name>Servlet mapping to populate Sub Group for Monitoring Indicator</display-name>
+  	<servlet-name>MonitoringSubGroupPopulator</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.monitoring.MonitoringSubGroupPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>MonitoringSubGroupPopulator</servlet-name>
+  	<url-pattern>/pop.MonitoringSubGroup</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to populate Indicator for Monitoring Indicator-->
+  <servlet>
+  	<description>Servlet mapping to populate Indicator for Monitoring</description>
+  	<display-name>Servlet mapping to populate Indicator for Monitoring</display-name>
+  	<servlet-name>MonitoringIndicatorPopulator</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.monitoring.MonitoringIndicatorPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>MonitoringIndicatorPopulator</servlet-name>
+  	<url-pattern>/pop.MonitoringIndicator</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to populate Chart for Monitoring Indicator-->
+  <servlet>
+  	<description>Servlet mapping to populate Chart for Monitoring Indicator</description>
+  	<display-name>Servlet mapping to populate Chart for Monitoring Indicator</display-name>
+  	<servlet-name>PopChartMonitoring</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.monitoring.PopChartMonitoring</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>PopChartMonitoring</servlet-name>
+  	<url-pattern>/pop.ChartMonitoring</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to populate Group for Dashboard-->
+  <servlet>
+  	<description>Servlet mapping to populate Group for Dashboard</description>
+  	<display-name>Servlet mapping to populate Group for Dashboard</display-name>
+  	<servlet-name>DashboardGroupPopulator</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.dashboard.DashboardGroupPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>DashboardGroupPopulator</servlet-name>
+  	<url-pattern>/pop.DashboardGroup</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to populate Sub Group for Dashboard-->
+  <servlet>
+  	<description>Servlet mapping to populate Sub Group for Dashboard</description>
+  	<display-name>Servlet mapping to populate Sub Group for Dashboard</display-name>
+  	<servlet-name>DashboardSubGroupPopulator</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.dashboard.DashboardSubGroupPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>DashboardSubGroupPopulator</servlet-name>
+  	<url-pattern>/pop.DashboardSubGroup</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to populate Indicator for Dashboard-->
+  <servlet>
+  	<description>Servlet mapping to populate Indicator for Dashboard</description>
+  	<display-name>Servlet mapping to populate Indicator for Dashboard</display-name>
+  	<servlet-name>DashboardIndicatorPopulator</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.dashboard.DashboardIndicatorPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>DashboardIndicatorPopulator</servlet-name>
+  	<url-pattern>/pop.DashboardIndicator</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to populate Chart for Monitoring Indicator-->
+  <servlet>
+  	<description>Servlet mapping to populate Chart for Dashboard</description>
+  	<display-name>Servlet mapping to populate Chart for Dashboard</display-name>
+  	<servlet-name>PopChartDashboard</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.dashboard.PopChartDashboard</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>PopChartDashboard</servlet-name>
+  	<url-pattern>/pop.ChartDashboard</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to populate Report Type for Report-->
+  <servlet>
+  	<description>Servlet mapping to populate Report Type for Report</description>
+  	<display-name>Servlet mapping to populate Report Type for Report</display-name>
+  	<servlet-name>ReportTypePopulator</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.report.ReportTypePopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ReportTypePopulator</servlet-name>
+  	<url-pattern>/pop.ReportType</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Directory Download -->
+  <servlet>
+    <description>Servlet to download Report</description>
+    <display-name>Download Report</display-name>
+    <servlet-name>DownloadReport</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.report.DownloadReport</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DownloadReport</servlet-name>
+    <url-pattern>/download.Report</url-pattern>
+  </servlet-mapping> 
+  
+  <!-- Download all Anthropometry Data-->
+  <servlet>
+    <description>Servlet to download all Anthropometry Data</description>
+    <display-name>Download all Anthropometry Data</display-name>
+    <servlet-name>DownloadAllAnthropometryData</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.report.DownloadAllAnthropometryData</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DownloadAllAnthropometryData</servlet-name>
+    <url-pattern>/download.AllAnthroData</url-pattern>
+  </servlet-mapping> 
+  
+  <!-- Servlet mapping to populate District, Block, Creche Information  -->
+  <servlet>
+    <description>Populate District Block Creche</description>
+    <display-name>Populate District Block Creche</display-name>
+    <servlet-name>DtBkCrPopulator</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.populator.DtBkCrPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DtBkCrPopulator</servlet-name>
+    <url-pattern>/pop.DtBkCr</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet Mapping to populate Child --> 
+  <servlet>
+    <description>Servlet for Populate nutri report</description>
+    <servlet-name>NutriStatPopulator</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.report.NutriStatPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NutriStatPopulator</servlet-name>
+    <url-pattern>/nutri.getData</url-pattern>
+  </servlet-mapping>
+  
+   <!-- Servlet Mapping to populate Child --> 
+  <servlet>
+    <description>Servlet for Populate Nutri Report New</description>
+    <servlet-name>NutriStatPopulatorNew</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.report.NutriStatPopulatorNew</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NutriStatPopulatorNew</servlet-name>
+    <url-pattern>/nutri.getDataNew</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet Mapping to populate Child Count-->  
+  <servlet>
+    <description>Servlet for Populate nutri status count</description>
+    <servlet-name>NutriStatusCount</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.report.NutriStatCount</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NutriStatusCount</servlet-name>
+    <url-pattern>/nutri.count</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet Mapping to populate Child Information-->  
+  <servlet>
+    <description>Servlet for Populate child info</description>
+    <servlet-name>ChildInfoPopulator</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.report.ChildInfoPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ChildInfoPopulator</servlet-name>
+    <url-pattern>/childInfo.getData</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet Mapping to populate Growth Chart-->
+  <servlet>
+    <description>Servlet for Populate Community Growth Chart</description>
+    <servlet-name>ChartPopulator</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.report.ChartPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ChartPopulator</servlet-name>
+    <url-pattern>/childChart.getData</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Populate child image -->
+  <servlet>
+    <description>Servlet to Get Survey Image.</description>
+    <display-name>Survey Image</display-name>
+    <servlet-name>SurveyImage</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.report.util.SurveyImage</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SurveyImage</servlet-name>
+    <url-pattern>/survey.image</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Rotate image -->
+  <servlet>
+    <description>Servlet to rotate Image.</description>
+    <display-name>Rotate Image</display-name>
+    <servlet-name>RotateImage</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.report.util.RotateImage</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RotateImage</servlet-name>
+    <url-pattern>/rotate.image</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet Mapping to populate Data Logs-->  
+  <servlet>
+    <description>Servlet for Populate Data Logs</description>
+    <servlet-name>DataLogPopulator</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.datalogs.DataLogPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DataLogPopulator</servlet-name>
+    <url-pattern>/pop.DataLogs</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to populate Forms  -->
+  <servlet>
+    <description>Populate Form</description>
+    <display-name>Populate Form</display-name>
+    <servlet-name>FormPopulator</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.populator.FormPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FormPopulator</servlet-name>
+    <url-pattern>/pop.Forms</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet Mapping to populate Data Edit History-->  
+  <servlet>
+    <description>Servlet for Populate Data Edit History</description>
+    <servlet-name>DataEditHistoryPopulator</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.dataedithistory.DataEditHistoryPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DataEditHistoryPopulator</servlet-name>
+    <url-pattern>/pop.DataEditHistory</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to populate State District Block GP Village Creche Forms-->
+  <servlet>
+  	<description>Servlet mapping to populate State District Block GP Village Creche Forms for Manage Data Edit</description>
+  	<display-name>Servlet mapping to populate State District Block GP Village Creche for Manage Data Edit</display-name>
+  	<servlet-name>StDtBkGpVlCrFormPopulator</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.managedataedit.StDtBkGpVlCrFormPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>StDtBkGpVlCrFormPopulator</servlet-name>
+  	<url-pattern>/pop.StDtBkGpVlCrForm</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet Mapping to populate Data for Approve Reject-->  
+  <servlet>
+    <description>Servlet for Populate Data for Edit</description>
+    <servlet-name>DataManagePopulator</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.managedataedit.DataManagePopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DataManagePopulator</servlet-name>
+    <url-pattern>/pop.DataManage</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet Mapping to edit Data for Approve Reject-->  
+  <servlet>
+    <description>Servlet for manage edited data after Approve Reject</description>
+    <servlet-name>ManageEditedData</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.managedataedit.ManageEditedData</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ManageEditedData</servlet-name>
+    <url-pattern>/manage.DataEdit</url-pattern>
+  </servlet-mapping>  
+  
+  <!-- Servlet Mapping to edit Data for Approve Pending Summary All-->  
+  <servlet>
+    <description>Servlet for manage edited data after Approve Reject</description>
+    <servlet-name>EditApprovePendSummryAll</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.managedataedit.EditApprovePendSummryAll</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditApprovePendSummryAll</servlet-name>
+    <url-pattern>/pop.EditApprovePendSummryAll</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet Mapping to Data for Approve Pending Detail-->  
+  <servlet>
+    <description>Servlet for manage edited data after Approve Reject</description>
+    <servlet-name>EditApprovePendingDetail</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.managedataedit.EditApprovePendingDetail</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditApprovePendingDetail</servlet-name>
+    <url-pattern>/pop.EditApprovePendingDetail</url-pattern>
+  </servlet-mapping>
+  
+   <!-- Servlet Mapping to edit Data for Approved Summary All-->  
+  <servlet>
+    <description>Servlet for manage edited data after Approved</description>
+    <servlet-name>EditApprovedSummryAll</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.dataedithistory.EditApprovedSummryAll</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditApprovedSummryAll</servlet-name>
+    <url-pattern>/pop.EditApprovedSummryAll</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet Mapping to Data for Approved History Detail-->  
+  <servlet>
+    <description>Servlet for manage edited data after Approve Reject</description>
+    <servlet-name>EditApprovedHistoryDetail</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.dataedithistory.EditApprovedHistoryDetail</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditApprovedHistoryDetail</servlet-name>
+    <url-pattern>/pop.EditApprovedHistoryDetail</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet Mapping to populate Data for Approved-->  
+  <servlet>
+    <description>Servlet for Populate Approved Data</description>
+    <servlet-name>DataManagePopulatorHist</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.dataedithistory.DataManagePopulatorHist</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DataManagePopulatorHist</servlet-name>
+    <url-pattern>/pop.DataManagePopulatorHist</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to populate Menu and Sub Menu-->
+  <servlet>
+  	<description>Servlet mapping to populate Modules</description>
+  	<display-name>Servlet mapping to populate Modules for User Creation</display-name>
+  	<servlet-name>ModulePopulator</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.user.web.ModulePopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ModulePopulator</servlet-name>
+  	<url-pattern>/pop.Modules</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to populate Menu and Sub Menu-->
+  <servlet>
+  	<description>Servlet mapping to populate Menu and Sub Menu</description>
+  	<display-name>Servlet mapping to populate Menu and Sub Menu for User Creation</display-name>
+  	<servlet-name>MenuSubmenuPopulator</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.user.web.MenuSubmenuPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>MenuSubmenuPopulator</servlet-name>
+  	<url-pattern>/pop.MenuSubmenu</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to check availability of Web User-->
+  <servlet>
+  	<description>Servlet mapping to check availability of Web User</description>
+  	<display-name>Servlet mapping to check availability of Web User</display-name>
+  	<servlet-name>WebUserNameAvailability</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.user.web.WebUserNameAvailability</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>WebUserNameAvailability</servlet-name>
+  	<url-pattern>/check.WebUserName</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to Web Create User save-->
+  <servlet>
+  	<description>Servlet mapping to Web Create User</description>
+  	<display-name>Servlet mapping to Web Create User</display-name>
+  	<servlet-name>SaveNewWebUser</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.user.web.SaveNewWebUser</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>SaveNewWebUser</servlet-name>
+  	<url-pattern>/insert.SaveNewWebUser</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to populate Web User for delete-->
+  <servlet>
+  	<description>Servlet mapping to populate Web User for Delete</description>
+  	<display-name>Servlet mapping to populate Web User for Delete</display-name>
+  	<servlet-name>WebUserPopulatorForDelete</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.user.web.WebUserPopulatorForDelete</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>WebUserPopulatorForDelete</servlet-name>
+  	<url-pattern>/popUserWeb.Delete</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to delete Web User-->
+  <servlet>
+  	<description>Servlet mapping to delete Web User</description>
+  	<display-name>Servlet mapping to delete Web User</display-name>
+  	<servlet-name>DeleteWebUser</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.user.web.DeleteWebUser</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>DeleteWebUser</servlet-name>
+  	<url-pattern>/delete.WebUser</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to Web create New Creche-->
+  <servlet>
+  	<description>Servlet mapping to create New Creche</description>
+  	<display-name>Servlet mapping to create New Creche</display-name>
+  	<servlet-name>CreateCreche</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.admin.CreateCreche</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>CreateCreche</servlet-name>
+  	<url-pattern>/create.Creche</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to delete Existing Creche-->
+  <servlet>
+  	<description>Servlet mapping to delete existing Creche</description>
+  	<display-name>Servlet mapping to delete existing Creche</display-name>
+  	<servlet-name>DeleteCreche</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.admin.DeleteCreche</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>DeleteCreche</servlet-name>
+  	<url-pattern>/delete.Creche</url-pattern>
+  </servlet-mapping>
+  
+   <!-- Servlet mapping to Web create Shifting Creche-->
+  <servlet>
+  	<description>Servlet mapping to create Shift Creche</description>
+  	<display-name>Servlet mapping to create Shift Creche</display-name>
+  	<servlet-name>ShiftCreche</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.admin.ShiftCreche</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ShiftCreche</servlet-name>
+  	<url-pattern>/shift.Creche</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to Content Management-->
+  <servlet>
+  	<description>Servlet mapping to Content Management</description>
+  	<display-name>Servlet mapping to Content Management</display-name>
+  	<servlet-name>ContentManagement</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.admin.ContentManagement</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ContentManagement</servlet-name>
+  	<url-pattern>/upload.File</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to populate District, Block, Creche Information  -->
+  <servlet>
+    <description>Populate District Block Village</description>
+    <display-name>Populate District Block Village</display-name>
+    <servlet-name>DtBkVlPopulator</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.populator.DtBkVlPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DtBkVlPopulator</servlet-name>
+    <url-pattern>/pop.DtBkVl</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to add Geography -->
+  <servlet>
+    <description>Servlet to add Geography</description>
+    <display-name>Servlet to add Geography</display-name>
+    <servlet-name>AddGeography</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.admin.AddGeography</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddGeography</servlet-name>
+    <url-pattern>/add.Geography</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to populate District, Block, GP, Village, Creche, Child Information  -->
+  <servlet>
+    <description>Populate District Block GP Village Creche Child</description>
+    <display-name>Populate District Block GP Village Creche Child</display-name>
+    <servlet-name>DtBkGpVlCrChPopulator</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.populator.DtBkGpVlCrChPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DtBkGpVlCrChPopulator</servlet-name>
+    <url-pattern>/pop.DtBkGpVlCrCh</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to shift Child -->
+  <servlet>
+    <description>Servlet to shift Child</description>
+    <display-name>Servlet to shift Child</display-name>
+    <servlet-name>ShiftChild</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.admin.ShiftChild</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShiftChild</servlet-name>
+    <url-pattern>/shift.Child</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to add New Question-->
+  <servlet>
+  	<description>Servlet mapping to add New Question</description>
+  	<display-name>Servlet mapping to add New Question</display-name>
+  	<servlet-name>AddQuestion</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.admin.AddQuestion</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>AddQuestion</servlet-name>
+  	<url-pattern>/add.Question</url-pattern>
+  </servlet-mapping>
+  
+  
+  <!-- Servlet mapping for Change Password -->
+  <servlet>
+	<description>Change Password for Web User</description>
+	<display-name>Change Password for Web User</display-name>
+	<servlet-name>ChangePasswordWeb</servlet-name>
+	<servlet-class>com.rmspl.odisha.creche.app.profile.ChangePasswordWeb</servlet-class>
+  </servlet>
+  <servlet-mapping>
+	<servlet-name>ChangePasswordWeb</servlet-name>
+	<url-pattern>/change.Pwd</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Populate Uploaded File List -->
+  <servlet>
+    <description>Populate Uploaded File List</description>
+    <display-name>Populate Uploaded File List</display-name>
+    <servlet-name>popFileList</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.archive.UploadedFileListPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>popFileList</servlet-name>
+    <url-pattern>/pop.FileList</url-pattern>
+  </servlet-mapping>
+  
+   <!-- Download uploaded file  -->
+  <servlet>
+    <description>Download uploaded file</description>
+    <display-name>Download uploaded file</display-name>
+    <servlet-name>DownloadUploadedFile</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.archive.DownloadUploadedFile</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DownloadUploadedFile</servlet-name>
+    <url-pattern>/download.UploadedFile</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping to populate Report Type for Bulk Report-->
+  <servlet>
+  	<description>Servlet mapping to populate Report Type for Report</description>
+  	<display-name>Servlet mapping to populate Report Type for Report</display-name>
+  	<servlet-name>ReportTypePopulatorBulk</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.app.report.ReportTypePopulatorBulk</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ReportTypePopulatorBulk</servlet-name>
+  	<url-pattern>/pop.ReportTypeBulk</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Directory Bulk Download -->
+  <servlet>
+    <description>Servlet to download Report</description>
+    <display-name>Download Report</display-name>
+    <servlet-name>DownloadBulkReport</servlet-name>
+    <servlet-class>com.rmspl.odisha.creche.app.report.DownloadBulkReport</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DownloadBulkReport</servlet-name>
+    <url-pattern>/download.BulkReport</url-pattern>
+  </servlet-mapping>
+  
+	<!-- Servlet mapping for Data Edit Notification -->
+  <servlet>
+  	<description>Servlet mapping for Data Edit Notification</description>
+  	<display-name>Servlet mapping for DataEditNotification</display-name>
+  	<servlet-name>DataEditNotification</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.sync.DataEditNotification</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>DataEditNotification</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.dataEditNotification</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping for Notification Update-->
+  <servlet>
+  	<description>Servlet mapping for Notification Update</description>
+  	<display-name>Servlet mapping for Notification Update</display-name>
+  	<servlet-name>NotificationStatusUpdate</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.sync.NotificationStatusUpdate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>NotificationStatusUpdate</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.notificationStatusUpdate</url-pattern>
+  </servlet-mapping>  
+  
+  <!-- GIS Starts -->
+  <servlet>
+    <description>Servlet to get Coordinates of the Centroid</description>
+    <display-name>GetMapDispCentroid</display-name>
+    <servlet-name>GetMapDispCentroid</servlet-name>
+    <servlet-class>com.rmspl.app.misc.GetMapDispCentroid</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetMapDispCentroid</servlet-name>
+    <url-pattern>/map.getCoordinates</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>Servlet to get Layer Data</description>
+    <display-name>LayerPopulateData</display-name>
+    <servlet-name>LayerPopulateData</servlet-name>
+    <servlet-class>com.rmspl.google.map.layers.LayerPopulateData</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LayerPopulateData</servlet-name>
+    <url-pattern>/secured/gmap/lyr.popData</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>Servlet to get layer information for layer menu.</description>
+    <display-name>LayerList</display-name>
+    <servlet-name>LayerList</servlet-name>
+    <servlet-class>com.rmspl.google.map.layers.LayerList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LayerList</servlet-name>
+    <url-pattern>/secured/gmap/lyr.info</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>Servlet to get information of Search Object Names.</description>
+    <display-name>Map Object Names</display-name>
+    <servlet-name>MapObjectNames</servlet-name>
+    <servlet-class>com.rmspl.google.map.search.ObjectNamesPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MapObjectNames</servlet-name>
+    <url-pattern>/secured/gmap/search.objNames</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>Servlet to get group information of Query Layers.</description>
+    <display-name>GroupPopulator</display-name>
+    <servlet-name>GroupPopulator</servlet-name>
+    <servlet-class>com.rmspl.google.map.query.GroupPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GroupPopulator</servlet-name>
+    <url-pattern>/secured/gmap/qry.grps</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>Servlet to get category information of Query Layers.</description>
+    <display-name>CategoryPopulator</display-name>
+    <servlet-name>CategoryPopulator</servlet-name>
+    <servlet-class>com.rmspl.google.map.query.CategoryPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CategoryPopulator</servlet-name>
+    <url-pattern>/secured/gmap/qry.catg</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>Servlet to get indicator information of Query Layers.</description>
+    <display-name>IndicatorPopulator</display-name>
+    <servlet-name>IndicatorPopulator</servlet-name>
+    <servlet-class>com.rmspl.google.map.query.IndicatorPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>IndicatorPopulator</servlet-name>
+    <url-pattern>/secured/gmap/qry.ind</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>Servlet to get period information of Query.</description>
+    <display-name>PeriodPopulator</display-name>
+    <servlet-name>PeriodPopulator</servlet-name>
+    <servlet-class>com.rmspl.google.map.query.PeriodPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PeriodPopulator</servlet-name>
+    <url-pattern>/secured/gmap/qry.prds</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>Servlet to get data range information of Query Indicator.</description>
+    <display-name>DataRangePopulator</display-name>
+    <servlet-name>DataRangePopulator</servlet-name>
+    <servlet-class>com.rmspl.google.map.query.DataRangePopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DataRangePopulator</servlet-name>
+    <url-pattern>/secured/gmap/qry.dtRnge</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>Servlet to get sample data of Query Indicator.</description>
+    <display-name>SampleDataPopulator</display-name>
+    <servlet-name>SampleDataPopulator</servlet-name>
+    <servlet-class>com.rmspl.google.map.query.SampleDataPopulator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SampleDataPopulator</servlet-name>
+    <url-pattern>/secured/gmap/qry.smpDt</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>Servlet to do query map.</description>
+    <display-name>QueryDataView</display-name>
+    <servlet-name>QueryDataView</servlet-name>
+    <servlet-class>com.rmspl.google.map.query.QueryDataView</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>QueryDataView</servlet-name>
+    <url-pattern>/secured/gmap/qry.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>Servlet to View GIS query data</description>
+    <display-name>Query Report</display-name>
+    <servlet-name>QueryReport</servlet-name>
+    <servlet-class>com.rmspl.google.map.query.QueryReport</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>QueryReport</servlet-name>
+    <url-pattern>/secured/gmap/query.report</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>Servlet to get Object Image.</description>
+    <display-name>ImageDetails</display-name>
+    <servlet-name>ImageDetails</servlet-name>
+    <servlet-class>com.rmspl.google.map.utility.ImageDetails</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ImageDetails</servlet-name>
+    <url-pattern>/secured/gmap/img.Details</url-pattern>
+  </servlet-mapping>
+  <!-- GIS Ends -->
+  
+  <!-- Ayushman Da 5/3/22 -->
+  <!-- Servlet mapping for Creche Monitoring Checklist Form 2 Upload -->
+  <servlet>
+  	<description>Servlet mapping for Creche Monitoring Checklist Form 2 Upload</description>
+  	<display-name>Servlet mapping for Creche Monitoring Checklist Form 2 Upload</display-name>
+  	<servlet-name>CrecheMonitoringChecklistForm2</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.dataentry.CrecheMonitoringChecklistForm2</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>CrecheMonitoringChecklistForm2</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.CrecheMonitoringChecklistForm2</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet mapping for Creche Monitoring Checklist Form 2 Sync -->
+  <servlet>
+  	<description>Servlet mapping for Creche Monitoring Checklist Form 2 Sync for Mobile</description>
+  	<display-name>Servlet mapping for Creche Monitoring Checklist Form 2 Sync for Mobile</display-name>
+  	<servlet-name>CrecheMonitoringChecklistForm2Sync</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.sync.CrecheMonitoringChecklistForm2Sync</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>CrecheMonitoringChecklistForm2Sync</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.CrecheMonitoringChecklistForm2Sync</url-pattern>
+  </servlet-mapping> 
+  
+  <!-- Servlet mapping for Creche Monitoring Checklist Form 2 Edit -->
+  <servlet>
+  	<description>Servlet mapping for Creche Monitoring Checklist Form 2 Edit</description>
+  	<display-name>Servlet mapping for Creche Monitoring Checklist Form 2 Edit</display-name>
+  	<servlet-name>CrecheMonitoringChecklistForm2Edit</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.dataedit.CrecheMonitoringChecklistForm2Edit</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>CrecheMonitoringChecklistForm2Edit</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.CrecheMonitoringChecklistForm2Edit</url-pattern>
+  </servlet-mapping>
+  
+   <!-- Servlet mapping for Child Immunization Upload -->
+  <servlet>
+  	<description>Servlet mapping for Child ImmunizationUpload</description>
+  	<display-name>Servlet mapping for Child Immunization Upload</display-name>
+  	<servlet-name>ChildImmunization</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.dataentry.ChildImmunization</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ChildImmunization</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.childImmunization</url-pattern>
+  </servlet-mapping>
+<!-- Servlet mapping for Child Immunization Sync -->
+  <servlet>
+  	<description>Servlet mapping for Child Immunization Sync for Mobile</description>
+  	<display-name>Servlet mapping for Child Immunization Sync for Mobile</display-name>
+  	<servlet-name>ChildImmunizationSync</servlet-name>
+  	<servlet-class>com.rmspl.odisha.creche.mobile.sync.ChildImmunizationSync</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ChildImmunizationSync</servlet-name>
+  	<url-pattern>/od_creche/mobile/mobile.ChdImmunizationSync</url-pattern>
+  </servlet-mapping> 
+  
+  
+  <!-- Web End -->
+  
+</web-app>

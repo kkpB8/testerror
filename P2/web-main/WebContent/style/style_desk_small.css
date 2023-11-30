@@ -1,0 +1,152 @@
+/**** Header ======================================****/
+#col_left{width: 12%; display: inline-block; text-align: left; padding-left: 5px; position: relative; top: 0px;}
+#col_middle{width: 74%; display: inline-block; vertical-align: top; padding: 5px 0px 0px 0px;}
+#col_right{width: 12%; display: inline-block; text-align: right; position: relative; top: 0px;}
+#col_left > img{
+	  position: relative; top:3px; left: 2px;
+}
+#col_right > img{
+	  position: relative; top: 3px;
+}
+#title{position: relative; top: 5px;}
+/**** Header ======================================****/
+
+/**** Body ======================================****/
+.wrapper{overflow: hidden;}
+.caste{font-size: 9pt;}
+ .span_1_of_8{
+	width: 22.5%;
+}
+.span_1_of_9{
+	width: 35%;
+	text-align: right;
+	position: relative; 
+	top: 3px; 
+}
+.span_1_of_10{
+	width: 10%; position: relative; top: 3px;
+}
+/**** Body ======================================****/
+
+/**** Row below header ======================================****/
+
+/** default & login **/
+@media all and (min-width:920px){
+	#write_up{
+		font-size:12px;
+	}
+}
+/** default & login **/
+
+#elmnt_left{width: 38%; margin: 0 0 0 1%; display: inline-block; color: #fff; text-align: left;}
+#elmnt_middle{width: 39%; margin: 0 1%; display: inline-block; color: #fff; text-align: left;}
+/* #elmnt_right{width: 18%; margin: 0 1% 0 0; display: inline-block; color: #fff;} */
+
+#elmnt_left label, #elmnt_left_def label{font-size: 10px; font-weight: bold; position: relative; top: -3px;}
+#elmnt_middle label{font-size: 12px; font-weight: bold; position: relative; top: -3px; text-decoration: underline;}
+/**** Row below header ======================================****/
+.middle_content{
+	width:33%
+}
+.right_content{
+	width:31.6%
+}
+/** image slider **/
+#slider_container{
+	/* width: 425px; */
+	height: 250px;
+	max-width:100%;
+	/* height:auto; */
+}
+#slider2_container{ top: 0; 
+	left: 0;
+	position: relative;
+	/* width: 425px; */
+	height: 250px;
+	max-width:100%;
+	/* height:auto; */
+}
+#slider3_container{ top: 0; 
+	left: 0;
+	position: relative;
+	/* width: 425px; */
+	height: 250px;
+	max-width:100%;
+	/* height:auto; */
+}
+.slide{cursor: move; 
+	position: absolute; 
+	left: 0px; 
+	top: 3px; 
+	width: 322px;
+	height: 250px;
+	width:100%;
+	/* height:auto; */
+	overflow: hidden;
+	border: 2px solid #36B377;
+}
+#contain_slider{
+	vertical-align: top;
+	float: left;
+	width: 322px;
+	height: 250px;
+	max-width:100%;
+	/* height:auto; */
+}  
+/** image slider **/
+/**** Content ======================================****/
+
+#divAwc_noCat div{display: inline-block; }
+#divAwc_noCat{
+	width:40%;
+}
+/** nutrition status **/
+#divLeft{width: 34%; display: inline-block; margin:0; text-align: left; vertical-align: top;}
+#divMiddle{width: 32.5%; display: inline-block; margin:0; text-align: left; vertical-align: top;}
+#divRight{width: 32.2%; display: inline-block; margin:0; text-align: left;}
+#dispArea{width: 100%; margin: 10px 0; text-align: center;}
+#selCriteria{width: 100%; height: auto; border: 1px solid #000; margin: 0 auto; padding: 3px 0px; font-size: 9.5pt; position: relative; top: 5px; right: 0px;}	
+#tble_header_div{width: 100%; vertical-align:top;}
+.left_header_div{float:left; width:77%; border-bottom: 1px solid #808080; border-right: 1px solid #808080; font-size: 9px; text-align:center; display: inline;}
+.right_header_div{float:left; width:22.5%; border-bottom: 1px solid #808080; font-size: 9px; text-align:center; display: inline;}
+#tdLeft{width: 100%; vertical-align: top; height: 467px; border: 1px solid black; background-color: transparent;}
+#nutri{width: 100%; height: 405px; overflow: hidden;}
+#tdInfo{width: 50%; border: 1px solid black; height:265px;  vertical-align: top; background-color: #ffffff;}
+#info{width: 100%; height: 265px; vertical-align: top;}
+#tblChart{width: 100%; background-color: white;}
+
+/** nutrition status **/
+.full-info {
+    border: 1px solid #000;
+    padding: 5px 5px 10px;
+}
+#save{
+	width:90px;
+}
+#cancel{
+	width:90px;
+}
+.chart_div{width: 398px; height: 252px; background-color: transparent;}
+
+#imgDiv{margin-bottom: 20px;}
+#imageView{width:200px}
+#tr_btn{
+	position: relative;
+	top:13px;
+}
+/**** Content ======================================****/
+.tableClass,.oddTableClass,.selectedTableClass {
+	font-size:6px;
+}
+
+#content{
+	height: auto;
+	width:auto;
+}
+
+/**** Exception Report ======================================****/
+.select_re_table{
+	 width: 83%; margin:0 auto;
+}
+/**** Exception Report ======================================****/
+
